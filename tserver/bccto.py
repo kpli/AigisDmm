@@ -27,7 +27,7 @@ class Bccto:
     # 请求cookie
     def _applyMail(self, mailAddr, username):
         # 请求主页记录cookie
-        self.net.send_get('http://www.bccto.me')
+        self.net.send_get_noread('http://www.bccto.me')
         # 构建邮件地址
         self.mailuser = username
         self.mailAddr = mailAddr

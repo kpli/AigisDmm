@@ -28,6 +28,15 @@ class Webnet:
         return result
 
     # 发送GET请求
+    def send_get_noread(self,get_url):
+        try:
+            my_request = urllib2.Request(url = get_url, headers = self.headers)
+            response = self.opener.open(my_request, timeout=30)
+            print ''.join(['Code:',str(response.getcode()),' Url:',get_url])
+        except Exception,e:
+            print "Exception : ",e
+
+    # 发送GET请求
     def send_get_jump(self,get_url):
         result = ""
         try:
@@ -36,10 +45,11 @@ class Webnet:
             print ''.join(['Code:',str(response.getcode()),' URL:',get_url])
             do_not_redirected = (response.geturl() == get_url)
             if do_not_redirected:
-                result = response.read()
+                print 'ok.'
+                #result = response.read()
             else:
                 print ''.join(['RDRT:',response.geturl()])
-                result = self.send_get_jump(response.geturl())
+                self.send_get_jump(response.geturl())
         except Exception,e:
             print "Exception : ",e
         return result
@@ -55,6 +65,15 @@ class Webnet:
         except Exception,e:
             print "Exception : ",e
         return result
+
+    # 发送POST请求
+    def send_post_noread(self,post_url,post_data):
+        try:
+            my_request = urllib2.Request(url = post_url,data = post_data, headers = self.headers)
+            response = self.opener.open(my_request, timeout=30)
+            print ''.join(['Code:',str(response.getcode()),' Url:',post_url])
+        except Exception,e:
+            print "Exception : ",e
 
     # 模拟电脑
     def set_computer(self):

@@ -17,9 +17,9 @@ class Dmmjp:
 
     # 注册账号
     def _regist(self, mailAddr, namepwd):
-        pageres = self.net.send_get('https://www.dmm.co.jp/my/-/register/')
+        self.net.send_get_noread('https://www.dmm.co.jp/my/-/register/')
         postData = ''.join(['back_url=&client_id=&display=&email=', mailAddr, '&opt_mail_cd=adult&password=', namepwd, '&ref=&submit=認証メールを送信','','&token='])
-        resContent = self.net.send_post('https://www.dmm.co.jp/my/-/register/apply/', postData)
+        self.net.send_post_noread('https://www.dmm.co.jp/my/-/register/apply/', postData)
     
     # 验证邮箱
     def _validMail(self,valUrl):
@@ -27,10 +27,11 @@ class Dmmjp:
         jumpUrl = self._getJumpUrl(validResult)
         if jumpUrl:
             self.net.send_get_jump(jumpUrl)
-            jumpAigis = self.net.send_get('http://www.dmm.co.jp/top/')
-            jumpAigis = self.net.send_get('http://www.dmm.co.jp/netgame_s/aigis/')
-            jumpAigis = self.net.send_get_jump('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=on/myapp=on/act=install/')
-            self.net._saveFile('jumpAigis.html',jumpAigis)
+            self.net.send_get_noread('http://www.dmm.co.jp/top/')
+            self.net.send_get('http://www.dmm.co.jp/netgame_s/aigis/')
+            self.net.send_get_jump('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=on/myapp=on/act=install/')
+            #print jumpAigis
+            #self.net._saveFile('jumpAigis.html',jumpAigis)
             
         
 
