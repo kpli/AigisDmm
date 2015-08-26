@@ -33,7 +33,8 @@ class Bccto:
         self.mailAddr = mailAddr
         # 构建请求
         applymailData = ''.join(['mail=',self.mailAddr])
-        self.net.send_post('http://www.bccto.me/applymail', applymailData)
+        result = self.net.send_post('http://www.bccto.me/applymail', applymailData)
+        print result
 
 
     def _waitMail(self):
@@ -49,24 +50,27 @@ class Bccto:
             elif newMail:
                 # 解析json
                 mailInfo = json.loads(newMail)
-                if len(mailInfo['mail']) == 0:
-                    print "waiting for valid mail ... "
+                if not mailInfo['mail']:
+                    print "waiting for valid mail ... no mail "
+                elif len(mailInfo['mail']) == 0:
+                    print "waiting for valid mail ... mail empty"
                 else:
-                    mailFrom = mailInfo['mail'][0][0]
+                    mailFrom = mailInfo['mail'][0][1]
                     print mailFrom
-                    if mailFrom=='Nutaku Mail':
+                    if mailFrom=='info@mail.dmm.com':
                         self.mailFlag = mailInfo['mail'][0][4]
                         bLoopCounter = 999
 
     def _viewMail(self):
         viewmailData = ''.join(['mail=',self.mailFlag,'&to=',self.mailAddr,'&_=0']) 
-        mailContent = self.net.send_post('http://www.bccto.me/viewmail',viewmailData)  
+        mailContent = self.net.send_post('http://www.bccto.me/viewmail',viewmailData)
         mailInfo = json.loads(mailContent)
         mailText = mailInfo['mail']
-        p = re.compile(r'http://www.nutaku.net/signup/activation/complete/id/.*')
+        p = re.compile(r'https://www.dmm.co.jp/my/-/register/complete/.*')
         search_ret = p.findall(mailText)
         if search_ret:
             validUrl = search_ret[0]
+            self.net._saveFile('validUrl.txt',validUrl)
             return validUrl
 
 

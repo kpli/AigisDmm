@@ -27,7 +27,7 @@ class Servers(SRH):
                 self.request.send('{"rest":0,"mail":"error","link":"error"}')
                 break
             
-            registInfo = py4cpp.regist_nutaku()
+            registInfo = py4cpp.regist_dmmjp()
             if registInfo[0] == '':
                 self.request.send('{"rest":0,"mail":"error","link":"error"}')
                 break

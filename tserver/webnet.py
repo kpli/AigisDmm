@@ -20,19 +20,36 @@ class Webnet:
         result = ""
         try:
             my_request = urllib2.Request(url = get_url, headers = self.headers)
-            response = self.opener.open(my_request, timeout=10)
+            response = self.opener.open(my_request, timeout=30)
             print ''.join(['Code:',str(response.getcode()),' Url:',get_url])
             result = response.read()
         except Exception,e:
             print "Exception : ",e
         return result
 
+    # 发送GET请求
+    def send_get_jump(self,get_url):
+        result = ""
+        try:
+            my_request = urllib2.Request(url = get_url, headers = self.headers)
+            response = self.opener.open(my_request, timeout=30)
+            print ''.join(['Code:',str(response.getcode()),' URL:',get_url])
+            do_not_redirected = (response.geturl() == get_url)
+            if do_not_redirected:
+                result = response.read()
+            else:
+                print ''.join(['RDRT:',response.geturl()])
+                result = self.send_get_jump(response.geturl())
+        except Exception,e:
+            print "Exception : ",e
+        return result
+        
     # 发送POST请求
     def send_post(self,post_url,post_data):
         result = ""
         try:
             my_request = urllib2.Request(url = post_url,data = post_data, headers = self.headers)
-            response = self.opener.open(my_request, timeout=10)
+            response = self.opener.open(my_request, timeout=30)
             print ''.join(['Code:',str(response.getcode()),' Url:',post_url])
             result = response.read()
         except Exception,e:
@@ -49,4 +66,9 @@ class Webnet:
         user_agent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A403 Safari/8536.25'
         self.headers = { 'User-Agent' : user_agent }    
 
+    # 保存文件
+    def _saveFile(self,file,content):
+        file_object = open(file, 'w')
+        file_object.write(content)
+        file_object.close( )
 

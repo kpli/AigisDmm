@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 
 import bccto 
-import nutaku 
+import dmmjp
 import re
 import random
 import string
@@ -33,6 +33,7 @@ class Logic:
     def _autoRun(self):
         # 随机账号
         self.mailUser = self._randName()
+        #self.mailUser = 'fuckjjan'
         self.mailAddr  = ''.join([self.mailUser , '@', "bccto.me"])
         
         # 申请邮箱
@@ -40,21 +41,25 @@ class Logic:
         mail_bccto._applyMail(self.mailAddr, self.mailUser)
         
         # 注册账号
-        mail_nutaku = nutaku.Nutaku()
-        mail_nutaku._regist(self.mailAddr,self.mailUser)
+        mail_dmmjp = dmmjp.Dmmjp()
+        mail_dmmjp._regist(self.mailAddr,self.mailUser)
         
         # 等待邮件
         mail_bccto._waitMail()
         validAccountUrl = mail_bccto._viewMail()
         
         # 验证
-        mail_nutaku._validMail(validAccountUrl)
+        mail_dmmjp._validMail(validAccountUrl)
+        return
+        
         # 登陆
-        mail_nutaku._login(self.mailAddr,self.mailUser)
+        mail_dmmjp._login(self.mailAddr,self.mailUser)
+        
         # 设置年龄
-        mail_nutaku._setAge()
+        mail_dmmjp._setAge()
+        
         # 注册aigis游戏，得到有效游戏链接
-        validUrl = mail_nutaku._regGame()
+        validUrl = mail_dmmjp._regGame()
         if validUrl:
             self.gameUrl = validUrl.replace('&amp;','&')
         

@@ -4,7 +4,7 @@
 
 import logic 
 
-def regist_nutaku():
+def regist_dmmjp():
     
     lg = logic.Logic()
     lg._autoRun()
@@ -19,3 +19,12 @@ def regist_nutaku():
         return (mail,url)
     
     return ('','')
+
+    
+st = regist_dmmjp()
+print st
+
+#import webnet 
+#net = webnet.Webnet()
+#net.send_get_jump('https://www.baidu.com/')
+
