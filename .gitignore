@@ -1,0 +1,16 @@
+*.sdf
+*.suo
+Debug/PlayAigis.ilk
+*.pdb
+ipch/playaigis-a48976bd/playaigis-9dee510f.ipch
+*.obj
+*.ipch
+*.idb
+*.pyc
+*.tlog
+PlayAigis/Release/PlayAigis.res
+*.pch
+*.log
+*.res
+Debug/PlayAigis.exe
+*.opensdf
