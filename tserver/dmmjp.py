@@ -6,6 +6,7 @@ import webnet
 import json
 import re
 import sys
+import time
 
 class Dmmjp:
 
@@ -17,54 +18,33 @@ class Dmmjp:
 
     # 注册账号
     def _regist(self, mailAddr, namepwd):
-        self.net.send_get_noread('https://www.dmm.co.jp/my/-/register/')
+        self.net.send_get('https://www.dmm.co.jp/my/-/register/')
         postData = ''.join(['back_url=&client_id=&display=&email=', mailAddr, '&opt_mail_cd=adult&password=', namepwd, '&ref=&submit=認証メールを送信','','&token='])
         self.net.send_post_noread('https://www.dmm.co.jp/my/-/register/apply/', postData)
+
     
     # 验证邮箱
     def _validMail(self,valUrl):
         validResult = self.net.send_get(valUrl)
         jumpUrl = self._getJumpUrl(validResult)
         if jumpUrl:
-            self.net.send_get_jump(jumpUrl)
-            self.net.send_get_noread('http://www.dmm.co.jp/top/')
-            self.net.send_get('http://www.dmm.co.jp/netgame_s/aigis/')
-            self.net.send_get_jump('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=on/myapp=on/act=install/')
-            #print jumpAigis
-            #self.net._saveFile('jumpAigis.html',jumpAigis)
+            jumpUrl = self.net.send_get(jumpUrl)
+            time.sleep(1)
+            jumpTop = self.net.send_get('http://www.dmm.co.jp/top/')
+            time.sleep(1)
+            jumpAigis = self.net.send_get('http://www.dmm.co.jp/netgame_s/aigis/')
+            time.sleep(1)
+            jumpConfirm = self.net.send_get('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=on/myapp=on/act=install/')
+            self.net._saveFile('jumpConfirm.html',jumpConfirm)
+            time.sleep(1)
             
         
 
     # 登陆
-    def _login(self, mailAddr, namepwd):
-        self.mailAddr = mailAddr
-        self.mailUser = namepwd
-        pageres = self.net.send_get('https://www.dmm.co.jp/my/-/login/')
-        tokenCode = self._getToken(pageres)
-        if tokenCode:
-            postData = ''.join(['token=',tokenCode,
-                                '&login_id=',mailAddr,
-                                '&save_login_id=0&password=',namepwd,
-                                '&save_password=0&use_auto_login=0&','b7ee627973d48d92b837e5f9dd15da9e','=',mailAddr,
-                                '&','e2b4c75aaceb8ca60b598ea687bacb31','=',namepwd,
-                                '&path=&prompt=&client_id=&display='])
-            loginRes = self.net.send_post('https://www.dmm.co.jp/my/-/login/auth/', postData)
-            self.net._saveFile('loginRes.html',loginRes)
-            resAigis = self.net.send_get('https://www.dmm.co.jp/netgame_s/aigis')
-            self.net._saveFile('resAigis.html',resAigis)
+    def _confirmAge(self):
+        print '_confirmAge'
+        return
 
-
-    # 设置年龄
-    def _setAge(self):
-        resContent = self.net.send_get('https://www.nutaku.net/members/profile/username/reset/')
-        pageCode = self._getPageCode(resContent)
-        if pageCode:
-            postData = ''.join(['about=&birth=&birthDay=7&birthdaydisplay=0&birthMonth=7&birthYear=1997&country=0&gender=male&genderdisplay=0&hobbies=&nickname=', self.mailUser, '&occupation=0&page=', pageCode])
-            resConfirm = self.net.send_post('https://www.nutaku.net/members/profile/username/reset/confirm/', postData)
-            pageCodeConfirm = self._getPageCode(resConfirm)
-            if pageCodeConfirm:
-                postDataConfirm = ''.join(['about=&birth=&birthDay=7&birthdaydisplay=0&birthMonth=7&birthYear=1997&country=0&gender=male&genderdisplay=0&hobbies=&nickname=', self.mailUser, '&occupation=0&page=', pageCodeConfirm])
-                resConfirm = self.net.send_post('https://www.nutaku.net/members/profile/username/reset/complete/', postDataConfirm)
 
     # 提取游戏链接
     def _regGame(self):
@@ -92,6 +72,7 @@ class Dmmjp:
             p3 = re.compile(r'\".*\"')
             search_ret3 = p3.findall(validUrl2)
             validUrl3 = search_ret3[0]
+            
             validUrl3 = validUrl3.strip('"')
             
             return validUrl3
@@ -110,6 +91,7 @@ class Dmmjp:
             p3 = re.compile(r'\".*\"')
             search_ret3 = p3.findall(pageCode2)
             pageCode3 = search_ret3[0]
+            
             pageCode3 = pageCode3.strip('"')
             
             return pageCode3
@@ -128,6 +110,7 @@ class Dmmjp:
             p3 = re.compile(r'\".*\"')
             search_ret3 = p3.findall(formToken2)
             formToken3 = search_ret3[0]
+            
             formToken3 = formToken3.strip('"')
             return formToken3
 
@@ -145,6 +128,7 @@ class Dmmjp:
             p3 = re.compile(r'\".*\"')
             search_ret3 = p3.findall(jumpUrl2)
             jumpUrl3 = search_ret3[0]
+            
             jumpUrl3 = jumpUrl3.strip('"')
             
             return jumpUrl3

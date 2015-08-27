@@ -7,6 +7,14 @@ import urllib2
 import cookielib
 import string
 
+
+class RedirctHandler(urllib2.HTTPRedirectHandler):
+  def http_error_301(self, req, fp, code, msg, headers):
+    print headers['Location']
+  def http_error_302(self, req, fp, code, msg, headers):
+    print headers['Location']
+
+
 class Webnet:
     
     # 初始化
@@ -25,7 +33,7 @@ class Webnet:
             result = response.read()
         except Exception,e:
             print "Exception : ",e
-        return result
+        return result 
 
     # 发送GET请求
     def send_get_noread(self,get_url):
@@ -37,24 +45,28 @@ class Webnet:
             print "Exception : ",e
 
     # 发送GET请求
-    def send_get_jump(self,get_url):
-        result = ""
-        try:
-            my_request = urllib2.Request(url = get_url, headers = self.headers)
-            response = self.opener.open(my_request, timeout=30)
-            print ''.join(['Code:',str(response.getcode()),' URL:',get_url])
-            do_not_redirected = (response.geturl() == get_url)
-            if do_not_redirected:
-                print 'ok.'
-                #result = response.read()
-            else:
-                print ''.join(['RDRT:',response.geturl()])
-                self.send_get_jump(response.geturl())
-        except Exception,e:
-            print "Exception : ",e
-        return result
+    #def send_get_jump(self,get_url, referer):
+    #    result = ""
+    #    try:
+    #        tempHeader = self.headers
+    #        tempHeader['referer']=referer
+    #        my_request = urllib2.Request(url = get_url, headers = tempHeader)
+    #        response = self.opener.open(my_request, timeout=30)
+    #        print ''.join(['Code:',str(response.getcode()),' URL:',get_url])
+    #        do_not_redirected = (response.geturl() == get_url)
+    #        if do_not_redirected:
+    #            pass
+    #            #result = response.read()
+    #        else:
+    #            print response.info()
+    #            print ''.join(['RDRT:',response.geturl()])
+    #            self.send_get_jump(response.geturl(),get_url)
+    #    except Exception,e:
+    #        print "Exception : ",e
+    #    return result
         
     # 发送POST请求
+    
     def send_post(self,post_url,post_data):
         result = ""
         try:
@@ -64,7 +76,7 @@ class Webnet:
             result = response.read()
         except Exception,e:
             print "Exception : ",e
-        return result
+        return result 
 
     # 发送POST请求
     def send_post_noread(self,post_url,post_data):

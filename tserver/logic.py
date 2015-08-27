@@ -33,12 +33,13 @@ class Logic:
     def _autoRun(self):
         # 随机账号
         self.mailUser = self._randName()
-        #self.mailUser = 'fuckjjan'
         self.mailAddr  = ''.join([self.mailUser , '@', "bccto.me"])
         
         # 申请邮箱
         mail_bccto = bccto.Bccto()
-        mail_bccto._applyMail(self.mailAddr, self.mailUser)
+        ret = mail_bccto._applyMail(self.mailAddr, self.mailUser)
+        if not ret:
+            return
         
         # 注册账号
         mail_dmmjp = dmmjp.Dmmjp()
@@ -47,16 +48,15 @@ class Logic:
         # 等待邮件
         mail_bccto._waitMail()
         validAccountUrl = mail_bccto._viewMail()
+        if validAccountUrl == '':
+            return
         
         # 验证
         mail_dmmjp._validMail(validAccountUrl)
+        
+        # 确认姓名和年龄
+        mail_dmmjp._confirmAge()
         return
-        
-        # 登陆
-        mail_dmmjp._login(self.mailAddr,self.mailUser)
-        
-        # 设置年龄
-        mail_dmmjp._setAge()
         
         # 注册aigis游戏，得到有效游戏链接
         validUrl = mail_dmmjp._regGame()

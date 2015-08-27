@@ -35,12 +35,17 @@ class Bccto:
         applymailData = ''.join(['mail=',self.mailAddr])
         result = self.net.send_post('http://www.bccto.me/applymail', applymailData)
         print result
+        resultInfo = json.loads(result)
+        if resultInfo['success'] != 'true':
+            print '_applyMail failed'
+            return False
+        return True
 
 
     def _waitMail(self):
         bLoopCounter = 0
         while bLoopCounter < 5: 
-            time.sleep(5)
+            time.sleep(1)
             bLoopCounter = bLoopCounter+1
             # 构建请求
             getmailData = ''.join(['mail=',self.mailAddr,"&time=0&_=0"])  
@@ -51,17 +56,22 @@ class Bccto:
                 # 解析json
                 mailInfo = json.loads(newMail)
                 if not mailInfo['mail']:
-                    print "waiting for valid mail ... no mail "
+                    print "waiting mail ... no mail "
                 elif len(mailInfo['mail']) == 0:
-                    print "waiting for valid mail ... mail empty"
+                    print "waiting mail ... mail empty"
                 else:
                     mailFrom = mailInfo['mail'][0][1]
                     print mailFrom
                     if mailFrom=='info@mail.dmm.com':
                         self.mailFlag = mailInfo['mail'][0][4]
+                        print self.mailFlag
                         bLoopCounter = 999
 
     def _viewMail(self):
+        print '_viewMail'
+        if self.mailFlag == '':
+            print 'self.mailFlag empty'
+            return ''
         viewmailData = ''.join(['mail=',self.mailFlag,'&to=',self.mailAddr,'&_=0']) 
         mailContent = self.net.send_post('http://www.bccto.me/viewmail',viewmailData)
         mailInfo = json.loads(mailContent)
@@ -72,6 +82,7 @@ class Bccto:
             validUrl = search_ret[0]
             self.net._saveFile('validUrl.txt',validUrl)
             return validUrl
+        return ''
 
 
 
