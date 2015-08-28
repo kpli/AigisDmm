@@ -51,15 +51,24 @@ class Logic:
         if validAccountUrl == '':
             return
         
+        
         # 验证
-        mail_dmmjp._validMail(validAccountUrl)
+        confirmret = mail_dmmjp._validMail(validAccountUrl)
+        if confirmret == '':
+            return
         
         # 确认姓名和年龄
-        mail_dmmjp._confirmAge()
+        pageRet = mail_dmmjp._confirmAge(confirmret)
+        if pageRet == '':
+            return
+        pageRet = mail_dmmjp._commitAge(pageRet)
+        if pageRet == '':
+            return
         return
         
         # 注册aigis游戏，得到有效游戏链接
         validUrl = mail_dmmjp._regGame()
-        if validUrl:
-            self.gameUrl = validUrl.replace('&amp;','&')
+        if validUrl == '':
+            return
+        self.gameUrl = validUrl.replace('&amp;','&')
         

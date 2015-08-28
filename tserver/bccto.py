@@ -3,6 +3,7 @@
 # -*- coding: utf-8 -*-
 
 import webnet 
+import urllib
 import json
 import time
 import re
@@ -32,8 +33,9 @@ class Bccto:
         self.mailuser = username
         self.mailAddr = mailAddr
         # 构建请求
-        applymailData = ''.join(['mail=',self.mailAddr])
-        result = self.net.send_post('http://www.bccto.me/applymail', applymailData)
+        applymailData = (('mail', self.mailAddr),)
+        print urllib.urlencode(applymailData)
+        result = self.net.send_post('http://www.bccto.me/applymail', urllib.urlencode(applymailData))
         print result
         resultInfo = json.loads(result)
         if resultInfo['success'] != 'true':
@@ -44,12 +46,15 @@ class Bccto:
 
     def _waitMail(self):
         bLoopCounter = 0
-        while bLoopCounter < 5: 
+        while bLoopCounter < 10: 
             time.sleep(1)
             bLoopCounter = bLoopCounter+1
             # 构建请求
-            getmailData = ''.join(['mail=',self.mailAddr,"&time=0&_=0"])  
-            newMail = self.net.send_post('http://www.bccto.me/getmail',getmailData)
+            getmailData = (('mail', self.mailAddr)
+                            ,('time', '0')
+                            ,('_', '0'))
+            print urllib.urlencode(getmailData)
+            newMail = self.net.send_post('http://www.bccto.me/getmail',urllib.urlencode(getmailData))
             if newMail == 'NO NEW MAIL':
                 print newMail
             elif newMail:
@@ -72,8 +77,11 @@ class Bccto:
         if self.mailFlag == '':
             print 'self.mailFlag empty'
             return ''
-        viewmailData = ''.join(['mail=',self.mailFlag,'&to=',self.mailAddr,'&_=0']) 
-        mailContent = self.net.send_post('http://www.bccto.me/viewmail',viewmailData)
+        viewmailData = (('mail', self.mailFlag)
+                        ,('to', self.mailAddr)
+                        ,('_', '0'))
+        print urllib.urlencode(viewmailData)
+        mailContent = self.net.send_post('http://www.bccto.me/viewmail',urllib.urlencode(viewmailData))
         mailInfo = json.loads(mailContent)
         mailText = mailInfo['mail']
         p = re.compile(r'https://www.dmm.co.jp/my/-/register/complete/.*')
