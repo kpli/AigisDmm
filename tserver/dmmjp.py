@@ -54,7 +54,7 @@ class Dmmjp:
         print ''.join(['backurl: ',backurl])
         if backurl == '':
             return ''
-        postData = (('nickname', 'はやて'),
+        postData = (('nickname', self.mailUser),
                     ('gender','male'),
                     ('year','1997'),
                     ('month','01'),
@@ -66,7 +66,7 @@ class Dmmjp:
                     ('redirect_url',''),
                     ('invite',''))
         print urllib.urlencode(postData)
-        confirmReturn = self.net.send_post('https://www.dmm.co.jp/netgame/profile/-/regist/confirm/', urllib.urlencode(postData))
+        confirmReturn = self.net.send_post_stream('https://www.dmm.co.jp/netgame/profile/-/regist/confirm/', urllib.urlencode(postData))
         self.net._saveFile('confirmReturn.html',confirmReturn)
         return confirmReturn
 
@@ -82,7 +82,7 @@ class Dmmjp:
         if htoken == '':
             return ''
         postData = (('act', 'commit'),
-                    ('nickname', 'はやて'),
+                    ('nickname', self.mailUser),
                     ('gender', 'male'),
                     ('year', '1997'),
                     ('month', '01'),
@@ -94,7 +94,7 @@ class Dmmjp:
                     ('encode_hint', '◇'),
                     ('token', htoken))
         print urllib.urlencode(postData)
-        commitReturn = self.net.send_post('http://www.dmm.co.jp/netgame/profile/-/regist/commit/', urllib.urlencode(postData))
+        commitReturn = self.net.send_post_stream('http://www.dmm.co.jp/netgame/profile/-/regist/commit/', urllib.urlencode(postData))
         return commitReturn
 
     # 确认进入游戏，并提取游戏链接

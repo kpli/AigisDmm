@@ -48,6 +48,7 @@ class Logic:
         # 等待邮件
         mail_bccto._waitMail()
         validAccountUrl = mail_bccto._viewMail()
+        print validAccountUrl
         if validAccountUrl == '':
             return
         

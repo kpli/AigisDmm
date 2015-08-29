@@ -2,6 +2,7 @@
 #coding=utf-8
 # -*- coding: utf-8 -*-
 
+import zlib
 import urllib  
 import urllib2
 import cookielib
@@ -19,9 +20,11 @@ class Webnet:
     
     # 初始化
     def __init__(self):
+        #register_openers()
         self.cookie_jar = cookielib.CookieJar()
         self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookie_jar))
-        self.headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'}
+        self.headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0',
+                        'Accept-Encoding' : 'gzip, deflate'}
 
     # 发送GET请求
     def send_get(self,get_url):
@@ -30,7 +33,7 @@ class Webnet:
             my_request = urllib2.Request(url = get_url, headers = self.headers)
             response = self.opener.open(my_request, timeout=30)
             print ''.join(['Code:',str(response.getcode()),' Url:',get_url])
-            result = response.read()
+            result = self._unlibResponse(response)
         except Exception,e:
             print "Exception : ",e
         return result 
@@ -73,7 +76,29 @@ class Webnet:
             my_request = urllib2.Request(url = post_url,data = post_data, headers = self.headers)
             response = self.opener.open(my_request, timeout=30)
             print ''.join(['Code:',str(response.getcode()),' Url:',post_url])
-            result = response.read()
+            result = self._unlibResponse(response)
+        except Exception,e:
+            print "Exception : ",e
+        return result
+
+
+    def send_post_stream(self,post_url,post_data):
+        result = ""
+        try:
+            tempHeader = self.headers
+            tempHeader['Content-Length'] = (len(post_data))
+            tempHeader['Content-Type'] = 'application/x-www-form-urlencoded'
+            tempHeader['Connection'] = 'keep-alive'
+            tempHeader['Host'] = 'www.dmm.co.jp'
+            tempHeader['Accept-Language'] = 'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3'
+            tempHeader['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+            tempHeader['Referer'] = 'http://www.dmm.co.jp/netgame/profile/-/regist/=/back_url=SgBASTlfBQ8JUAcMBQRJWQ4RX1BZWgVNCw1ZW10LGF0cAEBJW1kPHVkGRQVaWBVDAAla'
+            my_request = urllib2.Request(url = post_url,data = post_data, headers = tempHeader)
+            print my_request.headers
+            response = self.opener.open(my_request, timeout=30)
+            print ''.join(['Code:',str(response.getcode()),' Url:',post_url])
+            print response.info()
+            result = self._unlibResponse(response)
         except Exception,e:
             print "Exception : ",e
         return result 
@@ -102,4 +127,12 @@ class Webnet:
         file_object = open(file, 'w')
         file_object.write(content)
         file_object.close( )
+
+    def _unlibResponse(self, response):
+        content = response.read()
+        gzipped = response.headers.get('Content-Encoding')
+        if gzipped:
+            result = zlib.decompress(content, 16+zlib.MAX_WBITS)
+            return result
+        return content
 
