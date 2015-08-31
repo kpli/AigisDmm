@@ -4,6 +4,7 @@
 
 import bccto 
 import dmmjp
+import djvalid
 import re
 import random
 import string
@@ -31,6 +32,7 @@ class Logic:
             return ''.join(strCollect[:8])
 
     def _autoRun(self):
+        
         # 随机账号
         self.mailUser = self._randName()
         self.mailAddr  = ''.join([self.mailUser , '@', "bccto.me"])
@@ -48,28 +50,18 @@ class Logic:
         # 等待邮件
         mail_bccto._waitMail()
         validAccountUrl = mail_bccto._viewMail()
-        print validAccountUrl
+        print(validAccountUrl)
         if validAccountUrl == '':
             return
         
-        
         # 验证
-        confirmret = mail_dmmjp._validMail(validAccountUrl)
+        valid_account = djvalid.DJValid()
+        confirmret = valid_account._goIntoGame(validAccountUrl)
         if confirmret == '':
             return
         
-        # 确认姓名和年龄
-        pageRet = mail_dmmjp._confirmAge(confirmret)
-        if pageRet == '':
-            return
-        pageRet = mail_dmmjp._commitAge(pageRet)
-        if pageRet == '':
-            return
-        return
-        
-        # 注册aigis游戏，得到有效游戏链接
-        validUrl = mail_dmmjp._regGame()
-        if validUrl == '':
-            return
-        self.gameUrl = validUrl.replace('&amp;','&')
-        
+        self.gameUrl = confirmret.replace('&amp;','&')
+
+
+
+
