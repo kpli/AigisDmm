@@ -49,7 +49,7 @@ void CLogic::ThreadPlaying(void *)
 		getInstance()->waitRegist();
 		
 		getInstance()->FirstRondomCard();
-		getInstance()->SecondRondomCard();
+		//getInstance()->SecondRondomCard();
 
 		if (CCtrl::canPlay())
 		{
