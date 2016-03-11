@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Frame.h"
+#include "Tools.h"
 
 
 CFrame::CFrame()
@@ -34,6 +35,41 @@ HWND CFrame::aigisHwnd()
 	return hFrame;
 }
 
+void CFrame::generatImgName(LPTSTR lpBuf, int maxLen)
+{
+	HWND hChrome = chromeHwnd();
+	if (!hChrome)
+	{
+		return;
+	}
+	// for title
+	TCHAR bufferTitle[MAXCHAR] = { 0 };
+	GetWindowText(hChrome, bufferTitle, maxLen);
+	int nLen = _tcslen(bufferTitle);
+	if (nLen == 0 || nLen >= maxLen/2)
+	{
+		_tcscpy_s(bufferTitle, maxLen, _T("ERR"));
+	}
+	else
+	{
+		for (int i = 1; i < nLen; i++)
+		{
+			if (bufferTitle[i] == '-')
+			{
+				bufferTitle[i - 1] = '\0';
+			}
+		}
+	}
+	// for time
+	SYSTEMTIME sysTime;
+	GetLocalTime(&sysTime);
+	TCHAR bufferName[MAXCHAR] = { 0 };
+	wsprintf(bufferName, _T("%04d%02d%02d_%02d%02d%02d_"), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+	_tcscat_s(bufferName, MAXCHAR, bufferTitle);
+	_tcscat_s(bufferName, _T(".bmp"));
+	// for out put string
+	_tcscpy_s(lpBuf, maxLen, bufferName);
+}
 
 void CFrame::closeChrome()
 {
@@ -60,6 +96,20 @@ HWND CFrame::chromeHwnd()
 	return hChrome;
 }
 
+void CFrame::saveImage()
+{
+	HWND hwnd = aigisHwnd();
+	if (!hwnd)
+	{
+		return;
+	}
+
+	TCHAR fileName[MAXCHAR] = { 0 };
+	generatImgName(fileName, MAXCHAR);
+
+	CTools* pTools = CTools::getInstance();
+	pTools->saveBmp(hwnd, fileName);
+}
 
 bool CFrame::findColor(CPnt5* pnt5)
 {
@@ -80,7 +130,7 @@ bool CFrame::findColor(CPnt5* pnt5)
 		POINT pntTmp = pnt5->getPoint((E_POINT_DIRECTION)i);
 		COLORREF colorDefi = pnt5->getColor((E_POINT_DIRECTION)i);
 		COLORREF colorFind = GetPixel(hdc, pntTmp.x, pntTmp.y);
-		if (colorDefi != colorFind )
+		if (!CPnt5::isSameColor(colorDefi, colorFind ))
 		{
 			bSame = false;
 			break;
@@ -140,9 +190,11 @@ void CFrame::click(CPnt5* pnt5)
 	}
 
 	POINT pt = pnt5->getPoint(EPD_MID);
+	//setCurSor(pt);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
 	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
 	Sleep(50);
+	//setCurSor(pt);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
 	PostMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
 	Sleep(50);
@@ -159,11 +211,11 @@ void CFrame::drag(CRolePnt* pntR)
 	POINT p5 = pntR->p5.getPoint(EPD_MID);
 	POINT pt = pntR->pt;
 
+	//setCurSor(p5);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(p5.x, p5.y));
 	PostMessage(hwnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(p5.x, p5.y));
 	Sleep(50);
-	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
-	Sleep(50);
+	//setCurSor(pt);
 	PostMessage(hwnd, WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
 	PostMessage(hwnd, WM_LBUTTONUP, MK_LBUTTON, MAKELPARAM(pt.x, pt.y));
 	Sleep(50);

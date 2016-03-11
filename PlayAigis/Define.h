@@ -1,6 +1,6 @@
 #pragma once
 
-#define SCREEN_SAVE_DIR ("E:\\AigisNutaku\\")
+#define SCREEN_SAVE_DIR _T("D:\\PlayAigis\\")
 #define CHROME_CLASSNAME _T("Chrome_WidgetWin_1")
 
 

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Tools.h"
 #include "Frame.h"
-#include "ToPy.h"
 
 
 CTools::CTools()
@@ -22,42 +21,30 @@ CTools* CTools::getInstance()
 
 void CTools::initDir()
 {
-	DWORD dwAttr = GetFileAttributesA(SCREEN_SAVE_DIR);
+	DWORD dwAttr = GetFileAttributes(SCREEN_SAVE_DIR);
 	if (dwAttr == 0xFFFFFFFF)
 	{
-		CreateDirectoryA(SCREEN_SAVE_DIR, NULL);
+		CreateDirectory(SCREEN_SAVE_DIR, NULL);
 	}
 }
 
-void CTools::saveImage()
-{
-	HWND hwnd = CFrame::getInstance()->aigisHwnd();
-	if (!hwnd)
-	{
-		return;
-	}
-
-	std::string strName = generatImgName();
-	saveBmp(hwnd, strName.c_str());
-}
-
-void CTools::saveBmp(HWND hwnd, LPCSTR file)
+void CTools::saveBmp(HWND hwnd, LPCTSTR file)
 {
 	HDC hdc = GetWindowDC(hwnd);
 	HDC hMemDC_Tmp = CreateCompatibleDC(hdc);							//创建与桌面窗口DC相适应的内存TMP
 	HBITMAP hbitm_tmp = CreateCompatibleBitmap(hdc, FRAME_SIZE);	//创建相适应的位图
 	SelectObject(hMemDC_Tmp, hbitm_tmp);
 	BitBlt(hMemDC_Tmp, COORD_ZERO, FRAME_SIZE, hdc, FRAME_BEGIN, SRCCOPY);
-	CHAR szBuf[MAXCHAR];
-	strcpy_s(szBuf, SCREEN_SAVE_DIR);
-	strcpy_s(szBuf, file);
+	TCHAR szBuf[MAXCHAR];
+	_tcscpy_s(szBuf, SCREEN_SAVE_DIR);
+	_tcscat_s(szBuf, file);
 	flushBmp(hbitm_tmp, szBuf);
 	DeleteObject(hbitm_tmp);
 	DeleteDC(hMemDC_Tmp);
 	ReleaseDC(hwnd, hdc);
 }
 
-BOOL CTools::flushBmp(HBITMAP hbitmap, LPCSTR filename, int nColor)
+BOOL CTools::flushBmp(HBITMAP hbitmap, LPCTSTR filename, int nColor)
 {
 	BITMAP Bitmap ;
 	HDC	hDC = nullptr;
@@ -105,7 +92,7 @@ BOOL CTools::flushBmp(HBITMAP hbitmap, LPCSTR filename, int nColor)
 		::ReleaseDC(NULL, hDC);
 	}
 
-	fh = CreateFileA(filename, GENERIC_WRITE,
+	fh = CreateFile(filename, GENERIC_WRITE,
 		0,//not   be   shared   
 		NULL,   //cannot   be   inherited   
 		CREATE_ALWAYS,
@@ -189,18 +176,5 @@ bool CTools::findRidder()
 }
 
 
-std::string CTools::generatImgName()
-{
-	// for time
-	SYSTEMTIME sysTime;
-	GetLocalTime(&sysTime);
-	CHAR bufferName[MAXCHAR] = { 0 };
-	sprintf_s(bufferName, ("%04d%02d%02d_%02d%02d_"), sysTime.wYear, sysTime.wMonth, sysTime.wDay, sysTime.wHour, sysTime.wMinute);
-	std::string strFile = SCREEN_SAVE_DIR;
-	strFile.append(bufferName);
-	strFile.append(CToPy::getInstance()->getMail());
-	strFile.append(".bmp");
-	return strFile;
-}
 
 

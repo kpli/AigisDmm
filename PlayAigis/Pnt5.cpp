@@ -1,5 +1,6 @@
 #include "stdafx.h"
-#include "Pnt5.h"
+//#include "Pnt5.h"
+#include "Tools.h"
 #include "Frame.h"
  
 
@@ -11,8 +12,6 @@ CPnt5::CPnt5(POINT pnt)
 	{
 		ac[i] = COLORREF(0x000000);
 	}
-	tp.x = 0;
-	tp.y = 0;
 }
 
 CPnt5::CPnt5(int x, int y)
@@ -23,8 +22,6 @@ CPnt5::CPnt5(int x, int y)
 	{
 		ac[i] = COLORREF(0x000000);
 	}
-	tp.x = 0;
-	tp.y = 0;
 }
 
 CPnt5::CPnt5(POINT pnt, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, COLORREF c4)
@@ -36,8 +33,6 @@ CPnt5::CPnt5(POINT pnt, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, COLO
 	ac[2] = c2;
 	ac[3] = c3;
 	ac[4] = c4;
-	tp.x = 0;
-	tp.y = 0;
 }
 
 CPnt5::CPnt5(int x, int y, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, COLORREF c4)
@@ -49,21 +44,6 @@ CPnt5::CPnt5(int x, int y, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, C
 	ac[2] = c2;
 	ac[3] = c3;
 	ac[4] = c4;
-	tp.x = 0;
-	tp.y = 0;
-}
-
-CPnt5::CPnt5(int x, int y, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, COLORREF c4, int tx, int ty)
-{
-	mp.x = x;
-	mp.y = y;
-	ac[0] = c0;
-	ac[1] = c1;
-	ac[2] = c2;
-	ac[3] = c3;
-	ac[4] = c4;
-	tp.x = tx;
-	tp.y = ty;
 }
 
 CPnt5::~CPnt5()
@@ -74,8 +54,6 @@ CPnt5::~CPnt5()
 	{
 		ac[i] = COLORREF(0x000000);
 	}
-	tp.x = 0;
-	tp.y = 0;
 }
 
 POINT CPnt5::getPoint(E_POINT_DIRECTION epd)
@@ -131,6 +109,19 @@ void CPnt5::setMidPnt(int x, int y)
 	mp.y = y;
 }
 
+bool CPnt5::isSameColor(COLORREF c1, COLORREF c2)
+{
+	COLORREF arrDiff[8] = { 0x1, 0x100, 0x10000,  -0x1, -0x100, -0x10000 };
+	if (c1 == c2)
+		return true;
+	for (int i = 0; i < 8; i++)
+	{
+		if (c1 + arrDiff[i] == c2)
+			return true;
+	}
+
+	return false;
+}
 
 CRolePnt::CRolePnt(CPnt5 pnt5, int tx, int ty)
 	: p5(pnt5)

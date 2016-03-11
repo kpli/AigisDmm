@@ -36,27 +36,28 @@ CPnt5 CStcVal::s_Bounding4(256, 454, 0xf3f3fa, 0x282491, 0x6562cb, 0x2d2a91, 0x2
 
 CPnt5 CStcVal::s_Random1(355, 301, 0xb2bad4, 0x3b51bb, 0xbcc0d6, 0x9a96a9, 0x4062d9);		// 抽卡1步
 CPnt5 CStcVal::s_Random2(57, 318, 0x32bd, 0x44a0e8, 0x2ab9, 0x147ddb, 0x54e9ff);					// 抽卡2步
-CPnt5 CStcVal::s_Random3(395, 442, 0x72ae7, 0x6578d8, 0xecfbff, 0x71e1fb, 0x2037d1);		// 抽卡3步
+CPnt5 CStcVal::s_Random3(395, 442, 0x735d4, 0x5c79d4, 0xecf4fb, 0x7ad5f9, 0x735d4);		// 抽卡3步
 CPnt5 CStcVal::s_Random4(392, 419, 0xad, 0xc0c0ed, 0x1b12c0, 0x9b92e4, 0xb6);		// 抽卡4步
 
 // for got the form size
 RECT CStcVal::s_rcRange;			// 搜索颜色的范围
 COLORREF CStcVal::s_arrColor[5];	// 要搜索的颜色
 
-CPnt5 CStcVal::s_pnt5Rider(403, 161, 0x52529b, 0x5b3652, 0x6d3f6d, 0xffffff, 0x6d49ad);	// 骑士的搜索起点和特征色
+CPnt5 CStcVal::s_pnt5Rider(444, 180, 0xa464ad, 0xbfedff, 0x9bc0ff, 0x643f64, 0x522d40);	// 骑士的搜索起点和特征色
 CPnt5 CStcVal::s_GameUnit1(s_Random1);													// 选择骑士1步
-CPnt5 CStcVal::s_GameUnit2(95, 244, 0x1c2e6, 0x96cd, 0x14b3, 0x26ccde, 0x708c);			// 选择骑士2步
-CPnt5 CStcVal::s_GameUnit3(387, 199, 0x3d7699, 0x2a1509, 0x33180a, 0x345c76, 0x502510);	// 选择骑士3步
+CPnt5 CStcVal::s_GameUnit2(107, 227, 0x3bc0, 0xc5ffff, 0x32bd, 0x41c3, 0xb8feff);			// 选择骑士2步
+CPnt5 CStcVal::s_GameUnit3(323, 155, 0x31211b, 0x693515, 0x522c14, 0xa9e2fc, 0x552b15);	// 选择骑士3步
 CPnt5 CStcVal::s_GameUnit4(564, 311, 0x6c3400, 0x6c3400, 0x713500, 0x6c3400, 0x743700);	// 选择骑士4步, 需配合按键精灵查图
-CPnt5 CStcVal::s_GameUnit5(260, 534, 0x3c3ba0, 0x464597, 0x373693, 0x2d2b82, 0x373693);	// 选择骑士5步
+CPnt5 CStcVal::s_GameUnit5(265, 532, 0xffffff, 0xd7d7ef, 0x211d8a, 0x2f2c96, 0x2e2b94);	// 选择骑士5步
 
-CPnt5 CStcVal::s_SelectStory0_1(361, 197, 0x2545aa, 0x122075, 0x324daa, 0xf2595, 0x2640b8);		// 选择第x关
-CPnt5 CStcVal::s_SelectStory4_2(645, 129, 0x66351c, 0x67361c, 0x847bd2, 0x663318, 0x643113);		// 选择第4关
-CPnt5 CStcVal::s_SelectStory5_2(651, 212, 0x693c2e, 0x847bd2, 0xbba9ab, 0x663315, 0x663317);		// 选择第5关
-CPnt5 CStcVal::s_SelectStory6_2(650, 121, 0x725f9a, 0x3a38c0, 0x625fe8, 0x68381e, 0x6a3a29);		// 选择第6关
-CPnt5 CStcVal::s_SelectStory7_2(650, 121, 0x725f9a, 0x3a38c0, 0x625fe8, 0x68381e, 0x6a3a29);		// 选择第7关
-CPnt5 CStcVal::s_SelectStory0_3(353, 560, 0x405b6, 0xaeaeae, 0x4142cf, 0x181abf, 0x40106);		// 选择第x关
-CPnt5 CStcVal::s_SelectStory0_4(417, 536, 0x474548, 0x6b696c, 0x4b4cca, 0x474548, 0x20147);		// 选择第x关
+CPnt5 CStcVal::s_scrollCtrl(939, 116, 0x334f77, 0x335c80, 0x334f77, 0x33597d, 0x334f77);
+CPnt5 CStcVal::s_SelectStory0_1(347, 198, 0x28449e, 0x162167, 0x28449e, 0x132589, 0x10);		// 选择第x关， new标签
+CPnt5 CStcVal::s_SelectStory4_2(632, 114, 0x3633b2, 0x6b68ef, 0x496fc3, 0x4f45b1, 0x3634b2);		// 选择第4关
+CPnt5 CStcVal::s_SelectStory5_2(632, 114, 0x3633b2, 0x6b68ef, 0x496fc3, 0x4f45b1, 0x3634b2);		// 选择第5关
+CPnt5 CStcVal::s_SelectStory6_2(632, 114, 0x3633b2, 0x6b68ef, 0x496fc3, 0x4f45b1, 0x3634b2);		// 选择第6关
+CPnt5 CStcVal::s_SelectStory7_2(632, 114, 0x3633b2, 0x6b68ef, 0x496fc3, 0x4f45b1, 0x3634b2);		// 选择第7关
+CPnt5 CStcVal::s_SelectStory0_3(359, 564, 0xf9f9f9, 0x8030a, 0xffffff, 0xb5, 0xf2f2f2);		// 选择第x关，开始按钮
+CPnt5 CStcVal::s_SelectStory0_4(387, 534, 0x20104, 0xe6e6e6, 0x20104, 0x1213b6, 0x20104);		// 选择第x关，确认开始
 
 CRolePnt CStcVal::s_ST1_Role1(CPnt5(161, 599, 0x525b5b, 0x49525b, 0xc9e4ff, 0x526480, 0x8992a4), 542, 340);		// 第1关角色1
 CRolePnt CStcVal::s_ST1_Role2(CPnt5(180, 595, 0x120900, 0x494040, 0x241b12, 0x363636, 0x5b5252), 506, 244);		// 第1关角色2
@@ -85,25 +86,26 @@ CRolePnt CStcVal::s_ST4_Role8(CPnt5(138, 581, 0x5b649b, 0xb6c9e4, 0x8092a4, 0x40
 
 CRolePnt CStcVal::s_ST5_Role1(CPnt5(453, 576, 0xb6dbff, 0x76525b, 0x499bed, 0xedffff, 0xdbf6ff), 694, 468);		// 第5关角色1
 CRolePnt CStcVal::s_ST5_Role2(CPnt5(151, 588, 0x1b2d5b, 0xadbfc0, 0x364092, 0xc0e4ff, 0x1b2440), 810, 400);		// 第5关角色2
-CRolePnt CStcVal::s_ST5_Role3(CPnt5(461, 591, 0xd2d2c9, 0x9ba492, 0xe4ede4, 0xb6bfa4, 0x40403f), 810, 310);		// 第5关角色3
-CRolePnt CStcVal::s_ST5_Role4(CPnt5(51, 586, 0x7f89b6, 0x242424, 0x120909, 0x526489, 0xbfd2ff), 686, 348);		// 第5关角色4
-CRolePnt CStcVal::s_ST5_Role5(CPnt5(449, 582, 0x92c0db, 0x1b2409, 0x6492ff, 0xa4c0ff, 0x899289), 600, 280);		// 第5关角色5
+CRolePnt CStcVal::s_ST5_Role3(CPnt5(449, 588, 0x6476b6, 0x5b5289, 0xd2b6e4, 0x6d649b, 0x496d92), 593, 202);		// 第5关角色3
+CRolePnt CStcVal::s_ST5_Role4(CPnt5(51, 586, 0x7f89b6, 0x242424, 0x120909, 0x526489, 0xbfd2ff), 805, 295);		// 第5关角色4
+CRolePnt CStcVal::s_ST5_Role5(CPnt5(455, 588, 0x929b89, 0x6d6d64, 0x929b89, 0xe4e4db, 0x89897f), 600, 280);		// 第5关角色5
 CRolePnt CStcVal::s_ST5_Role6(CPnt5(359, 586, 0xa4b6d2, 0xffffff, 0xb69b76, 0xffffff, 0x527f92), 744, 325);		// 第5关角色6
-CRolePnt CStcVal::s_ST5_Role7(CPnt5(260, 594, 0xc9dbff, 0xc9dbff, 0xc9d2ff, 0x7f89d2, 0xd2e4ff), 746, 423);		// 第5关角色7
+CRolePnt CStcVal::s_ST5_Role7(CPnt5(249, 592, 0xdbe4ff, 0xdbe4ff, 0xc9e4ff, 0xe4edff, 0xe4f6ff), 746, 423);		// 第5关角色7
+CRolePnt CStcVal::s_ST5_Role8(CPnt5(47, 591, 0x525b89, 0xb6adb6, 0x40527f, 0xdbffff, 0x3f363f), 686, 348);		// 第5关角色8
 
-CRolePnt CStcVal::s_ST6_Role1(CPnt5(856, 586, 0xb6bfc0, 0x91200, 0x6dadff, 0xd2e4ff, 0xbfd2ff), 585, 335);		// 第6关角色1
+CRolePnt CStcVal::s_ST6_Role1(CPnt5(863, 588, 0x929b89, 0x6d6d64, 0x929b89, 0xe4e4db, 0x89897f), 585, 335);		// 第6关角色1
 CRolePnt CStcVal::s_ST6_Role2(CPnt5(47, 587, 0x494949, 0x90000, 0x241b24, 0x526480, 0xb6c9f6), 570, 254);			// 第6关角色2
-CRolePnt CStcVal::s_ST6_Role3(CPnt5(559, 596, 0x76766d, 0xbfbfb6, 0xc9d2c9, 0x3f403f, 0xb6b6ad), 500, 235);		// 第6关角色3
+CRolePnt CStcVal::s_ST6_Role3(CPnt5(549, 594, 0xb6dbff, 0xbf7fbf, 0x9bc0ff, 0xbfedff, 0x92b6c9), 504, 307);		// 第6关角色3
 CRolePnt CStcVal::s_ST6_Role4(CPnt5(359, 580, 0xdbf6ff, 0xd2f6ff, 0x3f80e4, 0xdbf6ff, 0xdbf6ff), 525, 439);		// 第6关角色4
-CRolePnt CStcVal::s_ST6_Role5(CPnt5(460, 591, 0xbfffff, 0xa4e4ed, 0xc0c0c0, 0xa4c0ff, 0xb6e4ff), 504, 307);		// 第6关角色5
-CRolePnt CStcVal::s_ST6_Role6(CPnt5(360, 587, 0xdbedff, 0xdbedff, 0xd2e4ff, 0xd2e4ff, 0xd2e4ff), 499, 376);		// 第6关角色6
+CRolePnt CStcVal::s_ST6_Role5(CPnt5(460, 591, 0xbfffff, 0xa4e4ed, 0xc0c0c0, 0xa4c0ff, 0xb6e4ff), 412, 374);		// 第6关角色5
+CRolePnt CStcVal::s_ST6_Role6(CPnt5(343, 587, 0xdbedff, 0xbfd2ed, 0x899bb6, 0xadc0e4, 0x92a4bf), 499, 376);		// 第6关角色6
 CRolePnt CStcVal::s_ST6_Role7(CPnt5(268, 590, 0x1b3649, 0x3f6d92, 0x1b3649, 0x1b2d40, 0x3f64bf), 416, 274);		// 第6关角色7
 
 CRolePnt CStcVal::s_ST7_Role1(CPnt5(49, 586, 0x120909, 0x6d89bf, 0x361b24, 0x526489, 0xbfd2f6), 353, 190);		// 第7关角色1
-CRolePnt CStcVal::s_ST7_Role2(CPnt5(756, 585, 0x6d7f6d, 0x3f6d92, 0x5280ad, 0xd2e4ff, 0xd2e4ff), 235, 316);		// 第7关角色2
+CRolePnt CStcVal::s_ST7_Role2(CPnt5(758, 589, 0x89897f, 0x495240, 0x80807f, 0xc9d2c9, 0x767f6d), 261, 232);		// 第7关角色2
 CRolePnt CStcVal::s_ST7_Role3(CPnt5(662, 584, 0x898989, 0x646464, 0x643f24, 0x6492d2, 0xbfedff), 376, 252);		// 第7关角色3
-CRolePnt CStcVal::s_ST7_Role4(CPnt5(560, 584, 0xedede4, 0x929289, 0xededed, 0xdbdbd2, 0xedede4), 261, 232);		// 第7关角色4
-CRolePnt CStcVal::s_ST7_Role5(CPnt5(457, 593, 0x9bbfff, 0xd2e4ff, 0xdbedff, 0xc9dbff, 0x929bb6), 429, 216);		// 第7关角色5
+CRolePnt CStcVal::s_ST7_Role4(CPnt5(551, 589, 0x89bfff, 0x3f3f64, 0x8952c9, 0xbfedff, 0xc9ffff), 329, 294);		// 第7关角色4
+CRolePnt CStcVal::s_ST7_Role5(CPnt5(454, 586, 0xdbdbdb, 0xdbedff, 0x646dbf, 0xedf6ff, 0xedf6ff), 429, 216);		// 第7关角色5
 CRolePnt CStcVal::s_ST7_Role6(CPnt5(255, 591, 0xbfbfd2, 0x649bed, 0x497fad, 0x646d52, 0xdbffff), 329, 294);		// 第7关角色6
 
 

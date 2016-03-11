@@ -9,6 +9,9 @@ public:
 	// 关闭标签
 	void closeChrome();
 
+	// 截图
+	void saveImage();
+
 	// 找特征
 	bool findColor(CPnt5* pnt5);
 
@@ -23,11 +26,10 @@ public:
 	// 记录搜索范围
 	void setRangeLT();
 	void setRangeRB();
-
-	// 获取HWND
-	HWND aigisHwnd();
 private:
 	HWND chromeHwnd();
+	HWND aigisHwnd();
+	void generatImgName(LPTSTR lpBuf, int maxLen);
 	void setCurSor(POINT pnt);
 private:
 	CFrame();

@@ -19,12 +19,3 @@ def regist_dmmjp():
         return (mail,url)
     
     return ('','')
-
-    
-st = regist_dmmjp()
-print st
-
-#import webnet 
-#net = webnet.Webnet()
-#net.send_get_jump('https://www.baidu.com/')
-

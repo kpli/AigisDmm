@@ -45,9 +45,6 @@
     <ClInclude Include="StcVal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ToPy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -72,9 +69,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StcVal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ToPy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

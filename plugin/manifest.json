@@ -1,0 +1,48 @@
+{
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+
+  "permissions": [
+	"tabs",
+	"storage",
+	"bookmarks",
+	"http://*/*",
+	"https://*/*"
+  ],
+
+  "content_scripts": [
+	{
+	  "matches": ["http://www.dmm.co.jp/netgame/social/-/gadgets/*"],
+	  "js": [ "tools.js", "parse.js" ],
+	  "run_at": "document_start"
+	},
+	{
+	  "matches": ["http://osapi.dmm.com/gadgets/ifr*"],
+	  "js": [ "tools.js", "playing.js" ],
+	  "run_at": "document_end"
+	},
+	{
+	  "matches": ["https://www.dmm.co.jp/my/-/login/*"],
+	  "js": [ "tools.js", "tcp-client.js", "login.js" ],
+	  "run_at": "document_end"
+	}
+  ],
+
+	"icons": {
+		"16": "image/logo_1.png",
+		"32": "image/logo_2.png",
+		"96": "image/logo_3.png"
+	},
+
+	"name": "AigisDMM",
+	"manifest_version": 2,
+	"version": "0.0.1",
+	"description": "regist nutaku and play aigis",
+
+	"browser_action": {
+	  	"default_title": "AigisDMM",
+	  	"default_icon": "image/logo_1.png" ,
+		"default_popup": "popup.html"
+	}
+}

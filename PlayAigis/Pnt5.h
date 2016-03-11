@@ -7,7 +7,6 @@ public:
 	CPnt5(int x, int y);
 	CPnt5(POINT pnt, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, COLORREF c4);
 	CPnt5(int x, int y, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, COLORREF c4);
-	CPnt5(int x, int y, COLORREF c0, COLORREF c1, COLORREF c2, COLORREF c3, COLORREF c4, int tx, int ty);
 	~CPnt5();
 
 	POINT getPoint(E_POINT_DIRECTION epd);
@@ -19,11 +18,10 @@ public:
 	void click();
 	void print();
 
-
+	static bool isSameColor(COLORREF c1, COLORREF c2);
 private:
 	POINT mp;				// 中心点
 	COLORREF ac[EPD_MAX];	// 特征色
-	POINT tp;				// 角色上场目标点
 };
 
 class CRolePnt

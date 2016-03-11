@@ -4,7 +4,6 @@
 #include "Frame.h"
 #include "Tools.h"
 #include <process.h>
-#include "ToPy.h"
 
 
 #define LOOP_BEGIN	size_t bt = GetTickCount();	while (CCtrl::canPlay() && canWait()) {
@@ -12,8 +11,6 @@
 
 bool CLogic::s_bWaitFor = true;
 int CLogic::s_iCardStar = 0;
-
-
 CLogic::CLogic()
 {
 }
@@ -46,10 +43,10 @@ void CLogic::ThreadPlaying(void *)
 	while (CCtrl::canPlay())
 	{
  		getInstance()->startRegist();
-		getInstance()->waitRegist();
+ 		getInstance()->waitTime(60);	// 等待注册
 		
 		getInstance()->FirstRondomCard();
-		//getInstance()->SecondRondomCard();
+		getInstance()->SecondRondomCard();
 
 		if (CCtrl::canPlay())
 		{
@@ -64,17 +61,13 @@ void CLogic::ThreadPlaying(void *)
 void CLogic::startRegist()
 {
 	CLogic::s_bWaitFor = true;
-	CToPy::getInstance()->runPython();
-	std::string sGameUrl = CToPy::getInstance()->getUrl();
-	if (sGameUrl.empty())
-	{
-		cout << "P";
-	}
-	else
-	{
-		ShellExecuteA(NULL, ("open"), ("chrome.exe"), sGameUrl.c_str(), (""), SW_SHOW);
-		cout << "R";
-	}
+	ShellExecute(NULL, 
+		_T("open"), 
+		_T("chrome.exe"), 
+		_T("http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install/"), 
+		_T(""), 
+		SW_SHOW);
+	cout << "R";
 }
 
 void CLogic::playStory1()
@@ -309,7 +302,8 @@ void CLogic::selectUnit()
 {
 	waitPnt_clickPnt(&CStcVal::s_GameBtnBack, &CStcVal::s_GameUnit1, false);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit2, false);
-	waitPnt_clickPnt(&CStcVal::s_GameUnit2, &CStcVal::s_GameUnit3);
+	//waitPnt_clickPnt(&CStcVal::s_GameUnit2, &CStcVal::s_GameUnit3);
+	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit3);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit4);
 	waitTime(1);
 	CTools::getInstance()->findRidder();
@@ -341,6 +335,7 @@ void CLogic::playStory5()
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role5);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role6);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role7);
+	waitRole_bySpeedup(&CStcVal::s_GameSpeed5, &CStcVal::s_ST5_Role8);
 	waitOK_bySpeedup(&CStcVal::s_GameSpeed5);
 }
 
@@ -365,7 +360,6 @@ void CLogic::playStory7()
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role3);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role4);
 	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role5);
-	waitRole_bySpeedup(&CStcVal::s_GameSpeed7, &CStcVal::s_ST7_Role6);
 	waitOK_bySpeedup(&CStcVal::s_GameSpeed7);
 }
 
@@ -375,19 +369,24 @@ void CLogic::ThreadTest(void *)
 	while (CCtrl::canPlay())
 	{
 		s_iCardStar = 4;
+		CLogic::s_bWaitFor = true;
 		getInstance()->SecondRondomCard();
+
 	}
 	cout << "\r\n::TEST_STOP::" << endl;
 	_endthread();
 }
 
-void CLogic::selectStory4567(CPnt5* pStoryEntry)
+void CLogic::selectStory4567(CPnt5* pStoryEntry, bool bMustScroll)
 {
 	waitEntry_clickBack();
 	Sleep(300);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_1);
 	Sleep(300);
-	waitPnt_clickPnt(nullptr, pStoryEntry);
+	if(bMustScroll)
+		waitPnt_clickPnt(&CStcVal::s_scrollCtrl, pStoryEntry);
+	else
+		waitPnt_clickPnt(nullptr, pStoryEntry);
 	Sleep(300);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_SelectStory0_3);
 	Sleep(300);
@@ -405,14 +404,14 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// 等待抽卡完成
-	if (s_iCardStar > 3 )
-		CTools::getInstance()->saveImage();
+	//if (s_iCardStar > 3 )
+		CFrame::getInstance()->saveImage();
 }
 
 void CLogic::SecondRondomCard()
 {
 	//不进行二抽，不值钱
-	//if (s_iCardStar < 4)
+	if (s_iCardStar < 4)
 	{
 		return;
 	}
@@ -425,27 +424,15 @@ void CLogic::SecondRondomCard()
 	playStory5();
 	
 	waitBack_clickOK();
-	selectStory4567(&CStcVal::s_SelectStory6_2);
+	selectStory4567(&CStcVal::s_SelectStory6_2, true);
 	playStory6();
 
 	waitBack_clickOK();
-	selectStory4567(&CStcVal::s_SelectStory7_2);
+	selectStory4567(&CStcVal::s_SelectStory7_2, true);
 	playStory7();
 
 	waitCard_clickOK2();
 	waitCard();	// 等待抽卡完成
-	CTools::getInstance()->saveImage();
+	CFrame::getInstance()->saveImage();
 }
-
-void CLogic::waitRegist()
-{
-	LOOP_BEGIN
-		waitTime(1);
-		HWND hwnd = CFrame::getInstance()->aigisHwnd();
-		if (hwnd)
-			break;
-	LOOP_END(10)
-}
-
-
 

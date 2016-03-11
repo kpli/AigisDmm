@@ -4,9 +4,7 @@ class CTools
 public:
 	static CTools* getInstance();
 
-	// НиЭМ
-	void saveImage();
-
+	void saveBmp(HWND hwnd, LPCTSTR name);
 	void printMouseColor();
 	void printSystemTime();
 
@@ -18,9 +16,7 @@ private:
 	~CTools();
 
 	void initDir();
-	void saveBmp(HWND hwnd, LPCSTR name);
-	BOOL flushBmp(HBITMAP hbitmap, LPCSTR name, int nColor = 8);
-	std::string generatImgName();
+	BOOL flushBmp(HBITMAP hbitmap, LPCTSTR name, int nColor = 8);
 };
 
 

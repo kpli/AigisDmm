@@ -46,6 +46,7 @@ public:
 	static CPnt5 s_GameUnit4;			// 选择骑士4步, 需配合按键精灵查图
 	static CPnt5 s_GameUnit5;			// 选择骑士5步
 
+	static CPnt5 s_scrollCtrl;			// 选择滚动条
 	static CPnt5 s_SelectStory0_1;		// 选择第x关
 	static CPnt5 s_SelectStory4_2;		// 选择第4关
 	static CPnt5 s_SelectStory5_2;		// 选择第5关
@@ -86,6 +87,7 @@ public:
 	static CRolePnt s_ST5_Role5;		// 第5关角色5
 	static CRolePnt s_ST5_Role6;		// 第5关角色6
 	static CRolePnt s_ST5_Role7;		// 第5关角色7
+	static CRolePnt s_ST5_Role8;		// 第5关角色8
 
 	static CRolePnt s_ST6_Role1;		// 第6关角色1
 	static CRolePnt s_ST6_Role2;		// 第6关角色2

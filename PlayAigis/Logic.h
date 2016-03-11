@@ -3,7 +3,7 @@ class CLogic
 {
 public:
 	static CLogic* getInstance();
-
+	
 	void startPlay();
 	void startTest();
 
@@ -16,7 +16,7 @@ protected:
 	// 选择骑士
 	void selectUnit();
 
-	void selectStory4567(CPnt5* pStoryEntry);
+	void selectStory4567(CPnt5* pStoryEntry, bool bMustScroll = false);
 
 	// 选择第4关
 	void playStory4();
@@ -35,7 +35,6 @@ protected:
 protected:
 	// 启动注册流程
 	void startRegist();
-	void waitRegist();
 
 	void playStory1();
 
