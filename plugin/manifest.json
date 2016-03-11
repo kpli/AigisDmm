@@ -2,32 +2,33 @@
 	"background": {
 		"scripts": [ "background.js" ]
 	},
+	
+	"permissions": [
+		"tabs",
+		"storage",
+		"bookmarks",
+		"clipboardRead",
+		"http://*/*",
+		"https://*/*"
+	],
 
-  "permissions": [
-	"tabs",
-	"storage",
-	"bookmarks",
-	"http://*/*",
-	"https://*/*"
-  ],
-
-  "content_scripts": [
-	{
-	  "matches": ["http://www.dmm.co.jp/netgame/social/-/gadgets/*"],
-	  "js": [ "tools.js", "parse.js" ],
-	  "run_at": "document_start"
-	},
-	{
-	  "matches": ["http://osapi.dmm.com/gadgets/ifr*"],
-	  "js": [ "tools.js", "playing.js" ],
-	  "run_at": "document_end"
-	},
-	{
-	  "matches": ["https://www.dmm.co.jp/my/-/login/*"],
-	  "js": [ "tools.js", "tcp-client.js", "login.js" ],
-	  "run_at": "document_end"
-	}
-  ],
+	"content_scripts": [
+		{
+			"matches": ["https://www.dmm.co.jp/my/-/login/*"],
+			"js": [ "login.js" ],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["http://www.dmm.co.jp/netgame/social/-/gadgets/*"],
+			"js": [ "tools.js", "parse.js" ],
+			"run_at": "document_start"
+		},
+		{
+			"matches": ["http://osapi.dmm.com/gadgets/ifr*"],
+			"js": [ "playing.js" ],
+			"run_at": "document_end"
+		}
+	],
 
 	"icons": {
 		"16": "image/logo_1.png",

@@ -1,10 +1,25 @@
 /**
  * Created by John on 2015/8/7.
  */
+ 
 
+function readClipboard() {
+	
+	alert("main");
+	alert(chrome.clipboardData);
+	
+	return; 
+	
+	chrome.storage.local.set({"nutakuMailString": mailstri}, function(){
+		setTimeout("loginAuto()",1000);
+	});
+}
 
 function loginAuto() {
-	chrome.storage.local.set({"nutakuMailString": mailstri}, function(){});
+	
+	tcpClient.disconnect();
+	return;
+	
     chrome.storage.local.get("nutakuMailString", function(valueArray) {
 
         var mailAll = valueArray["nutakuMailString"];
@@ -23,8 +38,8 @@ function main() {
 	
     if (sDomain ==  "www.dmm.co.jp")
     {
-        var sURL = window.document.documentURI;
-        setTimeout("loginAuto()",1000);
+		alert("main");
+		setTimeout("readClipboard()",1000);
     }
 }
 
