@@ -22,7 +22,7 @@ class Dmmjp:
     def _regist(self, mailAddr, namepwd):
         self.mailAddr = mailAddr
         self.mailUser = namepwd
-        self.net.send_get('https://www.dmm.co.jp/my/-/register/')
+        self.net.send_get_noread('https://www.dmm.co.jp/my/-/register/')
         postData = (('back_url',''),
                     ('client_id',''),
                     ('display',''),
@@ -42,9 +42,9 @@ class Dmmjp:
         print ''.join(['jumpUrl: ',jumpUrl])
         if jumpUrl == '':
             return ''
-        jumpUrl = self.net.send_get(jumpUrl)
-        jumpTop = self.net.send_get('http://www.dmm.co.jp/top/')
-        jumpAigis = self.net.send_get('http://www.dmm.co.jp/netgame_s/aigis/')
+        self.net.send_get_noread(jumpUrl)
+        #self.net.send_get_noread('http://www.dmm.co.jp/top/')
+        #self.net.send_get_noread('http://www.dmm.co.jp/netgame_s/aigis/')
         jumpGame = self.net.send_get('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install/')
         return jumpGame
 

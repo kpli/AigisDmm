@@ -55,26 +55,6 @@ class Webnet:
         return result
     
     # 发送POST请求
-    def send_post_stream(self,post_url,post_data,backurl):
-        result = ""
-        try:
-            tempHeader = self.headers
-            tempHeader['Content-Length'] = (len(post_data))
-            tempHeader['Content-Type'] = 'application/x-www-form-urlencoded'
-            tempHeader['Connection'] = 'keep-alive'
-            tempHeader['Host'] = 'www.dmm.co.jp'
-            tempHeader['Accept-Language'] = 'zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3'
-            tempHeader['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-            tempHeader['Referer'] = 'http://www.dmm.co.jp/netgame/profile/-/regist/=/back_url='+backurl
-            my_request = urllib2.Request(url = post_url,data = post_data, headers = tempHeader)
-            response = self.opener.open(my_request, timeout=30)
-            print ''.join(['Code:',str(response.getcode()),' Url:',post_url])
-            result = self._unlibResponse(response)
-        except Exception,e:
-            print "Exception : ",e
-        return result 
-
-    # 发送POST请求
     def send_post_noread(self,post_url,post_data):
         try:
             my_request = urllib2.Request(url = post_url,data = post_data, headers = self.headers)
