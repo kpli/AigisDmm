@@ -1,25 +1,9 @@
 /**
  * Created by John on 2015/8/7.
  */
- 
 
-function readClipboard() {
-	
-	alert("main");
-	alert(chrome.clipboardData);
-	
-	return; 
-	
-	chrome.storage.local.set({"nutakuMailString": mailstri}, function(){
-		setTimeout("loginAuto()",1000);
-	});
-}
 
 function loginAuto() {
-	
-	tcpClient.disconnect();
-	return;
-	
     chrome.storage.local.get("nutakuMailString", function(valueArray) {
 
         var mailAll = valueArray["nutakuMailString"];
@@ -28,8 +12,12 @@ function loginAuto() {
         document.getElementById("login_id").value=mailAll;
         document.getElementById("password").value=mailUser;
 
-        var form1 = document.getElementsByClassName("validator login");
-        form1[0].submit();
+		var spanFind= document.getElementsByClassName("btn-login btn");
+		var theForm= spanFind[0];
+		var submitBtn = theForm.childNodes[0];
+		var ev = document.createEvent('HTMLEvents');
+		ev.initEvent('click', true, true);
+		submitBtn.dispatchEvent(ev);
     });
 }
 
@@ -38,8 +26,7 @@ function main() {
 	
     if (sDomain ==  "www.dmm.co.jp")
     {
-		alert("main");
-		setTimeout("readClipboard()",1000);
+		setTimeout("loginAuto()",1000);
     }
 }
 

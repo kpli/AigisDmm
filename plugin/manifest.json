@@ -6,21 +6,24 @@
 	"permissions": [
 		"tabs",
 		"storage",
-		"bookmarks",
-		"clipboardRead",
 		"http://*/*",
 		"https://*/*"
 	],
 
 	"content_scripts": [
 		{
-			"matches": ["https://www.dmm.co.jp/my/-/login/*"],
+			"matches": ["http://127.0.0.1:8000/*"],
+			"js": [ "regist.js" ],
+			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://www.dmm.co.jp/my/-/login/=*"],
 			"js": [ "login.js" ],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["http://www.dmm.co.jp/netgame/social/-/gadgets/*"],
-			"js": [ "tools.js", "parse.js" ],
+			"js": [ "parse.js" ],
 			"run_at": "document_start"
 		},
 		{

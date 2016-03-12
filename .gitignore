@@ -11,11 +11,12 @@
 *.log
 *.res
 *.opensdf
+*.user
+*.ipdb
+*.iobj
 Debug
 Release
 PlayAigis/Debug
 PlayAigis/Release
-/publish/*.txt
-/publish/*.html
-/publish/PlayAigis.ipdb
-/publish/PlayAigis.iobj
+/publish/pyserver/*.txt
+/publish/pyserver/*.html

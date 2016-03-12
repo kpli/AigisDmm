@@ -4,7 +4,6 @@
 
 import bccto 
 import dmmjp
-import re
 import random
 import string
 import time
@@ -27,12 +26,12 @@ class Logic:
         return self.gameUrl
 
     def _randName(self):
-            strCollect = list(string.lowercase+string.digits)
-            random.shuffle(strCollect)
-            return ''.join(strCollect[:8])
+        strCollect = list(string.lowercase+string.digits)
+        random.shuffle(strCollect)
+        return ''.join(strCollect[:8])
 
     def _autoRun(self):
-
+        
         # 随机账号
         self.mailUser = self._randName()
         self.mailAddr  = ''.join([self.mailUser , '@', "bccto.me"])

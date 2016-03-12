@@ -5,8 +5,7 @@
 function getGameURL() {
     var aigisFrame = document.getElementById("game_frame");
     var gameURL = aigisFrame.getAttribute("src");
-    t_close();
-    window.open(gameURL);
+    window.location.href=(gameURL);
 }
 
 function main() {

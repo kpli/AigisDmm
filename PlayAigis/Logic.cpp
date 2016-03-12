@@ -64,7 +64,7 @@ void CLogic::startRegist()
 	ShellExecute(NULL, 
 		_T("open"), 
 		_T("chrome.exe"), 
-		_T("http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install/"), 
+		_T("http://127.0.0.1:8000/regist_aigis_dmm"), 
 		_T(""), 
 		SW_SHOW);
 	cout << "R";
