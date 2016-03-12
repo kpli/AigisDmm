@@ -1,3 +1,3 @@
-python "%~dp0launcher/tserver.py"
+python "%~dp0/tserver.py"
 pause
 

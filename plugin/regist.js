@@ -10,7 +10,7 @@ function login(mailstri) {
 }
 
 function refresh() {
-	window.location.href="http://127.0.0.1:8000/";
+	window.location.href="http://127.0.0.1:8000/regist_aigis_dmm";
 }
 
 function getMaillAddr() {
