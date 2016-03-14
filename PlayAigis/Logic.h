@@ -1,4 +1,12 @@
 #pragma once
+
+enum title_state {
+	ts_null,
+	ts_valid,
+	ts_empty,
+	ts_max
+};
+
 class CLogic
 {
 public:
@@ -85,6 +93,9 @@ private:
 	// 超时前都可以等待
 	static bool canWait();
 
+	// 网页标题不为‘empty’
+	static bool validTitle();
+
 	// 线程主循环
 	static void ThreadPlaying(void *);
 
@@ -93,6 +104,7 @@ private:
 private:
 	CLogic();
 	~CLogic();
+	static title_state s_titleState;  // 标题栏状态
 	static bool s_bWaitFor;			// 没超时继续等待
 	static int s_iCardStar;		// 可以二抽
 };

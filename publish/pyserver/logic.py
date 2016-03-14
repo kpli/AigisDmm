@@ -70,8 +70,13 @@ class Logic:
         if pageRet == '':
             return
         
+        pageRet = mail_dmmjp._intoGame();
+        if pageRet == '':
+            return
+
         # 返回登陆链接
-        self.gameUrl = "http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install/"
+        self.gameUrl = mail_dmmjp._parseURL(pageRet)
+
         return
 
 

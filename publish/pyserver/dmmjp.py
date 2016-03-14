@@ -2,7 +2,7 @@
 #coding=utf-8
 # -*- coding: utf-8 -*-
 
-import webnet  
+import webreq  
 import urllib
 import json
 import re
@@ -13,16 +13,17 @@ class Dmmjp:
 
     # 初始化
     def __init__(self):
-        self.net = webnet.Webnet(True)
+        self.net = webreq.Webreq(True)
         self.mailAddr = ''
         self.mailUser = ''
         self.backURL = ''
         
     # 注册账号
     def _regist(self, mailAddr, namepwd):
+        print '_regist'
         self.mailAddr = mailAddr
         self.mailUser = namepwd
-        self.net.send_get_noread('https://www.dmm.co.jp/my/-/register/')
+        self.net._get('https://www.dmm.co.jp/my/-/register/')
         postData = (('back_url',''),
                     ('client_id',''),
                     ('display',''),
@@ -32,27 +33,25 @@ class Dmmjp:
                     ('ref','',),
                     ('submit','認証メールを送信'),
                     ('token',''))
-        print urllib.urlencode(postData)
-        self.net.send_post_noread('https://www.dmm.co.jp/my/-/register/apply/', urllib.urlencode(postData))
+        self.net._post('https://www.dmm.co.jp/my/-/register/apply/', (postData))
         
     # 验证邮箱
     def _validMail(self,valUrl):
-        validResult = self.net.send_get(valUrl)
+        print '_validMail'
+        validResult = self.net._get(valUrl)
         jumpUrl = self._getJumpUrl(validResult)
-        print ''.join(['jumpUrl: ',jumpUrl])
         if jumpUrl == '':
             return ''
-        self.net.send_get_noread(jumpUrl)
-        #self.net.send_get_noread('http://www.dmm.co.jp/top/')
-        #self.net.send_get_noread('http://www.dmm.co.jp/netgame_s/aigis/')
-        jumpGame = self.net.send_get('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install/')
+        self.net._get(jumpUrl)
+        self.net._get('http://www.dmm.co.jp/top/')
+        self.net._get('http://www.dmm.co.jp/netgame_s/aigis/')
+        jumpGame = self.net._get('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install/')
         return jumpGame
 
     # 认证年龄
     def _confirmAge(self, comfirmPage):
         print '_confirmAge'
         backurl = self._getBackUrl(comfirmPage)
-        print ''.join(['backurl: ',backurl])
         if backurl == '':
             return ''
         postData = (('nickname', self.mailUser),
@@ -67,19 +66,16 @@ class Dmmjp:
                     ('back_url', backurl),
                     ('redirect_url',''),
                     ('invite',''))
-        print urllib.urlencode(postData)
-        confirmReturn = self.net.send_post('http://www.dmm.co.jp/netgame/profile/-/regist/confirm/', urllib.urlencode(postData))
+        confirmReturn = self.net._post('http://www.dmm.co.jp/netgame/profile/-/regist/confirm/', (postData))
         return confirmReturn
 
     # 提交年龄确认
     def _commitAge(self, commitPage):
         print '_commitAge'
         backurl = self._getBackUrl(commitPage)
-        print ''.join(['backurl: ',backurl])
         if backurl == '':
             return ''
         htoken = self._getToken(commitPage)
-        print ''.join(['htoken: ',htoken])
         if htoken == '':
             return ''
         postData = (('act', 'commit'),
@@ -95,31 +91,27 @@ class Dmmjp:
                     ('game_type', ''),
                     ('encode_hint', '◇'),
                     ('token', htoken))
-        print urllib.urlencode(postData)
-        commitReturn = self.net.send_post('http://www.dmm.co.jp/netgame/profile/-/regist/commit/', urllib.urlencode(postData))
-        self.net._saveFile('commitReturn.html',commitReturn)
+        commitReturn = self.net._post('http://www.dmm.co.jp/netgame/profile/-/regist/commit/', (postData))
         return commitReturn
+    
+
+    # 进入游戏
+    def _intoGame(self):
+        playReturn = self.net._get('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install')
+        return playReturn
+
 
 #################################################################################################################
 
     # 提取游戏链接
-    #def _parseURL(self,strPageText):
-    #    p = re.compile(r'iframe id="game_frame".*src=".*"')
-    #    search_ret = p.findall(strPageText)
-    #    if search_ret:
-    #        validUrl = search_ret[0]
-    #        
-    #        p2 = re.compile(r'src=."*"')
-    #        search_ret2 = p2.findall(validUrl)
-    #        validUrl2 = search_ret2[0]
-    #        
-    #        p3 = re.compile(r'".*"')
-    #        search_ret3 = p3.findall(validUrl2)
-    #        validUrl3 = search_ret3[0]
-    #        
-    #        validUrl3 = validUrl3.strip('"')
-    #        return validUrl3
-    #    return ''
+    def _parseURL(self,strPageText):
+        p = re.compile(r'"http://osapi.dmm.com/gadgets/ifr.*"')
+        search_ret = p.findall(strPageText)
+        if search_ret:
+            validUrl = search_ret[0]
+            validUrl = validUrl.strip('"')
+            return validUrl
+        return ''
 
     # 获取表单默认信息
     def _getBackUrl(self, strPageText):
@@ -166,10 +158,6 @@ class Dmmjp:
         search_ret = p.findall(strPageText)
         if search_ret:
             jumpUrl = search_ret[0]
-            
-            #p2 = re.compile(r'href=.* class')
-            #search_ret2 = p2.findall(jumpUrl)
-            #jumpUrl2 = search_ret2[0]
             
             p3 = re.compile(r'".*"')
             search_ret3 = p3.findall(jumpUrl)

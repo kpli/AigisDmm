@@ -26,6 +26,9 @@ public:
 	// 记录搜索范围
 	void setRangeLT();
 	void setRangeRB();
+
+	// 获取chrome标题
+	int getChromeTitle(LPTSTR lpBuf, int maxLen);
 private:
 	HWND chromeHwnd();
 	HWND aigisHwnd();

@@ -5,6 +5,7 @@
 #include "Logic.h"
 
 bool CCtrl::s_bEffect = true;
+CHAR CCtrl::s_gameurl[MAX_PATH] = { 0 };
 
 #define GET_COLOR_DEBUG_MODE	0
 
@@ -102,6 +103,38 @@ void CCtrl::test()
 {
 	CCtrl::s_bEffect = true;
 	CLogic::getInstance()->startTest();
+}
+
+const CHAR* CCtrl::getURL()
+{
+	if (s_gameurl[0] != '\0')
+	{
+		return s_gameurl;
+	}
+
+	TCHAR szModuleFileName[MAX_PATH]; // 全路径名
+	TCHAR drive[_MAX_DRIVE];  // 盘符名称，比如说C盘啊，D盘啊
+	TCHAR dir[_MAX_DIR]; // 目录
+	TCHAR fname[_MAX_FNAME];  // 进程名字
+	TCHAR ext[_MAX_EXT]; //后缀，一般为exe或者是dll
+	if (NULL == GetModuleFileName(NULL, szModuleFileName, MAX_PATH)) //获得当前进程的文件路径
+		return s_gameurl;
+	_tsplitpath_s(szModuleFileName, drive, dir, fname, ext);  //分割该路径，得到盘符，目录，文件名，后缀名
+
+	TCHAR szPath[MAX_PATH];
+	_tcscpy_s(szPath, drive);
+	_tcscat_s(szPath, dir);
+	_tcscat_s(szPath, _T("game_url.txt"));
+
+	HANDLE hFile;
+	hFile = CreateFileW(szPath, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	DWORD dwReads;
+	ReadFile(hFile, s_gameurl, MAX_PATH, &dwReads, NULL);
+	CloseHandle(hFile);
+	s_gameurl[dwReads] = 0;
+
+
+	return s_gameurl;
 }
 
 

@@ -2,7 +2,7 @@
 #coding=utf-8
 # -*- coding: utf-8 -*-
 
-import webnet 
+import webreq
 import urllib
 import json
 import time
@@ -12,7 +12,7 @@ class Bccto:
 
     # 初始化
     def __init__(self):
-        self.net = webnet.Webnet(False)
+        self.net = webreq.Webreq(False)
         self.mailUser = ''
         self.mailAddr = ''
         self.mailFlag = ''
@@ -28,14 +28,14 @@ class Bccto:
     # 请求cookie
     def _applyMail(self, mailAddr, username):
         # 请求主页记录cookie
-        self.net.send_get_noread('http://www.bccto.me')
+        self.net._get('http://www.bccto.me')
         # 构建邮件地址
         self.mailuser = username
         self.mailAddr = mailAddr
         # 构建请求
         applymailData = (('mail', self.mailAddr),)
-        print urllib.urlencode(applymailData)
-        result = self.net.send_post('http://www.bccto.me/applymail', urllib.urlencode(applymailData))
+        print applymailData
+        result = self.net._post('http://www.bccto.me/applymail', applymailData)
         print result
         resultInfo = json.loads(result)
         if resultInfo['success'] != 'true':
@@ -53,8 +53,8 @@ class Bccto:
             getmailData = (('mail', self.mailAddr)
                             ,('time', '0')
                             ,('_', '0'))
-            print urllib.urlencode(getmailData)
-            newMail = self.net.send_post('http://www.bccto.me/getmail',urllib.urlencode(getmailData))
+            print getmailData
+            newMail = self.net._post('http://www.bccto.me/getmail',getmailData)
             if newMail == 'NO NEW MAIL':
                 print newMail
             elif newMail:
@@ -80,15 +80,14 @@ class Bccto:
         viewmailData = (('mail', self.mailFlag)
                         ,('to', self.mailAddr)
                         ,('_', '0'))
-        print urllib.urlencode(viewmailData)
-        mailContent = self.net.send_post('http://www.bccto.me/viewmail',urllib.urlencode(viewmailData))
+        print viewmailData
+        mailContent = self.net._post('http://www.bccto.me/viewmail',viewmailData)
         mailInfo = json.loads(mailContent)
         mailText = mailInfo['mail']
         p = re.compile(r'https://www.dmm.co.jp/my/-/register/complete/.*')
         search_ret = p.findall(mailText)
         if search_ret:
             validUrl = search_ret[0]
-            self.net._saveFile('validUrl.txt',validUrl)
             return validUrl
         return ''
 

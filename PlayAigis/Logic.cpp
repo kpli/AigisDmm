@@ -5,10 +5,10 @@
 #include "Tools.h"
 #include <process.h>
 
-
-#define LOOP_BEGIN	size_t bt = GetTickCount();	while (CCtrl::canPlay() && canWait()) {
+#define LOOP_BEGIN	size_t bt = GetTickCount();	while (CCtrl::canPlay() && canWait() && validTitle()) {
 #define LOOP_END(sec)	DetectTimeout(bt, sec);}
 
+title_state CLogic::s_titleState = ts_null;
 bool CLogic::s_bWaitFor = true;
 int CLogic::s_iCardStar = 0;
 CLogic::CLogic()
@@ -43,7 +43,7 @@ void CLogic::ThreadPlaying(void *)
 	while (CCtrl::canPlay())
 	{
  		getInstance()->startRegist();
- 		getInstance()->waitTime(60);	// µÈ´ý×¢²á
+ 		getInstance()->waitTime(10);	// µÈ´ý×¢²á
 		
 		getInstance()->FirstRondomCard();
 		getInstance()->SecondRondomCard();
@@ -51,7 +51,8 @@ void CLogic::ThreadPlaying(void *)
 		if (CCtrl::canPlay())
 		{
 			CFrame::getInstance()->closeChrome();
-			getInstance()->waitTime(10);
+			for (int i = 0; i < 10; i++)
+				Sleep(100);
 		}
 	}
 	cout << "\r\n::STOP::" << endl;
@@ -60,12 +61,14 @@ void CLogic::ThreadPlaying(void *)
 
 void CLogic::startRegist()
 {
+	const CHAR* pURL = CCtrl::getURL();
+	CLogic::s_titleState = ts_null;
 	CLogic::s_bWaitFor = true;
-	ShellExecute(NULL, 
-		_T("open"), 
-		_T("chrome.exe"), 
-		_T("http://127.0.0.1:8000/regist_aigis_dmm"), 
-		_T(""), 
+	ShellExecuteA(NULL, 
+		("open"), 
+		("chrome.exe"), 
+		pURL,
+		(""), 
 		SW_SHOW);
 	cout << "R";
 }
@@ -297,6 +300,29 @@ bool CLogic::canWait()
 	return CLogic::s_bWaitFor;
 }
 
+bool CLogic::validTitle()
+{
+	if(ts_null == s_titleState)
+	{
+		TCHAR bufferTitle[MAXCHAR] = { 0 };
+		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
+
+		if (_tcscmp(bufferTitle, _T("empty")) == 0)
+		{
+			s_titleState = ts_empty;
+		}
+		for (int i = 1; i < nLen; i++)
+		{
+			if (bufferTitle[i] == '@')
+			{
+				s_titleState = ts_valid;
+				break;
+			}
+		}
+	}
+	return (s_titleState != ts_empty);
+}
+
 
 void CLogic::selectUnit()
 {
@@ -369,6 +395,7 @@ void CLogic::ThreadTest(void *)
 	while (CCtrl::canPlay())
 	{
 		s_iCardStar = 4;
+		CLogic::s_titleState = ts_null;
 		CLogic::s_bWaitFor = true;
 		getInstance()->SecondRondomCard();
 
@@ -404,7 +431,7 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// µÈ´ý³é¿¨Íê³É
-	//if (s_iCardStar > 3 )
+	if (s_iCardStar > 3 )
 		CFrame::getInstance()->saveImage();
 }
 

@@ -12,10 +12,13 @@ public:
 	// 线程是否可以继续
 	static bool canPlay();
 
+	static const CHAR* getURL();
+
 private:
 	void stop();
 	void start();
 	void test();
 	static bool s_bEffect;
+	static CHAR s_gameurl[MAX_PATH];
 };
 

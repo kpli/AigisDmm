@@ -2,7 +2,6 @@
 #coding=utf-8
 # -*- coding: utf-8 -*-
 
-import tconfig
 import py4cpp
 import io
 import shutil

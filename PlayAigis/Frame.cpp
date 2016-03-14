@@ -35,6 +35,34 @@ HWND CFrame::aigisHwnd()
 	return hFrame;
 }
 
+int CFrame::getChromeTitle(LPTSTR lpBuf, int maxLen)
+{
+	HWND hChrome = chromeHwnd();
+	if (!hChrome)
+	{
+		return -1;
+	}
+	GetWindowText(hChrome, lpBuf, maxLen);
+	int nLen = _tcslen(lpBuf);
+	if (nLen == 0 || nLen >= maxLen / 2)
+	{
+		_tcscpy_s(lpBuf, maxLen, _T("ERR"));
+		return 3;
+	}
+	else
+	{
+		for (int i = 1; i < nLen; i++)
+		{
+			if (lpBuf[i] == '-')
+			{
+				lpBuf[i - 1] = '\0';
+				return i-1;
+			}
+		}
+	}
+	return nLen;
+}
+
 void CFrame::generatImgName(LPTSTR lpBuf, int maxLen)
 {
 	HWND hChrome = chromeHwnd();
@@ -44,22 +72,7 @@ void CFrame::generatImgName(LPTSTR lpBuf, int maxLen)
 	}
 	// for title
 	TCHAR bufferTitle[MAXCHAR] = { 0 };
-	GetWindowText(hChrome, bufferTitle, maxLen);
-	int nLen = _tcslen(bufferTitle);
-	if (nLen == 0 || nLen >= maxLen/2)
-	{
-		_tcscpy_s(bufferTitle, maxLen, _T("ERR"));
-	}
-	else
-	{
-		for (int i = 1; i < nLen; i++)
-		{
-			if (bufferTitle[i] == '-')
-			{
-				bufferTitle[i - 1] = '\0';
-			}
-		}
-	}
+	getChromeTitle(bufferTitle, MAXCHAR);
 	// for time
 	SYSTEMTIME sysTime;
 	GetLocalTime(&sysTime);
