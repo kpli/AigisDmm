@@ -24,9 +24,9 @@ class Webreq:
         response = requests.Response()
         try:
             if self.bUseProxy:
-                response = self.session.get(url = get_url,headers =self.headers,cookies = self.cookies,proxies = self.proxies,verify = False)
+                response = self.session.get(url = get_url,headers =self.headers,cookies = self.cookies,timeout=10, proxies = self.proxies,verify = False)
             else:
-                response = self.session.get(url = get_url,headers =self.headers,cookies = self.cookies)
+                response = self.session.get(url = get_url,headers =self.headers,cookies = self.cookies,timeout=10)
         except Exception,e:
             print "Exception : ",e
         return response.text 
@@ -36,9 +36,9 @@ class Webreq:
         response = requests.Response()
         try:
             if self.bUseProxy:
-                response = self.session.post(url = post_url,headers =self.headers,cookies = self.cookies,data = post_data, proxies = self.proxies,verify = False)
+                response = self.session.post(url = post_url,headers =self.headers,cookies = self.cookies,data = post_data, timeout=10, proxies = self.proxies,verify = False)
             else:
-                response = self.session.post(url = post_url,headers =self.headers,cookies = self.cookies,data = post_data)
+                response = self.session.post(url = post_url,headers =self.headers,cookies = self.cookies,data = post_data, timeout=10)
         except Exception,e:
             print "Exception : ",e
         return response.text

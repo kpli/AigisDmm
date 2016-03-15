@@ -320,6 +320,9 @@ bool CLogic::validTitle()
 			}
 		}
 	}
+
+	if (s_titleState == ts_empty)
+		cout << "e";
 	return (s_titleState != ts_empty);
 }
 
