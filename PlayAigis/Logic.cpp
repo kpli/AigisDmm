@@ -302,8 +302,10 @@ bool CLogic::canWait()
 
 bool CLogic::validTitle()
 {
+	bool bstarting = false;
 	if(ts_null == s_titleState)
 	{
+		bstarting = true;
 		TCHAR bufferTitle[MAXCHAR] = { 0 };
 		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
 
@@ -321,8 +323,12 @@ bool CLogic::validTitle()
 		}
 	}
 
-	if (s_titleState == ts_empty)
-		cout << "e";
+	if (bstarting)
+	{
+		if (s_titleState == ts_empty)
+			cout << "e";
+	}
+
 	return (s_titleState != ts_empty);
 }
 
@@ -425,6 +431,7 @@ void CLogic::selectStory4567(CPnt5* pStoryEntry, bool bMustScroll)
 
 void CLogic::FirstRondomCard()
 {
+	s_iCardStar = 0;
 	getInstance()->waitIcon_nothing();
 	getInstance()->playStory1();
 	getInstance()->waitEntry_clickOK();
@@ -434,7 +441,7 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// µÈ´ý³é¿¨Íê³É
-	if (s_iCardStar > 3 )
+	if (s_iCardStar > 3 || s_iCardStar==0)
 		CFrame::getInstance()->saveImage();
 }
 
@@ -445,6 +452,8 @@ void CLogic::SecondRondomCard()
 	{
 		return;
 	}
+	s_iCardStar = 0;
+
 	selectUnit();
 	selectStory4567(&CStcVal::s_SelectStory4_2);
 	playStory4();
