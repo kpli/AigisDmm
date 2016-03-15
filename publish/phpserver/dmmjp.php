@@ -9,7 +9,7 @@ class Dmmjp
     }
 
     function retist($mail, $user){
-        print 'retist'.'<br>';
+        //print 'retist'.'<br>';
         $this->mailuser = $user;
         $this->net->get('https://www.dmm.co.jp/my/-/register/');
         $data = array('back_url'=>'',
@@ -25,7 +25,7 @@ class Dmmjp
     }
 
     function valid($valurl){
-        print 'valid mail'.'<br>';
+        //print 'valid mail'.'<br>';
         $ret = $this->net->get($valurl);
         $jump = $this->parseJump($ret);
         if ($jump == ''){
@@ -40,7 +40,7 @@ class Dmmjp
 
     function confirm($page){
         sleep(1);
-        print 'comfirm age ...'.'<br>';
+        //print 'comfirm age ...'.'<br>';
         $back = $this->parseBack($page);
         if ($back == ''){
             return '';
@@ -63,7 +63,7 @@ class Dmmjp
 
     function commit($page){
         sleep(1);
-        print 'commit age ...'.'<br>';
+        //print 'commit age ...'.'<br>';
         $back = $this->parseBack($page);
         if ($back == ''){
             return '';

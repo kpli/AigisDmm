@@ -27,12 +27,12 @@ class Bccto
         $this->mailuser = $user;
         $data = array('mail' => $this->mailaddr,);
         $ret= $this->net->post('http://www.bccto.me/applymail',$data);
-        print $ret.'<br>';
+        //print $ret.'<br>';
         if($ret == '')
             return false;
         $obj=json_decode($ret);
         if(!$obj->success || $obj->success != 'true'){
-            print 'applyMail failed'.'<br>';
+            //print 'applyMail failed'.'<br>';
             return false;
         }
         return true;
@@ -46,22 +46,22 @@ class Bccto
             $data = array('mail'=>$this->mailaddr, 'time'=> '0', '_'=>'0');
             $ret = $this->net->post('http://www.bccto.me/getmail',$data);
             if ($ret == 'NO NEW MAIL' || $ret == '') {
-                print $ret.'<br>';
+                //print $ret.'<br>';
                 continue;
             }
             $obj=json_decode($ret);
             if(!$obj->mail){
-                print "waiting mail ... no mail ".'<br>';
+                //print "waiting mail ... no mail ".'<br>';
                 continue;
             }
             if($obj->mail == ''){
-                print "waiting mail ... mail empty".'<br>';
+                //print "waiting mail ... mail empty".'<br>';
                 continue;
             }
             $from = $obj->mail[0][1];
             if( $from == 'info@mail.dmm.com'){
                 $this->mailflag = $obj->mail[0][4];
-                print $this->mailflag.'<br>';
+                //print $this->mailflag.'<br>';
                 $nLoopCounter = 999;
                 break;
             }
@@ -69,9 +69,9 @@ class Bccto
     }
 
     function view(){
-        print "view mail...".'<br>';
+        //print "view mail...".'<br>';
         if($this->mailflag == ''){
-            print 'mail flag is empty'.'<br>';
+            //print 'mail flag is empty'.'<br>';
             return '';
         }
         $data = array('mail'=>$this->mailflag, 'to'=>$this->mailaddr, '_'=>'0');

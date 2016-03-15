@@ -24,6 +24,7 @@
     <Compile Include="dmmjp.php" />
     <Compile Include="index.php" />
     <Compile Include="logic.php" />
+    <Compile Include="play.php" />
     <Compile Include="regist.php" />
     <Compile Include="webreq.php" />
   </ItemGroup>

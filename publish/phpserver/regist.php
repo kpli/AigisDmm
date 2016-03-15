@@ -4,7 +4,7 @@ require_once('logic.php');
 
 function regist_dmmjp() {
 
-    print 'regist_dmmjp.......................................'.'<br>';
+    //print 'regist_dmmjp.......................................'.'<br>';
     $lg = new Logic();
     $lg->autoRun();
 
