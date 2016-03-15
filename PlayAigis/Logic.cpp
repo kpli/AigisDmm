@@ -227,7 +227,7 @@ void CLogic::waitOK_bySpeedup(CPnt5* pntSpeed)
 			CStcVal::s_GameBtnOK.click();
 			break;
 		}
-	LOOP_END(TIMEOUT_MAX_SECONDS)
+	LOOP_END(TIMEOUT_MAX_SECONDS * 2)
 }
 
 void CLogic::clickSpeedUp(CPnt5* pntSpeed)
