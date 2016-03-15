@@ -43,7 +43,8 @@ void CLogic::ThreadPlaying(void *)
 	while (CCtrl::canPlay())
 	{
  		getInstance()->startRegist();
- 		getInstance()->waitTime(10);	// µÈ´ý×¢²á
+		for (int i = 0; i < 100; i++)// µÈ´ý×¢²á
+			Sleep(100);
 		
 		getInstance()->FirstRondomCard();
 		getInstance()->SecondRondomCard();
@@ -227,7 +228,7 @@ void CLogic::waitOK_bySpeedup(CPnt5* pntSpeed)
 			CStcVal::s_GameBtnOK.click();
 			break;
 		}
-	LOOP_END(TIMEOUT_MAX_SECONDS * 2)
+	LOOP_END((TIMEOUT_MAX_SECONDS * 2))
 }
 
 void CLogic::clickSpeedUp(CPnt5* pntSpeed)
@@ -309,16 +310,22 @@ bool CLogic::validTitle()
 		TCHAR bufferTitle[MAXCHAR] = { 0 };
 		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
 
-		if (_tcscmp(bufferTitle, _T("empty")) == 0)
+		if (nLen == 5)
 		{
-			s_titleState = ts_empty;
-		}
-		for (int i = 1; i < nLen; i++)
-		{
-			if (bufferTitle[i] == '@')
+			if (_tcscmp(bufferTitle, _T("empty")) == 0)
 			{
-				s_titleState = ts_valid;
-				break;
+				s_titleState = ts_empty;
+			}
+		}
+		else
+		{
+			for (int i = 1; i < nLen; i++)
+			{
+				if (bufferTitle[i] == '@')
+				{
+					s_titleState = ts_valid;
+					break;
+				}
 			}
 		}
 	}

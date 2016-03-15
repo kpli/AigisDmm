@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlayAigis", "PlayAigis\Play
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "proj_py", "publish\pyserver\proj_py.pyproj", "{CD4C2932-1666-4802-BF3B-6671E411D40C}"
 EndProject
+Project("{A0786B88-2ADB-4C21-ABE8-AA2D79766269}") = "proj_php", "publish\phpserver\proj_php.phpproj", "{2A2E3083-31CB-40FB-B4E8-C8C1C0A2314C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{CD4C2932-1666-4802-BF3B-6671E411D40C}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{CD4C2932-1666-4802-BF3B-6671E411D40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD4C2932-1666-4802-BF3B-6671E411D40C}.Release|Win32.ActiveCfg = Release|Any CPU
+		{2A2E3083-31CB-40FB-B4E8-C8C1C0A2314C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A2E3083-31CB-40FB-B4E8-C8C1C0A2314C}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{2A2E3083-31CB-40FB-B4E8-C8C1C0A2314C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A2E3083-31CB-40FB-B4E8-C8C1C0A2314C}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

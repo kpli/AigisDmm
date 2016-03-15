@@ -14,7 +14,6 @@ class Webreq:
         requests.packages.urllib3.disable_warnings()
         self.session = requests.session()
         self.bUseProxy = bUseProxy
-        self.cookies = cookielib.CookieJar()
         self.proxies = {'http':'127.0.0.1:8088','https':'127.0.0.1:8088'}
         self.headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:39.0) Gecko/20100101 Firefox/39.0',
                         'Accept-Encoding' : 'gzip, deflate'}
@@ -24,9 +23,9 @@ class Webreq:
         response = requests.Response()
         try:
             if self.bUseProxy:
-                response = self.session.get(url = get_url,headers =self.headers,cookies = self.cookies,timeout=10, proxies = self.proxies,verify = False)
+                response = self.session.get(url = get_url,headers =self.headers,timeout=10, proxies = self.proxies,verify = False)
             else:
-                response = self.session.get(url = get_url,headers =self.headers,cookies = self.cookies,timeout=10)
+                response = self.session.get(url = get_url,headers =self.headers,timeout=10)
         except Exception,e:
             print "Exception : ",e
         return response.text 
@@ -36,9 +35,9 @@ class Webreq:
         response = requests.Response()
         try:
             if self.bUseProxy:
-                response = self.session.post(url = post_url,headers =self.headers,cookies = self.cookies,data = post_data, timeout=10, proxies = self.proxies,verify = False)
+                response = self.session.post(url = post_url,headers =self.headers,data = post_data, timeout=10, proxies = self.proxies,verify = False)
             else:
-                response = self.session.post(url = post_url,headers =self.headers,cookies = self.cookies,data = post_data, timeout=10)
+                response = self.session.post(url = post_url,headers =self.headers,data = post_data, timeout=10)
         except Exception,e:
             print "Exception : ",e
         return response.text

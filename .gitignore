@@ -15,9 +15,10 @@
 *.user
 *.ipdb
 *.iobj
-Debug
-Release
-PlayAigis/Debug
-PlayAigis/Release
+Debug/
+Release/
+PlayAigis/Debug/
+PlayAigis/Release/
 /publish/pyserver/*.txt
 /publish/pyserver/*.html
+/publish/library/
