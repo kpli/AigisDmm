@@ -31,6 +31,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length",str(len(content)))
         self.end_headers()
         shutil.copyfileobj(f,self.wfile)
+        self.close_connection = 1
 
 server=HTTPServer(('127.0.0.1',8000),MyRequestHandler)
 print'started httpserver...'
