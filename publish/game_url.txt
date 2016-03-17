@@ -1,1 +1,1 @@
-http://127.0.0.1:8000/regist_aigis_dmm
+http://kpli.webcrow.jp/dmm/index.php?regist_aigis_dmm
