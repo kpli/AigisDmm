@@ -414,6 +414,7 @@ void CLogic::ThreadTest(void *)
 		CLogic::s_titleState = ts_null;
 		CLogic::s_bWaitFor = true;
 		getInstance()->SecondRondomCard();
+		break;
 
 	}
 	cout << "\r\n::TEST_STOP::" << endl;
