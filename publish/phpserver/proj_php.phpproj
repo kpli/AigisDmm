@@ -10,7 +10,8 @@
     <RootNamespace>
     </RootNamespace>
     <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
-    <StartupFile>index.php</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -22,11 +23,16 @@
   <ItemGroup>
     <Compile Include="bccto.php" />
     <Compile Include="dmmjp.php" />
+    <Compile Include="dmmjp_l.php" />
     <Compile Include="index.php" />
     <Compile Include="logic.php" />
+    <Compile Include="login.php" />
     <Compile Include="play.php" />
     <Compile Include="regist.php" />
     <Compile Include="webreq.php" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="login.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\DEVSENSE\PHP Tools\VS$(VisualStudioVersion)\Devsense.PHP.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

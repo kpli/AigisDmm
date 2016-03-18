@@ -16,12 +16,11 @@ class Webreq
     function get($path) {
         try {
             $response= $this->session->get($path);
-            //print $response->status_code." ";
-            //print $response->url.'<br>';
+            //print $response->status_code." ".$response->url.'<br>';
             return $response->body;
         }
         catch (Exception $e) {
-            //print $e->getMessage().'<br>';
+            //print $e->getMessage().'|Exception|<br>';
         }
         return '';
     }
@@ -29,12 +28,26 @@ class Webreq
     function post($path,$data) {
         try {
             $response= $this->session->post($path,$this->headers,$data);
-            //print $response->status_code." ";
-            //print $response->url.'<br>';
+            //print $response->status_code." ".$response->url.'<br>';
             return $response->body;
         }
         catch (Exception $e) {
-            //print $e->getMessage().'<br>';
+            //print $e->getMessage().'|Exception|<br>';
+        }
+        return '';
+    }
+
+    function post_xhr($path,$data,$dmm_token) {
+        try {
+            $tmp_header = $this->headers;
+            $tmp_header['DMM_TOKEN'] = $dmm_token;
+            $tmp_header['X-Requested-With'] = 'XMLHttpRequest';
+            $response= $this->session->post($path,$tmp_header,$data);
+            //print $response->status_code." ".$response->url.'<br>';
+            return $response->body;
+        }
+        catch (Exception $e) {
+            //print $e->getMessage().'|Exception|<br>';
         }
         return '';
     }

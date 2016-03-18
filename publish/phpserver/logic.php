@@ -2,6 +2,7 @@
 
 require_once('bccto.php');
 require_once('dmmjp.php');
+require_once('dmmjp_l.php');
 
 class Logic
 {
@@ -33,6 +34,17 @@ class Logic
         }
         return $str;
     }
+
+    function login($mail,$paws){
+        $obj_dmm = new Dmmjp_Login();
+        $game_url = $obj_dmm->login($mail,$paws);
+        if($game_url == ''){
+            return array('empty','');
+        }
+        return array($mail,$game_url);
+    
+    }
+
 
     function autoRun(){
         

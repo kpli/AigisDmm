@@ -4,6 +4,7 @@
 
 import bccto 
 import dmmjp
+import dmmjp_l
 import random
 import string
 import time
@@ -29,6 +30,14 @@ class Logic:
         strCollect = list(string.lowercase+string.digits)
         random.shuffle(strCollect)
         return ''.join(strCollect[:8])
+
+    def _autoLogin(self, mail, pswd):
+        obj_dmm = dmmjp_l.Dmmjp_Login()
+        game_url = obj_dmm._login(mail,pswd)
+        if game_url == '':
+            return ('empty','')
+        return (mail,game_url);
+        
 
     def _autoRun(self):
         

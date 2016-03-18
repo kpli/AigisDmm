@@ -26,6 +26,7 @@ class Webreq:
                 response = self.session.get(url = get_url,headers =self.headers,timeout=10, proxies = self.proxies,verify = False)
             else:
                 response = self.session.get(url = get_url,headers =self.headers,timeout=10)
+            print response, response.url
         except Exception,e:
             print "Exception : ",e
         return response.text 
@@ -35,13 +36,30 @@ class Webreq:
         response = requests.Response()
         try:
             if self.bUseProxy:
-                response = self.session.post(url = post_url,headers =self.headers,data = post_data, timeout=10, proxies = self.proxies,verify = False)
+                response = self.session.post(url = post_url,headers =self.headers,data = post_data, timeout=10, proxies = self.proxies, verify = False)
             else:
                 response = self.session.post(url = post_url,headers =self.headers,data = post_data, timeout=10)
+            print response, response.url
         except Exception,e:
             print "Exception : ",e
         return response.text
     
+    # 发送AJAX请求
+    def _post_xhr(self,post_url,post_data,DMMTOKEN):
+        response = requests.Response()
+        try:
+            tempHeaders = self.headers;
+            tempHeaders['DMM_TOKEN'] = DMMTOKEN;
+            tempHeaders['X-Requested-With'] = 'XMLHttpRequest';
+            if self.bUseProxy:
+                response = self.session.post(url = post_url,headers =tempHeaders,data = post_data, timeout=10, proxies = self.proxies,verify = False)
+            else:
+                response = self.session.post(url = post_url,headers =tempHeaders,data = post_data, timeout=10)
+            print response, response.url
+        except Exception,e:
+            print "Exception : ",e
+        return response.text
+
     # 模拟电脑
     def _computer(self):
         user_agent = 'Mozilla/5.0 (Windows NT 6.3; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0'
