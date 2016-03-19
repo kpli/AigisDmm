@@ -17,7 +17,7 @@ public:
 private:
 	void stop();
 	void start();
-	void test();
+	void second();
 	static bool s_bEffect;
 	static CHAR s_gameurl[MAX_PATH];
 };

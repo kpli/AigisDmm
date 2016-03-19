@@ -7,15 +7,21 @@
 bool CCtrl::s_bEffect = true;
 CHAR CCtrl::s_gameurl[MAX_PATH] = { 0 };
 
-#define GET_COLOR_DEBUG_MODE	0
 
 CCtrl::CCtrl()
 {
-#if GET_COLOR_DEBUG_MODE
+#ifdef AIGIS_TOOL
 	cout << "Alt+F1 GET COLOR" << endl;
+	cout << "Alt+F2 FIND COLOR" << endl;
 	cout << "Alt+(F7|F8) (SEARCH RANGE X|Y)" << endl;
+	cout << "Alt+(F10|F12) (START|STOP)" << endl;
+#endif // AIGIS_TOOL
+#ifdef AIGIS_RUSH
+	cout << "AUTO RUSH FOR BLACK CARDS:" << endl;
 #endif
-	cout << "Alt+(F2|F10|F12) (TEST|START|STOP)" << endl;
+#ifdef AIGIS_SEC
+	cout << "AUTO PLAY FOR SECOND RANDOM:" << endl;
+#endif
 }
 
 
@@ -25,16 +31,21 @@ CCtrl::~CCtrl()
 
 void CCtrl::initHotKey()
 {
+#ifdef AIGIS_RUSH
+	start();
+#endif
+#ifdef AIGIS_SEC
+	second();
+#endif
+#ifdef AIGIS_TOOL
 	if (!RegisterHotKey(NULL, VK_F10, MOD_ALT | MOD_NOREPEAT, VK_F10))
 		cout << "RegisterHotKey error, key: " << hex << VK_F10 << endl;
 	if (!RegisterHotKey(NULL, VK_F12, MOD_ALT | MOD_NOREPEAT, VK_F12))
 		cout << "RegisterHotKey error, key: " << hex << VK_F12 << endl;
 
-#if GET_COLOR_DEBUG_MODE
 	RegisterHotKey(NULL, VK_F1, MOD_ALT | MOD_NOREPEAT, VK_F1);
 	RegisterHotKey(NULL, VK_F7, MOD_ALT | MOD_NOREPEAT, VK_F7);
 	RegisterHotKey(NULL, VK_F8, MOD_ALT | MOD_NOREPEAT, VK_F8);
-#endif
 	RegisterHotKey(NULL, VK_F2, MOD_ALT | MOD_NOREPEAT, VK_F2);
 
 	MSG msg = {0};  
@@ -45,20 +56,11 @@ void CCtrl::initHotKey()
 			WORD wPressed = HIWORD(msg.lParam);
 			switch (wPressed)
 			{
-			case VK_F10:
-				start();
-				break;
-			case VK_F12:
-				stop();
-				break;
-			case VK_F2:
-				//CTools::getInstance()->findRidder();
-				//CTools::getInstance()->searchColor();
-				test();
-				break;
-#if GET_COLOR_DEBUG_MODE
 			case VK_F1:
 				CFrame::getInstance()->logColor();
+				break;
+			case VK_F2:
+				CTools::getInstance()->searchColor();
 				break;
 			case VK_F7:
 				CFrame::getInstance()->setRangeLT();
@@ -66,7 +68,12 @@ void CCtrl::initHotKey()
 			case VK_F8:
 				CFrame::getInstance()->setRangeRB();
 				break;
-#endif
+			case VK_F10:
+				start();
+				break;
+			case VK_F12:
+				stop();
+				break;
 			default:
 				break;
 			}
@@ -75,12 +82,17 @@ void CCtrl::initHotKey()
 
 	UnregisterHotKey(NULL, VK_F10);
 	UnregisterHotKey(NULL, VK_F12);
-#if GET_COLOR_DEBUG_MODE
 	UnregisterHotKey(NULL, VK_F1);
 	UnregisterHotKey(NULL, VK_F7);
 	UnregisterHotKey(NULL, VK_F8);
-#endif
 	UnregisterHotKey(NULL, VK_F2);
+#else
+	MSG msg = { 0 };
+	while (GetMessage(&msg, NULL, 0, 0) != 0)
+	{
+		Sleep(1000);
+	}
+#endif // AIGIS_TOOL
 }
 
 void CCtrl::start()
@@ -99,7 +111,7 @@ bool CCtrl::canPlay()
 	return CCtrl::s_bEffect;
 }
 
-void CCtrl::test()
+void CCtrl::second()
 {
 	CCtrl::s_bEffect = true;
 	CLogic::getInstance()->startTest();
