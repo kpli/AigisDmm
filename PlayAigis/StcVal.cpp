@@ -40,7 +40,7 @@ CPnt5 CStcVal::s_Random2(57, 318, 0x32bd, 0x44a0e8, 0x2ab9, 0x147ddb, 0x54e9ff);
 //CPnt5 CStcVal::s_Random3_0(543, 418, 0x2a58, 0x6fd1ed, 0xb4cedd, 0x78d5ef, 0x2f628f);		// ³é¿¨3²½
 //CPnt5 CStcVal::s_Random3_1(s_Random3_0);		// ³é¿¨3²½
 //»î¶¯³é¿¨
-CPnt5 CStcVal::s_Random3_0(787, 440, 0xfaf9fc, 0x70dc8, 0x55e9fe, 0xececef, 0x576087);		// ³é¿¨3²½
+CPnt5 CStcVal::s_Random3_0(704, 437, 0xe23cb2, 0xe23cb2, 0xcc6fba, 0x35e2fd, 0xd84ad9);		// ³é¿¨3²½
 CPnt5 CStcVal::s_Random3_1(364, 446, 0xfafcfd, 0x4869de, 0x5febfd, 0x9ccffc, 0x6f90b0);		// ³é¿¨3²½
 CPnt5 CStcVal::s_Random4(392, 419, 0xad, 0xc0c0ed, 0x1b12c0, 0x9b92e4, 0xb6);		// ³é¿¨4²½
 
