@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cd4c2932-1666-4802-bf3b-6671e411d40c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>py4cpp.py</StartupFile>
+    <StartupFile>dmmjp_c.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="bccto.py" />
     <Compile Include="dmmjp.py" />
+    <Compile Include="dmmjp_c.py" />
     <Compile Include="dmmjp_l.py" />
     <Compile Include="logic.py" />
     <Compile Include="py4cpp.py" />
