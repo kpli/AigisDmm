@@ -33,7 +33,8 @@ public:
 
 	static CPnt5 s_Random1;			// ³é¿¨1²½
 	static CPnt5 s_Random2;			// ³é¿¨2²½
-	static CPnt5 s_Random3;			// ³é¿¨3²½
+	static CPnt5 s_Random3_0;			// ³é¿¨3²½
+	static CPnt5 s_Random3_1;			// ³é¿¨3²½
 	static CPnt5 s_Random4;			// ³é¿¨4²½
 
 	

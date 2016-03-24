@@ -37,9 +37,11 @@ CPnt5 CStcVal::s_Bounding4(256, 454, 0xf3f3fa, 0x282491, 0x6562cb, 0x2d2a91, 0x2
 CPnt5 CStcVal::s_Random1(355, 301, 0xb2bad4, 0x3b51bb, 0xbcc0d6, 0x9a96a9, 0x4062d9);		// ³é¿¨1²½
 CPnt5 CStcVal::s_Random2(57, 318, 0x32bd, 0x44a0e8, 0x2ab9, 0x147ddb, 0x54e9ff);					// ³é¿¨2²½
 //ÆÕÍ¨³é¿¨
-//CPnt5 CStcVal::s_Random3(543, 418, 0x2a58, 0x6fd1ed, 0xb4cedd, 0x78d5ef, 0x2f628f);		// ³é¿¨3²½
+//CPnt5 CStcVal::s_Random3_0(543, 418, 0x2a58, 0x6fd1ed, 0xb4cedd, 0x78d5ef, 0x2f628f);		// ³é¿¨3²½
+//CPnt5 CStcVal::s_Random3_1(s_Random3_0);		// ³é¿¨3²½
 //»î¶¯³é¿¨
-CPnt5 CStcVal::s_Random3(787, 440, 0xfaf9fc, 0x70dc8, 0x55e9fe, 0xececef, 0x576087);		// ³é¿¨3²½
+CPnt5 CStcVal::s_Random3_0(787, 440, 0xfaf9fc, 0x70dc8, 0x55e9fe, 0xececef, 0x576087);		// ³é¿¨3²½
+CPnt5 CStcVal::s_Random3_1(364, 446, 0xfafcfd, 0x4869de, 0x5febfd, 0x9ccffc, 0x6f90b0);		// ³é¿¨3²½
 CPnt5 CStcVal::s_Random4(392, 419, 0xad, 0xc0c0ed, 0x1b12c0, 0x9b92e4, 0xb6);		// ³é¿¨4²½
 
 // for got the form size

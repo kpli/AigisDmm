@@ -130,26 +130,38 @@ void CLogic::waitBack_clickOK()
 
 void CLogic::waitBound_clickOK()
 {
+	Sleep(200);
 	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Bounding1, false);
+	Sleep(200);
 	waitPnt_clickPnt(&CStcVal::s_Bounding1, &CStcVal::s_Bounding2);
+	Sleep(200);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Bounding3);
+	Sleep(200);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Bounding4);
 }
 
 void CLogic::waitCard_clickOK()
 {
 	cout << "^";
+	Sleep(200);
 	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_Random1, false);
+	Sleep(200);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Random2, false);
-	waitPnt_clickPnt(&CStcVal::s_Random2, &CStcVal::s_Random3);
+	Sleep(200);
+	waitPnt_clickPnt(&CStcVal::s_Random2, &CStcVal::s_Random3_0);
+	Sleep(200);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Random4);
 }
 void CLogic::waitCard_clickOK2()
 {
 	cout << "^";
+	Sleep(200);
 	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_GameBtnBack);
+	Sleep(200);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Random2, false);
-	waitPnt_clickPnt(&CStcVal::s_Random2, &CStcVal::s_Random3);
+	Sleep(200);
+	waitPnt_clickPnt(&CStcVal::s_Random2, &CStcVal::s_Random3_1);
+	Sleep(200);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_Random4);
 }
 
