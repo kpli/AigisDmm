@@ -113,6 +113,8 @@ void CLogic::cancelRegist()
 			|| _tcscmp(bufferTitle2, _T("noid")) == 0)
 		{
 			cout << "C";
+			bufferTitle2[1] = '\0';
+			wprintf(bufferTitle2);
 			break;		// ÍË»áÍê³É
 		}
 	}
