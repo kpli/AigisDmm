@@ -52,8 +52,6 @@ void CLogic::ThreadPlaying(void *)
 		if (CCtrl::canPlay())
 		{
 			CFrame::getInstance()->closeChrome();
-			for (int i = 0; i < 10; i++)
-				Sleep(100);
 		}
 	}
 	cout << "\r\n::STOP::" << endl;
@@ -72,6 +70,53 @@ void CLogic::startRegist()
 		(""), 
 		SW_SHOW);
 	cout << "R";
+}
+
+void CLogic::cancelRegist()
+{
+	TCHAR bufferTitle[MAXCHAR] = { 0 };
+	int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
+	bool bAccountValid = false;
+	if (nLen >= 10 && nLen <= 20)
+	{
+		for (int i = 1; i < nLen; i++)
+		{
+			if (bufferTitle[i] == '@')
+			{
+				bufferTitle[i] = '\0';
+				bAccountValid = true;
+				break;
+			}
+		}
+	}
+	CFrame::getInstance()->closeChrome();
+	if (!bAccountValid)
+	{
+		return;
+	}
+	TCHAR bufferCancel[MAXCHAR] = { 0 };
+	_tcscpy_s(bufferCancel, MAXCHAR, _T("http://kpli.webcrow.jp/dmm/quit.php?"));
+	_tcscat_s(bufferCancel, bufferTitle);
+	ShellExecute(NULL,
+		_T("open"),
+		_T("chrome.exe"),
+		bufferCancel,
+		_T(""),
+		SW_SHOW);
+	for (int i = 0; i < 300; i++)
+	{
+		Sleep(100);
+		TCHAR bufferTitle2[MAXCHAR] = { 0 };
+		nLen = CFrame::getInstance()->getChromeTitle(bufferTitle2, MAXCHAR);
+		if (_tcscmp(bufferTitle2, _T("failed")) == 0
+			|| _tcscmp(bufferTitle2, _T("quited")) == 0
+			|| _tcscmp(bufferTitle2, _T("noid")) == 0)
+		{
+			cout << "C";
+			break;		// 退会完成
+		}
+	}
+	CFrame::getInstance()->closeChrome();
 }
 
 void CLogic::playStory1()
@@ -270,7 +315,7 @@ void CLogic::waitCard()
 			s_iCardStar = 4;
 		if (s_iCardStar > 0)
 		{
-			cout << "; ";
+			cout << ";";
 			waitTime(s_iCardStar);
 			if (s_iCardStar > 3)
 			{
@@ -425,7 +470,11 @@ void CLogic::ThreadTest(void *)
 		s_iCardStar = 4;
 		CLogic::s_titleState = ts_null;
 		CLogic::s_bWaitFor = true;
+#ifdef _DEBUG
+		getInstance()->cancelRegist();
+#else
 		getInstance()->SecondRondomCard();
+#endif
 		break;
 
 	}
@@ -461,8 +510,10 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// 等待抽卡完成
-	if (s_iCardStar > 3 || s_iCardStar==0)
-		CFrame::getInstance()->saveImage();
+	if (s_iCardStar > 3 || s_iCardStar == 0)
+		CFrame::getInstance()->saveImage(); // 保存图像
+	else
+		getInstance()->cancelRegist();		// 退会DMM
 }
 
 void CLogic::SecondRondomCard()

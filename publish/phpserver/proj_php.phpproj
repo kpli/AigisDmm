@@ -23,16 +23,19 @@
   <ItemGroup>
     <Compile Include="bccto.php" />
     <Compile Include="dmmjp.php" />
+    <Compile Include="dmmjp_c.php" />
     <Compile Include="dmmjp_l.php" />
     <Compile Include="index.php" />
     <Compile Include="logic.php" />
     <Compile Include="login.php" />
     <Compile Include="play.php" />
+    <Compile Include="quit.php" />
     <Compile Include="regist.php" />
     <Compile Include="webreq.php" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="login.html" />
+    <Content Include="quit.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\DEVSENSE\PHP Tools\VS$(VisualStudioVersion)\Devsense.PHP.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

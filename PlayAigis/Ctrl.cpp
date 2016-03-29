@@ -60,7 +60,11 @@ void CCtrl::initHotKey()
 				CFrame::getInstance()->logColor();
 				break;
 			case VK_F2:
+#ifdef _DEBUG
+				second();
+#else
 				CTools::getInstance()->searchColor();
+#endif
 				break;
 			case VK_F7:
 				CFrame::getInstance()->setRangeLT();

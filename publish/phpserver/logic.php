@@ -29,7 +29,7 @@ class Logic
         $str = null;
         $strPol = "abcdefghijklmnopqrstuvwxyz0123456789";
         $max = strlen($strPol)-1;
-        for($i=0;$i<8;$i++){
+        for($i=0;$i<9;$i++){
             $str.=$strPol[rand(0,$max)];
         }
         return $str;

@@ -43,6 +43,7 @@ protected:
 protected:
 	// Æô¶¯×¢²áÁ÷³Ì
 	void startRegist();
+	void cancelRegist();
 
 	void playStory1();
 

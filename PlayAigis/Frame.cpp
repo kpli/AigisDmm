@@ -92,6 +92,10 @@ void CFrame::closeChrome()
 		return;
 	}
 	PostMessage(hChrome, WM_CLOSE, NULL, NULL);
+	for (int i = 0; i < 10; i++)
+	{
+		Sleep(100);
+	}
 }
 
 HWND CFrame::chromeHwnd()
