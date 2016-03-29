@@ -512,7 +512,7 @@ void CLogic::FirstRondomCard()
 	getInstance()->waitCard();	// 等待抽卡完成
 	if (s_iCardStar > 3 || s_iCardStar == 0)
 		CFrame::getInstance()->saveImage(); // 保存图像
-	else
+	if (s_iCardStar <= 3)
 		getInstance()->cancelRegist();		// 退会DMM
 }
 
