@@ -1,4 +1,4 @@
-
+ï»¿
 #coding=utf-8
 # -*- coding: utf-8 -*-
 
@@ -11,11 +11,11 @@ import time
 
 class Dmmjp_Cancel:
 
-    # ³õÊ¼»¯
+    # åˆå§‹åŒ–
     def __init__(self):
         self.net = webreq.Webreq(True)
     
-    # µÇÂ½
+    # ç™»é™†
     def _cancel(self, mailAddr, namepwd):
         print '_login'
 
@@ -52,7 +52,7 @@ class Dmmjp_Cancel:
         if loginRet == '':
             return ''
         
-        # ½øÈëÉèÖÃÒ³Ãæ
+        # è¿›å…¥è®¾ç½®é¡µé¢
         gameRet = self.net._get('http://www.dmm.co.jp/my/-/top/')
         if gameRet == '':
             return ''
@@ -90,7 +90,7 @@ class Dmmjp_Cancel:
         
 #################################################################################################################
 
-    # ¸ù¾İtag»ñÈ¡tokenÖµ
+    # æ ¹æ®tagè·å–tokenå€¼
     def _getTagToken(self,strTag, strPage):
         p = re.compile(strTag+r'".*"')
         search_ret = p.findall(strPage)
@@ -109,7 +109,7 @@ class Dmmjp_Cancel:
             return backurl3
         return ''
     
-    # »ñÈ¡PATHÖµ
+    # è·å–PATHå€¼
     def _getPathValue(self, strPage):
         p = re.compile(r'input type="hidden" name="path" value=".*"')
         search_ret = p.findall(strPage)
@@ -129,7 +129,7 @@ class Dmmjp_Cancel:
         return ''
 
     
-    # »ñÈ¡tokenÖµ
+    # è·å–tokenå€¼
     def _getTokenValue(self, strPage):
         p = re.compile(r'input type="hidden" name="token" value=".*" id=')
         search_ret = p.findall(strPage)
