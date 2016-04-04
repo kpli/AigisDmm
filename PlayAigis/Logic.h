@@ -43,7 +43,8 @@ protected:
 protected:
 	// Æô¶¯×¢²áÁ÷³Ì
 	void startRegist();
-	void cancelRegist();
+	void cancelRegist(bool bauto = false);
+	void setResult(int nstep, int ncolor);
 
 	void playStory1();
 

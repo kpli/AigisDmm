@@ -2,24 +2,36 @@
 <?php
 
 
+require_once('dbop.php');
 require_once('dmmjp_c.php');
+
 $qt = new Dmmjp_Cancel();
+$dbop = new DBOP();
 
 $urnm = '';
 $pswd = '';
 
 $sp = $_SERVER["QUERY_STRING"];
 if ($sp == ''){
+	print '_POST<br>';
     $urnm = $_POST['MAIL'];
     $pswd = $_POST['PSWD'];
 }
-else{
-    $pswd = $_SERVER['QUERY_STRING'];
+else if($sp == 'autoquit'){
+	print 'autoquit<br>';
+	$rest = $dbop->getNotBlack();
+	$urnm = $rest[0];
+	$pswd = $rest[1];
+}
+else
+{
+	print 'QUERY_STRING<br>';
+    $pswd = $sp;
     $urnm = $pswd.'@bccto.me';
 }
 
-//print $urnm.'<br>';
-//print $pswd.'<br>';
+print $urnm.'<br>';
+print $pswd.'<br>';
 
 if($pswd != '' && $urnm != ''){
     $ret = $qt->cancel($urnm,$pswd);
@@ -28,6 +40,7 @@ if($pswd != '' && $urnm != ''){
     }
     else{
         showTitle('quited');
+		$dbop->delNotBlack($urnm);
     }
 }
 else{

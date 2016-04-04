@@ -42,17 +42,16 @@ void CLogic::ThreadPlaying(void *)
 	cout << "::START::" << endl;
 	while (CCtrl::canPlay())
 	{
- 		getInstance()->startRegist();
+		getInstance()->startRegist();
 		for (int i = 0; i < 100; i++)// 等待注册
 			Sleep(100);
-		
+#ifdef AIGIS_RUSH
 		getInstance()->FirstRondomCard();
+#endif // AIGIS_RUSH
+#ifdef AIGIS_SEC
 		getInstance()->SecondRondomCard();
-
-		if (CCtrl::canPlay())
-		{
-			CFrame::getInstance()->closeChrome();
-		}
+		getInstance()->cancelRegist(true);		// 退会DMM
+#endif // AIGIS_RUSH
 	}
 	cout << "\r\n::STOP::" << endl;
 	_endthread();
@@ -60,19 +59,31 @@ void CLogic::ThreadPlaying(void *)
 
 void CLogic::startRegist()
 {
-	const CHAR* pURL = CCtrl::getURL();
 	CLogic::s_titleState = ts_null;
 	CLogic::s_bWaitFor = true;
-	ShellExecuteA(NULL, 
-		("open"), 
-		("chrome.exe"), 
+#ifdef AIGIS_RUSH
+	const CHAR* pURL = CCtrl::getURL1();
+	ShellExecuteA(NULL,
+		("open"),
+		("chrome.exe"),
 		pURL,
-		(""), 
+		(""),
 		SW_SHOW);
+#endif // AIGIS_RUSH
+#ifdef AIGIS_SEC
+	const CHAR* pURL = CCtrl::getURL2();
+	ShellExecuteA(NULL,
+		("open"),
+		("chrome.exe"),
+		pURL,
+		(""),
+		SW_SHOW);
+#endif // AIGIS_RUSH
+
 	cout << "R";
 }
 
-void CLogic::cancelRegist()
+void CLogic::setResult(int nstep, int ncolor)
 {
 	TCHAR bufferTitle[MAXCHAR] = { 0 };
 	int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
@@ -83,7 +94,6 @@ void CLogic::cancelRegist()
 		{
 			if (bufferTitle[i] == '@')
 			{
-				bufferTitle[i] = '\0';
 				bAccountValid = true;
 				break;
 			}
@@ -94,9 +104,66 @@ void CLogic::cancelRegist()
 	{
 		return;
 	}
+	TCHAR bufferSetCmd[MAXCHAR] = { 0 };
+	_tprintf_s(bufferSetCmd,_T("http://kpli.webcrow.jp/dmm/set%d.php?"), nstep);
+	_tcscat_s(bufferSetCmd, bufferTitle);
+	_tcscat_s(bufferSetCmd, _T("="));
+	TCHAR tempnumber[MAXCHAR] = { 0 };
+	_tprintf_s(tempnumber, _T("%d"), ncolor);
+	_tcscat_s(bufferSetCmd, tempnumber);
+
+	ShellExecute(NULL,
+		_T("open"),
+		_T("chrome.exe"),
+		bufferSetCmd,
+		_T(""),
+		SW_SHOW);
+	for (int i = 0; i < 300; i++)
+	{
+		Sleep(100);
+		TCHAR bufferTitle2[MAXCHAR] = { 0 };
+		nLen = CFrame::getInstance()->getChromeTitle(bufferTitle2, MAXCHAR);
+		if (_tcscmp(bufferTitle2, _T("ok")) == 0)
+		{
+			cout << " set ok";
+			break;		// 退会完成
+		}
+	}
+	CFrame::getInstance()->closeChrome();
+}
+
+void CLogic::cancelRegist(bool bauto)
+{
 	TCHAR bufferCancel[MAXCHAR] = { 0 };
 	_tcscpy_s(bufferCancel, MAXCHAR, _T("http://kpli.webcrow.jp/dmm/quit.php?"));
-	_tcscat_s(bufferCancel, bufferTitle);
+	if (bauto)
+	{
+		_tcscat_s(bufferCancel, _T("autoquit"));
+	}
+	else
+	{
+		TCHAR bufferTitle[MAXCHAR] = { 0 };
+		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
+		bool bAccountValid = false;
+		if (nLen >= 10 && nLen <= 20)
+		{
+			for (int i = 1; i < nLen; i++)
+			{
+				if (bufferTitle[i] == '@')
+				{
+					bufferTitle[i] = '\0';
+					bAccountValid = true;
+					break;
+				}
+			}
+		}
+		CFrame::getInstance()->closeChrome();
+		if (!bAccountValid)
+		{
+			return;
+		}
+		_tcscat_s(bufferCancel, bufferTitle);
+	}
 	ShellExecute(NULL,
 		_T("open"),
 		_T("chrome.exe"),
@@ -107,7 +174,7 @@ void CLogic::cancelRegist()
 	{
 		Sleep(100);
 		TCHAR bufferTitle2[MAXCHAR] = { 0 };
-		nLen = CFrame::getInstance()->getChromeTitle(bufferTitle2, MAXCHAR);
+		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle2, MAXCHAR);
 		if (_tcscmp(bufferTitle2, _T("failed")) == 0
 			|| _tcscmp(bufferTitle2, _T("quited")) == 0
 			|| _tcscmp(bufferTitle2, _T("noid")) == 0)
@@ -401,10 +468,13 @@ bool CLogic::validTitle()
 
 void CLogic::selectUnit()
 {
-	waitPnt_clickPnt(&CStcVal::s_GameBtnBack, &CStcVal::s_GameUnit1, false);
+	waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_GameUnit1, false);
+	waitTime(1);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit2, false);
 	//waitPnt_clickPnt(&CStcVal::s_GameUnit2, &CStcVal::s_GameUnit3);
+	waitTime(1);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit3);
+	waitTime(1);
 	waitPnt_clickPnt(nullptr, &CStcVal::s_GameUnit4);
 	waitTime(1);
 	CTools::getInstance()->findRidder();
@@ -472,11 +542,7 @@ void CLogic::ThreadTest(void *)
 		s_iCardStar = 4;
 		CLogic::s_titleState = ts_null;
 		CLogic::s_bWaitFor = true;
-#ifdef _DEBUG
-		getInstance()->cancelRegist();
-#else
-		getInstance()->SecondRondomCard();
-#endif
+		getInstance()->cancelRegist(true);
 		break;
 
 	}
@@ -514,19 +580,17 @@ void CLogic::FirstRondomCard()
 	getInstance()->waitCard();	// 等待抽卡完成
 	if (s_iCardStar > 3 || s_iCardStar == 0)
 		CFrame::getInstance()->saveImage(); // 保存图像
-	if (s_iCardStar <= 3)
+	if (s_iCardStar > 3)
+		setResult(1, s_iCardStar);
+	else
 		getInstance()->cancelRegist();		// 退会DMM
 }
 
 void CLogic::SecondRondomCard()
 {
-	//不进行二抽，不值钱
-	if (s_iCardStar < 4)
-	{
-		return;
-	}
 	s_iCardStar = 0;
 
+	getInstance()->waitIcon_nothing();
 	selectUnit();
 	selectStory4567(&CStcVal::s_SelectStory4_2);
 	playStory4();
@@ -545,6 +609,14 @@ void CLogic::SecondRondomCard()
 
 	waitCard_clickOK2();
 	waitCard();	// 等待抽卡完成
-	CFrame::getInstance()->saveImage();
+	if (s_iCardStar != 0)
+	{
+		CFrame::getInstance()->saveImage();
+		setResult(2, s_iCardStar);
+	}
+	else if (!canWait() || !CCtrl::canPlay())
+	{
+		setResult(2, -1);
+	}
 }
 

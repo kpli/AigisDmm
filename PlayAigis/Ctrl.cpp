@@ -5,7 +5,8 @@
 #include "Logic.h"
 
 bool CCtrl::s_bEffect = true;
-CHAR CCtrl::s_gameurl[MAX_PATH] = { 0 };
+CHAR CCtrl::s_gameurl1[MAX_PATH] = { 0 };
+CHAR CCtrl::s_gameurl2[MAX_PATH] = { 0 };
 
 
 CCtrl::CCtrl()
@@ -14,7 +15,7 @@ CCtrl::CCtrl()
 	cout << "Alt+F1 GET COLOR" << endl;
 	cout << "Alt+F2 FIND COLOR" << endl;
 	cout << "Alt+(F7|F8) (SEARCH RANGE X|Y)" << endl;
-	cout << "Alt+(F10|F12) (START|STOP)" << endl;
+	cout << "Alt+(F10|F12) (TEST|STOP)" << endl;
 #endif // AIGIS_TOOL
 #ifdef AIGIS_RUSH
 	cout << "AUTO RUSH FOR BLACK CARDS:" << endl;
@@ -35,7 +36,7 @@ void CCtrl::initHotKey()
 	start();
 #endif
 #ifdef AIGIS_SEC
-	second();
+	start();
 #endif
 #ifdef AIGIS_TOOL
 	if (!RegisterHotKey(NULL, VK_F10, MOD_ALT | MOD_NOREPEAT, VK_F10))
@@ -60,11 +61,7 @@ void CCtrl::initHotKey()
 				CFrame::getInstance()->logColor();
 				break;
 			case VK_F2:
-#ifdef _DEBUG
-				second();
-#else
 				CTools::getInstance()->searchColor();
-#endif
 				break;
 			case VK_F7:
 				CFrame::getInstance()->setRangeLT();
@@ -73,7 +70,7 @@ void CCtrl::initHotKey()
 				CFrame::getInstance()->setRangeRB();
 				break;
 			case VK_F10:
-				start();
+				test();
 				break;
 			case VK_F12:
 				stop();
@@ -115,17 +112,17 @@ bool CCtrl::canPlay()
 	return CCtrl::s_bEffect;
 }
 
-void CCtrl::second()
+void CCtrl::test()
 {
 	CCtrl::s_bEffect = true;
 	CLogic::getInstance()->startTest();
 }
 
-const CHAR* CCtrl::getURL()
+const CHAR* CCtrl::getURL1()
 {
-	if (s_gameurl[0] != '\0')
+	if (s_gameurl1[0] != '\0')
 	{
-		return s_gameurl;
+		return s_gameurl1;
 	}
 
 	TCHAR szModuleFileName[MAX_PATH]; // 全路径名
@@ -134,23 +131,55 @@ const CHAR* CCtrl::getURL()
 	TCHAR fname[_MAX_FNAME];  // 进程名字
 	TCHAR ext[_MAX_EXT]; //后缀，一般为exe或者是dll
 	if (NULL == GetModuleFileName(NULL, szModuleFileName, MAX_PATH)) //获得当前进程的文件路径
-		return s_gameurl;
+		return s_gameurl1;
 	_tsplitpath_s(szModuleFileName, drive, dir, fname, ext);  //分割该路径，得到盘符，目录，文件名，后缀名
 
 	TCHAR szPath[MAX_PATH];
 	_tcscpy_s(szPath, drive);
 	_tcscat_s(szPath, dir);
-	_tcscat_s(szPath, _T("game_url.txt"));
+	_tcscat_s(szPath, _T("game_url1.txt"));
 
 	HANDLE hFile;
 	hFile = CreateFileW(szPath, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	DWORD dwReads;
-	ReadFile(hFile, s_gameurl, MAX_PATH, &dwReads, NULL);
+	ReadFile(hFile, s_gameurl1, MAX_PATH, &dwReads, NULL);
 	CloseHandle(hFile);
-	s_gameurl[dwReads] = 0;
+	s_gameurl1[dwReads] = 0;
 
 
-	return s_gameurl;
+	return s_gameurl1;
+}
+
+const CHAR* CCtrl::getURL2()
+{
+	if (s_gameurl2[0] != '\0')
+	{
+		return s_gameurl2;
+	}
+
+	TCHAR szModuleFileName[MAX_PATH]; // 全路径名
+	TCHAR drive[_MAX_DRIVE];  // 盘符名称，比如说C盘啊，D盘啊
+	TCHAR dir[_MAX_DIR]; // 目录
+	TCHAR fname[_MAX_FNAME];  // 进程名字
+	TCHAR ext[_MAX_EXT]; //后缀，一般为exe或者是dll
+	if (NULL == GetModuleFileName(NULL, szModuleFileName, MAX_PATH)) //获得当前进程的文件路径
+		return s_gameurl2;
+	_tsplitpath_s(szModuleFileName, drive, dir, fname, ext);  //分割该路径，得到盘符，目录，文件名，后缀名
+
+	TCHAR szPath[MAX_PATH];
+	_tcscpy_s(szPath, drive);
+	_tcscat_s(szPath, dir);
+	_tcscat_s(szPath, _T("game_url2.txt"));
+
+	HANDLE hFile;
+	hFile = CreateFileW(szPath, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	DWORD dwReads;
+	ReadFile(hFile, s_gameurl2, MAX_PATH, &dwReads, NULL);
+	CloseHandle(hFile);
+	s_gameurl2[dwReads] = 0;
+
+
+	return s_gameurl2;
 }
 
 
