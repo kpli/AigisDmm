@@ -44,7 +44,7 @@ class DBOP
 		//print 'getForSecond';
 		$account = '';
 		$passwd = '';
-		$ssql = "SELECT * FROM da_accounts WHERE random1 = 4 AND  random2 = 0;";
+		$ssql = "SELECT * FROM da_accounts WHERE random1 = 4 AND  random2 = 0 order by createtime desc;";
 		$allrest = mysqli_query($this->conn,$ssql);
 		if ($row = mysqli_fetch_assoc($allrest))
 		{
@@ -78,7 +78,7 @@ class DBOP
 	
     function getFor($r1,$r2) {
 		//print 'getForAll';
-		$ssql = "SELECT * FROM da_accounts WHERE random1 = '".$r1."' AND random2 = '".$r2."';";
+		$ssql = "SELECT * FROM da_accounts WHERE random1 = '".$r1."' AND random2 = '".$r2."' order by createtime desc;";
 		$allrest = mysqli_query($this->conn,$ssql);
 		$arrret = array();
 		while($row = mysqli_fetch_assoc($allrest))
@@ -91,7 +91,7 @@ class DBOP
 	
     function getForAll($r2) {
 		//print 'getForAll';
-		$ssql = "SELECT * FROM da_accounts WHERE random2 = '".$r2."';";
+		$ssql = "SELECT * FROM da_accounts WHERE random2 = '".$r2."' order by createtime desc;";
 		$allrest = mysqli_query($this->conn,$ssql);
 		$arrret = array();
 		while($row = mysqli_fetch_assoc($allrest))
