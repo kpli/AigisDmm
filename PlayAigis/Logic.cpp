@@ -105,11 +105,23 @@ void CLogic::setResult(int nstep, int ncolor)
 		return;
 	}
 	TCHAR bufferSetCmd[MAXCHAR] = { 0 };
-	_tprintf_s(bufferSetCmd,_T("http://kpli.webcrow.jp/dmm/set%d.php?"), nstep);
+	if (nstep == 1)
+	{
+		_tcscat_s(bufferSetCmd, _T("http://kpli.webcrow.jp/dmm/set1.php?"));
+	}
+	else if (nstep == 2)
+	{
+		_tcscat_s(bufferSetCmd, _T("http://kpli.webcrow.jp/dmm/set2.php?"));
+	}
+	else
+	{
+		cout << " set err";
+		return;
+	}
 	_tcscat_s(bufferSetCmd, bufferTitle);
 	_tcscat_s(bufferSetCmd, _T("="));
-	TCHAR tempnumber[MAXCHAR] = { 0 };
-	_tprintf_s(tempnumber, _T("%d"), ncolor);
+	TCHAR tempnumber[2] = { 0 };
+	tempnumber[0] = ncolor+'0';
 	_tcscat_s(bufferSetCmd, tempnumber);
 
 	ShellExecute(NULL,
@@ -542,7 +554,7 @@ void CLogic::ThreadTest(void *)
 		s_iCardStar = 4;
 		CLogic::s_titleState = ts_null;
 		CLogic::s_bWaitFor = true;
-		getInstance()->cancelRegist(true);
+		getInstance()->setResult(1,4);
 		break;
 
 	}
