@@ -53,6 +53,20 @@ class Dmmjp_Login
             return '';
         }
 
+        require_once('resetpwd.php');
+        $pwdset = new Reset_Pwd();
+        if($pwdset->needReset($loginPostRet,$mail)){
+            $ret = $this->net->get('https://www.dmm.co.jp/my/-/passwordreminder/');
+            $postData = array('email'=>$mail,);
+            $ret = $this->net->post('https://www.dmm.co.jp/my/-/passwordreminder/sendmail/',$postData);
+            $newPwd = $pwdset->reset();
+            if($newPwd == ''){
+                return $newPwd;
+            }
+            $this->net = new Webreq('http://www.dmm.co.jp');
+            return $this->login($mail,$newPwd);
+        }
+
         $gameUrl = $this->play();
         if($gameUrl==''){
             //print '$gameUrl is empty'.'<br>';

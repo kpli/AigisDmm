@@ -53,6 +53,21 @@ class Dmmjp_Cancel
             return '';
         }
 
+
+        require_once('resetpwd.php');
+        $pwdset = new Reset_Pwd();
+        if($pwdset->needReset($loginPostRet,$mail)){
+            $ret = $this->net->get('https://www.dmm.co.jp/my/-/passwordreminder/');
+            $postData = array('email'=>$mail,);
+            $ret = $this->net->post('https://www.dmm.co.jp/my/-/passwordreminder/sendmail/',$postData);
+            $newPwd = $pwdset->reset();
+            if($newPwd == ''){
+                return $newPwd;
+            }
+            $this->net = new Webreq('http://www.dmm.co.jp');
+            return $this->cancel($mail,$newPwd);
+        }
+
         # 进入设置页面
         $gameRet = $this->net->get('http://www.dmm.co.jp/my/-/top/');
         if ($gameRet == ''){

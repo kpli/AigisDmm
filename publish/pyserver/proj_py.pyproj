@@ -28,6 +28,7 @@
     <Compile Include="dmmjp_l.py" />
     <Compile Include="logic.py" />
     <Compile Include="py4cpp.py" />
+    <Compile Include="resetpwd.py" />
     <Compile Include="tserver.py" />
     <Compile Include="webreq.py" />
   </ItemGroup>

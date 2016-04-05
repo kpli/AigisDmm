@@ -2,6 +2,7 @@
 #coding=utf-8
 # -*- coding: utf-8 -*-
 
+import resetpwd  
 import webreq  
 import urllib
 import json
@@ -14,6 +15,7 @@ class Dmmjp_Login:
     # 初始化
     def __init__(self):
         self.net = webreq.Webreq(True)
+        self.pwd = resetpwd.Reset_Pwd()
     
     # 登陆
     def _login(self, mailAddr, namepwd):
@@ -51,6 +53,18 @@ class Dmmjp_Login:
         loginRet = self.net._post('https://www.dmm.co.jp/my/-/login/auth/', postData)
         if loginRet == '':
             return ''
+
+
+        if self.pwd._needReset(loginRet,mailAddr):
+            ret = self.net._get('https://www.dmm.co.jp/my/-/passwordreminder/')
+            postData = (('email', mailAddr),)
+            ret = self.net._post('https://www.dmm.co.jp/my/-/passwordreminder/sendmail/', postData)
+            namepwd = self.pwd._doReset()
+            if namepwd == '':
+                return namepwd
+            self.net = webreq.Webreq(True)
+            return self._login(mailAddr,namepwd);
+        
         
         gameRet = self._intoGame()
         if gameRet == '':

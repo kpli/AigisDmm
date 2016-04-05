@@ -2,6 +2,7 @@
 #coding=utf-8
 # -*- coding: utf-8 -*-
 
+import resetpwd  
 import webreq  
 import urllib
 import json
@@ -14,6 +15,7 @@ class Dmmjp_Cancel:
     # 初始化
     def __init__(self):
         self.net = webreq.Webreq(True)
+        self.pwd = resetpwd.Reset_Pwd()
     
     # 登陆
     def _cancel(self, mailAddr, namepwd):
@@ -51,6 +53,16 @@ class Dmmjp_Cancel:
         loginRet = self.net._post('https://www.dmm.co.jp/my/-/login/auth/', postData)
         if loginRet == '':
             return ''
+
+        if self.pwd._needReset(loginRet,mailAddr):
+            ret = self.net._get('https://www.dmm.co.jp/my/-/passwordreminder/')
+            postData = (('email', mailAddr),)
+            ret = self.net._post('https://www.dmm.co.jp/my/-/passwordreminder/sendmail/', postData)
+            namepwd = self.pwd._doReset()
+            if namepwd == '':
+                return namepwd
+            self.net = webreq.Webreq(True)
+            return self._cancel(mailAddr,namepwd);
         
         # 进入设置页面
         gameRet = self.net._get('http://www.dmm.co.jp/my/-/top/')
@@ -150,5 +162,5 @@ class Dmmjp_Cancel:
 
 
     
-obj_dmm = Dmmjp_Cancel()
-game_url = obj_dmm._cancel('jb52ytol1@bccto.me','jb52ytol1')
+#obj_dmm = Dmmjp_Cancel()
+#game_url = obj_dmm._cancel('qujm0c21z@bccto.me','pwd123')

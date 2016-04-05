@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="bccto.php" />
+    <Compile Include="dbop.php" />
     <Compile Include="dmmjp.php" />
     <Compile Include="dmmjp_c.php" />
     <Compile Include="dmmjp_l.php" />
@@ -31,6 +32,13 @@
     <Compile Include="play.php" />
     <Compile Include="quit.php" />
     <Compile Include="regist.php" />
+    <Compile Include="resetpwd.php" />
+    <Compile Include="search.php" />
+    <Compile Include="search2.php" />
+    <Compile Include="set1.php" />
+    <Compile Include="set2.php" />
+    <Compile Include="setp.php" />
+    <Compile Include="testdb.php" />
     <Compile Include="webreq.php" />
   </ItemGroup>
   <ItemGroup>

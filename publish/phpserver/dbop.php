@@ -22,7 +22,7 @@ class DBOP
 		//print 'getNotBlack';
 		$account = '';
 		$passwd = '';
-		$ssql = "SELECT * FROM da_accounts WHERE createtime < DATE_SUB( NOW(), INTERVAL 30 MINUTE ) AND  random1 != 4;";
+		$ssql = "SELECT * FROM da_accounts WHERE createtime < DATE_SUB( NOW(), INTERVAL 30 MINUTE ) AND  random1 != 4 order by createtime asc;";
 		$allrest = mysqli_query($this->conn,$ssql);
 		if ($row = mysqli_fetch_assoc($allrest))
 		{
