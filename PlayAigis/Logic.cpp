@@ -628,7 +628,7 @@ void CLogic::SecondRondomCard()
 	}
 	else if (!canWait() || !CCtrl::canPlay())
 	{
-		setResult(2, -1);
+		setResult(2, 9);
 	}
 }
 
