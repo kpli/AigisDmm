@@ -51,9 +51,9 @@ class Reset_Pwd
         //print $rid.'<br>';
         //print $data.'<br>';
 
-        require_once('dbop.php');
-        $dbop = new DBOP();
-        $dbop->setPass($this->mailaddr,$this->password);
+        require_once('idd.php');
+        $db = new IdoDB();
+        $db->update($this->mailaddr,'passwd',$this->password);
 
         $this->net_c->post('https://www.dmm.co.jp/my/-/passwordreminder/complete/',$data);
         

@@ -52,6 +52,9 @@ void CLogic::ThreadPlaying(void *)
 		getInstance()->SecondRondomCard();
 		getInstance()->cancelRegist(true);		// 退会DMM
 #endif // AIGIS_RUSH
+#ifdef AIGIS_SIGN
+		getInstance()->SignUp();
+#endif // AIGIS_SIGN
 	}
 	cout << "\r\n::STOP::" << endl;
 	_endthread();
@@ -61,31 +64,41 @@ void CLogic::startRegist()
 {
 	CLogic::s_titleState = ts_null;
 	CLogic::s_bWaitFor = true;
+	CHAR bufferSetCmd[MAXCHAR] = { 0 };
+	strcpy_s(bufferSetCmd, MAXCHAR, CCtrl::getUrlPath());
 #ifdef AIGIS_RUSH
-	const CHAR* pURL = CCtrl::getURL1();
-	ShellExecuteA(NULL,
-		("open"),
-		("chrome.exe"),
-		pURL,
-		(""),
-		SW_SHOW);
-#endif // AIGIS_RUSH
+	strcat_s(bufferSetCmd, MAXCHAR, "cmd=play&key=regist");
+#endif
 #ifdef AIGIS_SEC
-	const CHAR* pURL = CCtrl::getURL2();
-	ShellExecuteA(NULL,
-		("open"),
-		("chrome.exe"),
-		pURL,
-		(""),
-		SW_SHOW);
-#endif // AIGIS_RUSH
+	strcat_s(bufferSetCmd, MAXCHAR, "cmd=play&key=second");
+#endif
+#ifdef AIGIS_SIGN
+	strcat_s(bufferSetCmd, MAXCHAR, "cmd=play&key=signup");
+#endif
+	ShellExecuteA(NULL, ("open"), ("chrome.exe"), bufferSetCmd, (""), SW_SHOW);
 
 	cout << "R";
 }
 
-void CLogic::setResult(int nstep, int ncolor)
+void CLogic::waitDoneAndClose()
 {
-	TCHAR bufferTitle[MAXCHAR] = { 0 };
+	for (int i = 0; i < 300; i++)
+	{
+		Sleep(100);
+		TCHAR bufferTitle2[MAXCHAR] = { 0 };
+		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle2, MAXCHAR);
+		if (_tcscmp(bufferTitle2, _T("done")) == 0)
+		{
+			cout << " set ok";
+			break;		// 设置完成
+		}
+	}
+	CFrame::getInstance()->closeChrome();
+}
+
+void CLogic::refreshSignDate()
+{
+	CHAR bufferTitle[MAXCHAR] = { 0 };
 	int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
 	bool bAccountValid = false;
 	if (nLen >= 10 && nLen <= 20)
@@ -104,57 +117,76 @@ void CLogic::setResult(int nstep, int ncolor)
 	{
 		return;
 	}
-	TCHAR bufferSetCmd[MAXCHAR] = { 0 };
+
+	CHAR bufferSetCmd[MAXCHAR] = { 0 };
+	strcpy_s(bufferSetCmd, MAXCHAR, CCtrl::getUrlPath());
+	strcat_s(bufferSetCmd, MAXCHAR, ("cmd=update&sid="));
+	strcat_s(bufferSetCmd, MAXCHAR, bufferTitle);
+	strcat_s(bufferSetCmd, MAXCHAR, ("&key=signdate"));
+	ShellExecuteA(NULL, ("open"), ("chrome.exe"), bufferSetCmd, (""), SW_SHOW);
+	cout << "F";
+
+	waitDoneAndClose();
+}
+
+void CLogic::setResult(int nstep, int ncolor)
+{
+	CHAR bufferTitle[MAXCHAR] = { 0 };
+	int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
+	bool bAccountValid = false;
+	if (nLen >= 10 && nLen <= 20)
+	{
+		for (int i = 1; i < nLen; i++)
+		{
+			if (bufferTitle[i] == '@')
+			{
+				bAccountValid = true;
+				break;
+			}
+		}
+	}
+	CFrame::getInstance()->closeChrome();
+	if (!bAccountValid)
+	{
+		return;
+	}
+	CHAR bufferSetCmd[MAXCHAR] = { 0 };
+	strcpy_s(bufferSetCmd, MAXCHAR, CCtrl::getUrlPath());
+	strcat_s(bufferSetCmd, MAXCHAR, ("cmd=update&sid="));
+	strcat_s(bufferSetCmd, MAXCHAR, bufferTitle);
 	if (nstep == 1)
 	{
-		_tcscat_s(bufferSetCmd, _T("http://kpli.webcrow.jp/dmm/set1.php?"));
+		strcat_s(bufferSetCmd, MAXCHAR, ("&key=random1&val="));
 	}
 	else if (nstep == 2)
 	{
-		_tcscat_s(bufferSetCmd, _T("http://kpli.webcrow.jp/dmm/set2.php?"));
+		strcat_s(bufferSetCmd, MAXCHAR, ("&key=random2&val="));
 	}
 	else
 	{
 		cout << " set err";
 		return;
 	}
-	_tcscat_s(bufferSetCmd, bufferTitle);
-	_tcscat_s(bufferSetCmd, _T("="));
-	TCHAR tempnumber[2] = { 0 };
+	CHAR tempnumber[2] = { 0 };
 	tempnumber[0] = ncolor+'0';
-	_tcscat_s(bufferSetCmd, tempnumber);
+	strcat_s(bufferSetCmd, tempnumber);
 
-	ShellExecute(NULL,
-		_T("open"),
-		_T("chrome.exe"),
-		bufferSetCmd,
-		_T(""),
-		SW_SHOW);
-	for (int i = 0; i < 300; i++)
-	{
-		Sleep(100);
-		TCHAR bufferTitle2[MAXCHAR] = { 0 };
-		nLen = CFrame::getInstance()->getChromeTitle(bufferTitle2, MAXCHAR);
-		if (_tcscmp(bufferTitle2, _T("ok")) == 0)
-		{
-			cout << " set ok";
-			break;		// 退会完成
-		}
-	}
-	CFrame::getInstance()->closeChrome();
+	ShellExecuteA(NULL, ("open"), ("chrome.exe"), bufferSetCmd, (""), SW_SHOW);
+	waitDoneAndClose();
 }
 
 void CLogic::cancelRegist(bool bauto)
 {
-	TCHAR bufferCancel[MAXCHAR] = { 0 };
-	_tcscpy_s(bufferCancel, MAXCHAR, _T("http://kpli.webcrow.jp/dmm/quit.php?"));
+	CHAR bufferCancel[MAXCHAR] = { 0 };
+	strcpy_s(bufferCancel, MAXCHAR, CCtrl::getUrlPath());
 	if (bauto)
 	{
-		_tcscat_s(bufferCancel, _T("autoquit"));
+		strcat_s(bufferCancel, MAXCHAR, ("cmd=play&key=cancel&val=auto"));
 	}
 	else
 	{
-		TCHAR bufferTitle[MAXCHAR] = { 0 };
+		strcat_s(bufferCancel, MAXCHAR, ("cmd=play&key=cancel&sid="));
+		CHAR bufferTitle[MAXCHAR] = { 0 };
 		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle, MAXCHAR);
 		bool bAccountValid = false;
 		if (nLen >= 10 && nLen <= 20)
@@ -163,6 +195,7 @@ void CLogic::cancelRegist(bool bauto)
 			{
 				if (bufferTitle[i] == '@')
 				{
+					strcat_s(bufferCancel, MAXCHAR, bufferTitle);
 					bufferTitle[i] = '\0';
 					bAccountValid = true;
 					break;
@@ -174,22 +207,21 @@ void CLogic::cancelRegist(bool bauto)
 		{
 			return;
 		}
-		_tcscat_s(bufferCancel, bufferTitle);
+		strcat_s(bufferCancel, MAXCHAR, "&pwd=");
+		strcat_s(bufferCancel, MAXCHAR, bufferTitle);
 	}
-	ShellExecute(NULL,
-		_T("open"),
-		_T("chrome.exe"),
-		bufferCancel,
-		_T(""),
-		SW_SHOW);
-	for (int i = 0; i < 300; i++)
+	ShellExecuteA(NULL, ("open"), ("chrome.exe"), bufferCancel, (""), SW_SHOW);
+
+	for (int i = 0; i < 600; i++)
 	{
 		Sleep(100);
 		TCHAR bufferTitle2[MAXCHAR] = { 0 };
 		int nLen = CFrame::getInstance()->getChromeTitle(bufferTitle2, MAXCHAR);
 		if (_tcscmp(bufferTitle2, _T("failed")) == 0
 			|| _tcscmp(bufferTitle2, _T("quited")) == 0
-			|| _tcscmp(bufferTitle2, _T("noid")) == 0)
+			|| _tcscmp(bufferTitle2, _T("noid")) == 0
+			|| _tcscmp(bufferTitle2, _T("done")) == 0
+			|| _tcscmp(bufferTitle2, _T("empty")) == 0)
 		{
 			cout << "C";
 			bufferTitle2[1] = '\0';
@@ -554,7 +586,7 @@ void CLogic::ThreadTest(void *)
 		s_iCardStar = 4;
 		CLogic::s_titleState = ts_null;
 		CLogic::s_bWaitFor = true;
-		getInstance()->setResult(1,4);
+		getInstance()->cancelRegist();
 		break;
 
 	}
@@ -632,3 +664,9 @@ void CLogic::SecondRondomCard()
 	}
 }
 
+void CLogic::SignUp()
+{
+	getInstance()->waitIcon_nothing();
+	getInstance()->waitPnt_clickPnt(&CStcVal::s_GameBtnOK, &CStcVal::s_GameUnit1, false);
+	refreshSignDate();
+}

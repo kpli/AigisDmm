@@ -3,10 +3,18 @@
     Aigis
 </Title>
 <body>
-    <form method="post" action="login.php">
-        <input type="text" name="MAIL" />
-        <input type="text" name="PSWD" />
-        <input type="submit" value="LOGIN" />
+    <script type="text/javascript">
+        function login() {
+            var sid = document.getElementById("LOGIN_SID").value;
+            var pwd = document.getElementById("LOGIN_PWD").value;
+            window.location.href = 'ido.php?cmd=play&key=login&sid=' + sid + '&pwd=' + pwd;
+        }
+    </script>
+    <br>LOGIN<br />
+    <form id="LOGIN">
+        <input type="text" id="LOGIN_SID" />
+        <input type="text" id="LOGIN_PWD" />
+        <input type="button" value="LOGIN" onclick="login()" />
     </form>
 </body>
 </html>

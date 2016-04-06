@@ -35,6 +35,33 @@ HWND CFrame::aigisHwnd()
 	return hFrame;
 }
 
+int CFrame::getChromeTitle(LPSTR lpBuf, int maxLen)
+{
+	HWND hChrome = chromeHwnd();
+	if (!hChrome)
+	{
+		return -1;
+	}
+	GetWindowTextA(hChrome, lpBuf, maxLen);
+	int nLen = strlen(lpBuf);
+	if (nLen == 0 || nLen >= maxLen / 2)
+	{
+		strcpy_s(lpBuf, maxLen, ("ERR"));
+		return 3;
+	}
+	else
+	{
+		for (int i = 1; i < nLen; i++)
+		{
+			if (lpBuf[i] == '-')
+			{
+				lpBuf[i - 1] = '\0';
+				return i - 1;
+			}
+		}
+	}
+	return nLen;
+}
 int CFrame::getChromeTitle(LPTSTR lpBuf, int maxLen)
 {
 	HWND hChrome = chromeHwnd();

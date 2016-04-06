@@ -1,0 +1,71 @@
+<html>
+<Title>
+    Aigis
+</Title>
+<body>
+    <script type="text/javascript">
+        function login() {
+            var sid = document.getElementById("LOGIN_SID").value;
+            var pwd = document.getElementById("LOGIN_PWD").value;
+            window.location.href = 'ido.php?cmd=play&key=login&sid=' + sid + '&pwd=' + pwd;
+        }
+        function autocancel() {
+            window.location.href = 'ido.php?cmd=play&key=cancel&val=auto';
+        }
+        function cancel() {
+            var sid = document.getElementById("CANCEL_SID").value;
+            var pwd = document.getElementById("CANCEL_PWD").value;
+            window.location.href = 'ido.php?cmd=play&key=cancel&sid=' + sid + '&pwd=' + pwd;
+        }
+        function quick(key) {
+            window.location.href = 'ido.php?cmd=quick&key=' + key;
+        }
+        function play(key) {
+            window.location.href = 'ido.php?cmd=play&key=' + key;
+        }
+        function update() {
+            var sid = document.getElementById("UPDATE_SID").value;
+            var key = document.getElementById("UPDATE_KEY").value;
+            var vvv = document.getElementById("UPDATE_VAL").value;
+            window.location.href = 'ido.php?cmd=update&sid=' + sid + '&key=' + key + '&val=' + vvv;
+        }
+    </script>
+    <br>LOGIN<br />
+    <form id="LOGIN">
+        <input type="text" id="LOGIN_SID" />
+        <input type="text" id="LOGIN_PWD" />
+        <input type="button" value="LOGIN" onclick="login()" />
+    </form>
+    <br />
+    <br>QUERY <br />
+    <input type="button" value="0BLACK" onclick="quick('0black')" />
+    <input type="button" value="1BLACK" onclick="quick('1black')" />
+    <input type="button" value="2BLACK" onclick="quick('2black')" />
+    <input type="button" value="3BLACK" onclick="quick('3black')" />
+    <input type="button" value="TIMEOUT" onclick="quick('timeout')" />
+    <br />
+    <br />
+    <br>CANCEL <br />
+    <form id="CANCEL">
+        <input type="text" id="CANCEL_SID" />
+        <input type="text" id="CANCEL_PWD" />
+        <input type="button" value="CANCEL" onclick="cancel()" />
+    </form>
+    <br />
+    <br>FOR TEST <br />
+    <input type="button" value="REGIST" onclick="play('regist')" />
+    <input type="button" value="SECOND" onclick="play('second')" />
+    <input type="button" value="SIGNUP" onclick="play('signup')" />
+    <input type="button" value="AUTO_CANCEL" onclick="autocancel()" />
+    <br />
+    <br />
+    <br>UPDATE <br />
+    <form id="UPDATE">
+        <input type="text" id="UPDATE_SID" />
+        <input type="text" id="UPDATE_KEY" />
+        <input type="text" id="UPDATE_VAL" />
+        <input type="button" value="UPDATE" onclick="update()" />
+    </form>
+    <br />
+</body>
+</html>

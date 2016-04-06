@@ -20,30 +20,25 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'SIGN' ">
+    <IncludeDebugInformation>false</IncludeDebugInformation>
+    <OutputPath>bin\SIGN\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="bccto.php" />
-    <Compile Include="dbop.php" />
     <Compile Include="dmmjp.php" />
     <Compile Include="dmmjp_c.php" />
     <Compile Include="dmmjp_l.php" />
-    <Compile Include="index.php" />
+    <Compile Include="idd.php" />
     <Compile Include="logic.php" />
-    <Compile Include="login.php" />
     <Compile Include="play.php" />
-    <Compile Include="quit.php" />
-    <Compile Include="regist.php" />
     <Compile Include="resetpwd.php" />
-    <Compile Include="search.php" />
-    <Compile Include="search2.php" />
-    <Compile Include="set1.php" />
-    <Compile Include="set2.php" />
-    <Compile Include="setp.php" />
-    <Compile Include="testdb.php" />
+    <Compile Include="ido.php" />
     <Compile Include="webreq.php" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="login.html" />
-    <Content Include="quit.html" />
+    <Content Include="ido.html" />
+    <Content Include="err.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\DEVSENSE\PHP Tools\VS$(VisualStudioVersion)\Devsense.PHP.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

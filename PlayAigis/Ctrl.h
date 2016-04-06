@@ -12,8 +12,7 @@ public:
 	// 线程是否可以继续
 	static bool canPlay();
 
-	static const CHAR* getURL1();
-	static const CHAR* getURL2();
+	static const CHAR* getUrlPath();
 
 private:
 	void stop();

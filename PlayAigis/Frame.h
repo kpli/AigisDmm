@@ -29,6 +29,7 @@ public:
 
 	// 获取chrome标题
 	int getChromeTitle(LPTSTR lpBuf, int maxLen);
+	int getChromeTitle(LPSTR lpBuf, int maxLen);
 private:
 	HWND chromeHwnd();
 	HWND aigisHwnd();

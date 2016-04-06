@@ -8,28 +8,28 @@ class Dmmjp_Cancel
     }
 
     function cancel($mail,$pswd){
-        print '_login'.'<br>';
+        //print '_login'.'<br>';
 
         $gameRet = $this->net->get('https://www.dmm.co.jp/my/-/login/');
         $path = $this->parsePath($gameRet);
         if($path==''){
-            print '$path is empty'.'<br>';
+            //print '$path is empty'.'<br>';
         }
 
         $xtHead = $this->parseDMMToken($gameRet);
         if($xtHead==''){
-            print '$xtHead is empty'.'<br>';
+            //print '$xtHead is empty'.'<br>';
             return '';
         }
         $xtContent = $this->parseToken($gameRet);
         if($xtContent==''){
-            print '$xtContent is empty'.'<br>';
+            //print '$xtContent is empty'.'<br>';
             return '';
         }
         $data = array('token'=> $xtContent,);
         $xhrReturn =$this->net->post_xhr('https://www.dmm.co.jp/my/-/login/ajax-get-token/', $data, $xtHead);
         if($xhrReturn==''){
-            print '$xhrReturn is empty'.'<br>';
+            //print '$xhrReturn is empty'.'<br>';
             return '';
         }
         $xhr=json_decode($xhrReturn);
@@ -49,7 +49,7 @@ class Dmmjp_Cancel
 
         $loginPostRet = $this->net->post('https://www.dmm.co.jp/my/-/login/auth/', $data);
         if($loginPostRet==''){
-            print '$loginRet is empty'.'<br>';
+            //print '$loginRet is empty'.'<br>';
             return '';
         }
 
@@ -101,9 +101,9 @@ class Dmmjp_Cancel
         }
 
         $tokenvalue = $this->parseTokenValue($gameRet);
-        print $tokenvalue;
+        //print $tokenvalue;
         if ($tokenvalue == ''){
-            print '$tokenvalue is empty'.'<br>';
+            //print '$tokenvalue is empty'.'<br>';
             return '';
         }
         $postData = array('token'=>$tokenvalue,'reason'=>'');
@@ -116,15 +116,15 @@ class Dmmjp_Cancel
     }
 
     function play(){
-        print 'play'.'<br>';
+        //print 'play'.'<br>';
         $page = $this->net->get('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install');
         if($page==''){
-            print '$page is empty'.'<br>';
+            //print '$page is empty'.'<br>';
             return '';
         }
         $game = $this->parseGame($page);
         if($game==''){
-            print '$game is empty'.'<br>';
+            //print '$game is empty'.'<br>';
             return '';
         }
         return $game;

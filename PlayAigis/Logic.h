@@ -18,7 +18,9 @@ public:
 protected:
 	void FirstRondomCard();
 	void SecondRondomCard();
-	
+
+	void SignUp();
+
 protected:
 
 	// —°‘Ò∆Ô ø
@@ -45,6 +47,8 @@ protected:
 	void startRegist();
 	void cancelRegist(bool bauto = false);
 	void setResult(int nstep, int ncolor);
+	void refreshSignDate();
+	void waitDoneAndClose();
 
 	void playStory1();
 
