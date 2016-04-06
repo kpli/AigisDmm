@@ -44,7 +44,7 @@ class DBOP
 		//print 'getForSecond';
 		$account = '';
 		$passwd = '';
-		$ssql = "SELECT * FROM da_accounts WHERE random1 = 4 AND  random2 = 0 order by createtime desc;";
+		$ssql = "SELECT * FROM da_accounts WHERE random1 = 4 AND  random2 = 0 order by createtime asc;";
 		$allrest = mysqli_query($this->conn,$ssql);
 		if ($row = mysqli_fetch_assoc($allrest))
 		{
