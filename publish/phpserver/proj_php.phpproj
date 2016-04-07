@@ -39,6 +39,7 @@
   <ItemGroup>
     <Content Include="ido.html" />
     <Content Include="err.html" />
+    <Content Include="login.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\DEVSENSE\PHP Tools\VS$(VisualStudioVersion)\Devsense.PHP.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

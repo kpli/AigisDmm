@@ -40,11 +40,26 @@ class IdoDB
 		while($row = mysqli_fetch_assoc($rest))
 		{
 			array_push($arr_query,
-                array($row['createtime'],$row['account'],$row['passwd'],$row['random1'],$row['random2'],$row['random3'],$row['signdate'])
+                array($row['account'],$row['passwd'],$row['createtime'],$row['random1'],$row['random2'],$row['locked'],$row['info'],$row['signdate'])
                 );
 		}
 		return $arr_query;
     }
+
+    function search2($key1,$val1,$key2,$val2){
+		//print 'search';
+		$ssql = "SELECT * FROM da_accounts WHERE ".$key1." = '".$val1."' AND ".$key2." = '".$val2."' order by createtime desc;";
+		$rest = mysqli_query($this->conn,$ssql);
+		$arr_query = array();
+		while($row = mysqli_fetch_assoc($rest))
+		{
+			array_push($arr_query,
+                array($row['account'],$row['passwd'],$row['createtime'],$row['random1'],$row['random2'],$row['locked'],$row['info'],$row['signdate'])
+                );
+		}
+		return $arr_query;
+    }
+
 
     function query($ssql){
 		//print 'getNotBlack';
@@ -55,6 +70,7 @@ class IdoDB
 		{
 			$sid = $row['account'];
 			$pwd = $row['passwd'];
+            $this->lock($sid);
 		}
 		return array($sid,$pwd);
     }
@@ -63,27 +79,36 @@ class IdoDB
 
     function query_for_quiting(){
         $ssql = "SELECT * FROM da_accounts 
-                    WHERE createtime < DATE_SUB( NOW(), INTERVAL 30 MINUTE ) AND  random1 != '4'
+                    WHERE createtime < DATE_SUB( NOW(), INTERVAL 30 MINUTE ) AND  random1 != '4' AND locked = '0'
                     order by createtime asc;";
         return $this->query($ssql);
     }
 
     function query_for_second(){
-		$ssql = "SELECT * FROM da_accounts 
-                    WHERE random1 = '4' AND  random2 = '0' 
+		$ssql = "SELECT * FROM da_accounts
+                    WHERE random1 = '4' AND  random2 = '0' AND locked = '0'
                     order by createtime asc;";
         return $this->query($ssql);
     }
 
     function query_for_signup(){
 		$ssql = "SELECT * FROM da_accounts
-                    WHERE random1 = '4' and signdate != CURDATE() 
+                    WHERE random1 = '4' and signdate != CURDATE() AND locked = '0'
                     order by signdate asc;";
         return $this->query($ssql);
     }
 
     function refresh_signup_date($sid){
-		$ssql = "UPDATE kpli_ag.da_accounts SET  signdate =  CURDATE() WHERE account = '".$sid."';";
+		$ssql = "UPDATE kpli_ag.da_accounts SET signdate =  CURDATE() WHERE account = '".$sid."';";
+		mysqli_query($this->conn,$ssql);
+    }
+
+    function lock($sid){
+		$ssql = "UPDATE kpli_ag.da_accounts SET locked = '1' WHERE account = '".$sid."';";
+		mysqli_query($this->conn,$ssql);
+    }
+    function unlock($sid){
+		$ssql = "UPDATE kpli_ag.da_accounts SET locked = '0' WHERE account = '".$sid."';";
 		mysqli_query($this->conn,$ssql);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,16 +122,16 @@ class IdoDB
         return $this->search('random1','4');
     }
 
-    function search_timeout(){
-        return $this->search('random2','9');
-    }
-
     function search_2_black(){
         return $this->search('random2','4');
     }
 
-    function search_3_black(){
-        return $this->search('random3','4');
+    function search_timeout(){
+        return $this->search('locked','1');
+    }
+
+    function search_1_black_only(){
+        return $this->search2('random1','4','random2','0');
     }
 
 }

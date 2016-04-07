@@ -5,7 +5,7 @@
 <body>
     <script type="text/javascript">
         function login() {
-            var sid = document.getElementById("LOGIN_SID").value;
+            var sid = document.getElementById("LOGIN_SID").value + '@bccto.me';
             var pwd = document.getElementById("LOGIN_PWD").value;
             window.location.href = 'ido.php?cmd=play&key=login&sid=' + sid + '&pwd=' + pwd;
         }
@@ -13,7 +13,7 @@
             window.location.href = 'ido.php?cmd=play&key=cancel&val=auto';
         }
         function cancel() {
-            var sid = document.getElementById("CANCEL_SID").value;
+            var sid = document.getElementById("CANCEL_SID").value + '@bccto.me';
             var pwd = document.getElementById("CANCEL_PWD").value;
             window.location.href = 'ido.php?cmd=play&key=cancel&sid=' + sid + '&pwd=' + pwd;
         }
@@ -24,15 +24,44 @@
             window.location.href = 'ido.php?cmd=play&key=' + key;
         }
         function update() {
-            var sid = document.getElementById("UPDATE_SID").value;
-            var key = document.getElementById("UPDATE_KEY").value;
+            var sid = document.getElementById("UPDATE_SID").value + '@bccto.me';
+        
+            var radarr = document.getElementsByName("UPDATE_KEY"); 
+            var key = "";
+            for (var i = 0; i < radarr.length; i++) {
+                if (radarr[i].checked) {
+                    key = radarr[i].value;
+                }
+            }
             var vvv = document.getElementById("UPDATE_VAL").value;
             window.location.href = 'ido.php?cmd=update&sid=' + sid + '&key=' + key + '&val=' + vvv;
         }
+
+        function add() {
+            var sid = document.getElementById("ADD_SID").value + '@bccto.me';
+            var pwd = document.getElementById("ADD_PWD").value;
+            window.location.href = 'ido.php?cmd=addnew&sid=' + sid + '&pwd=' + pwd;
+        }
+        function del() {
+            var sid = document.getElementById("DEL_SID").value + '@bccto.me';
+            window.location.href = 'ido.php?cmd=delete&sid=' + sid;
+        }
+        function lock(st) {
+            var sid = document.getElementById("LOCK_SID").value + '@bccto.me';
+            window.location.href = 'ido.php?cmd=lock&key=' + st + '&sid=' + sid;
+        }
     </script>
+
+    <style type="text/css">
+        input[type=text] {
+            font-family:monospace;
+            text-align:center;
+        }
+    </style>
+
     <br>LOGIN<br />
     <form id="LOGIN">
-        <input type="text" id="LOGIN_SID" />
+        <input type="text" id="LOGIN_SID" />@bccto.me<br />
         <input type="text" id="LOGIN_PWD" />
         <input type="button" value="LOGIN" onclick="login()" />
     </form>
@@ -41,13 +70,13 @@
     <input type="button" value="0BLACK" onclick="quick('0black')" />
     <input type="button" value="1BLACK" onclick="quick('1black')" />
     <input type="button" value="2BLACK" onclick="quick('2black')" />
-    <input type="button" value="3BLACK" onclick="quick('3black')" />
+    <input type="button" value="1BLACKONLY" onclick="quick('1black_only')" />
     <input type="button" value="TIMEOUT" onclick="quick('timeout')" />
     <br />
     <br />
     <br>CANCEL <br />
     <form id="CANCEL">
-        <input type="text" id="CANCEL_SID" />
+        <input type="text" id="CANCEL_SID" />@bccto.me<br />
         <input type="text" id="CANCEL_PWD" />
         <input type="button" value="CANCEL" onclick="cancel()" />
     </form>
@@ -61,10 +90,36 @@
     <br />
     <br>UPDATE <br />
     <form id="UPDATE">
-        <input type="text" id="UPDATE_SID" />
-        <input type="text" id="UPDATE_KEY" />
+        <input type="radio" name="UPDATE_KEY" value="random1" checked="checked" />random1
+        <input type="radio" name="UPDATE_KEY" value="random2" />random2
+        <input type="radio" name="UPDATE_KEY" value="locked" />locked
+        <input type="radio" name="UPDATE_KEY" value="info" />info<br />
+        <input type="text" id="UPDATE_SID" />@bccto.me<br />
         <input type="text" id="UPDATE_VAL" />
         <input type="button" value="UPDATE" onclick="update()" />
+    </form>
+    <br />
+
+    <br>ADD <br />
+    <form id="ADD">
+        <input type="text" id="ADD_SID" />@bccto.me<br />
+        <input type="text" id="ADD_PWD" />
+        <input type="button" value="ADD" onclick="add()" />
+    </form>
+    <br />
+
+    <br>DEL <br />
+    <form id="DEL">
+        <input type="text" id="DEL_SID" />@bccto.me
+        <input type="button" value="DEL" onclick="del()" />
+    </form>
+    <br />
+
+    <br>LOCK <br />
+    <form id="LOCK">
+        <input type="text" id="LOCK_SID" />@bccto.me
+        <input type="button" value="LOCK" onclick="lock(1)" />
+        <input type="button" value="UNLOCK" onclick="lock(0)" />
     </form>
     <br />
 </body>

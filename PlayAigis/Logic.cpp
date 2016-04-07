@@ -658,10 +658,6 @@ void CLogic::SecondRondomCard()
 		CFrame::getInstance()->saveImage();
 		setResult(2, s_iCardStar);
 	}
-	else if (!canWait() || !CCtrl::canPlay())
-	{
-		setResult(2, 9);
-	}
 }
 
 void CLogic::SignUp()

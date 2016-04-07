@@ -5,8 +5,8 @@ require_once('logic.php');
 
 $str_query = $_SERVER["QUERY_STRING"];
 $arr_query = convertUrlQuery($str_query);
-function convertUrlQuery($query){
-    $queryParts = explode('&', $query);
+function convertUrlQuery($string){
+    $queryParts = explode('&', $string);
     $params = array();
     foreach ($queryParts as $param)
     {
@@ -60,11 +60,13 @@ else if ($p_cmd == 'query') {
     output_acc_table($ret);
 }
 else if ($p_cmd == 'update') {
+    if( $p_key == 'signdate' || $p_key == 'randmo2'){
+        $db->unlock($p_sid);
+    }
     if ( $p_key == 'signdate') {
         $db->refresh_signup_date($p_sid);
     }
-    else if( $p_key == 'passwd' ||  $p_key == 'random1'|| $p_key == 'random2' ||  $p_key == 'random3'
-                || $p_key == 'cardinfo1' ||  $p_key == 'cardinfo2' ||  $p_key == 'cardinfo3' ){
+    else if( $p_key == 'passwd' ||  $p_key == 'random1'|| $p_key == 'random2' ||  $p_key == 'locked' || $p_key == 'info' ){
         print 'update -> '.$p_key.' | '.$p_val.' <br>';
         $db->update($p_sid,$p_key,$p_val);
     }
@@ -84,19 +86,27 @@ else if ($p_cmd == 'quick') {
     else if ($p_key == '2black') {
         $ret = $db->search_2_black();
     }
-    else if ($p_key == '3black') {
-        $ret = $db->search_3_black();
+    else if ($p_key == '1black_only') {
+        $ret = $db->search_1_black_only();
     }
     else if ($p_key == 'timeout') {
         $ret = $db->search_timeout();
     }
     output_acc_table($ret);
 }
+else if ($p_cmd == 'addnew') {
+    $db->add($p_sid,$p_pwd);
+}
 else if ($p_cmd == 'delete') {
     $db->del($p_sid);
 }
-else if ($p_cmd == 'addnew') {
-    $db->add($p_sid,$p_pwd);
+else if ($p_cmd == 'lock') {
+    if ($p_key == '1') {
+        $db->lock($p_sid);
+    }
+    else if ($p_key == '0') {
+        $db->unlock($p_sid);
+    }
 }
 else {
     showTitle('done');
@@ -109,10 +119,10 @@ function showTitle($ts){
     echo $dom->saveHTML();
 }
 function output_acc_table($arrret){
-    echo '<table>';
-    echo '<tr> <th>SEQ</th>  <th>CREATE</th>  <th>SID</th>  <th>PWD</th>  <th>FIR</th>  <th>SEC</th>  <th>THR</th>  <th>SIGN</th> </tr>';
+    echo '<table border="0">';
+    echo '<tr> <th>seq</th>  <th>account</th>  <th>passwd</th>  <th>createtime</th>  <th>random1</th>  <th>random2</th>  <th>locked</th>  <th>info</th> <th>signdate</th> </tr>';
     foreach($arrret as $key=>$value){
-	    echo '<tr>';
+	    echo '<tr align="center">';
         echo '<td>'.($key+1).'</td>';
         foreach($value as $param){
             echo '<td>'.$param."</td>";
