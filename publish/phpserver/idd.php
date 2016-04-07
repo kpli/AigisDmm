@@ -18,6 +18,14 @@ class IdoDB
 		return true;
     }
 
+    function add_history($sid,$pwd,$r2) {
+		//print 'add';
+		$ssql = "INSERT INTO da_accounts (account,passwd,random1,random2) VALUES ('".$sid."','".$pwd."','4','".$r2."');";
+        print $ssql;
+		mysqli_query($this->conn,$ssql);
+		return true;
+    }
+
     function del($sid) {
 		//print 'del';
 		$ssql = "DELETE FROM da_accounts WHERE account = '".$sid."';";
@@ -94,7 +102,7 @@ class IdoDB
     function query_for_signup(){
 		$ssql = "SELECT * FROM da_accounts
                     WHERE random1 = '4' and datediff( signdate, date_add(now(), interval -4 hour ) ) < 0 AND locked = '0'
-                    order by signdate asc;";
+                    order by random2 desc;";
         return $this->query($ssql);
     }
 

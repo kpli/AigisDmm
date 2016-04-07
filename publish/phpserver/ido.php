@@ -95,7 +95,7 @@ else if ($p_cmd == 'quick') {
     output_acc_table($ret);
 }
 else if ($p_cmd == 'addnew') {
-    $db->add($p_sid,$p_pwd);
+    $db->add_history($p_sid,$p_pwd,$p_val);
 }
 else if ($p_cmd == 'delete') {
     $db->del($p_sid);

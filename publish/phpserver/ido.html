@@ -40,7 +40,8 @@
         function add() {
             var sid = document.getElementById("ADD_SID").value + '@bccto.me';
             var pwd = document.getElementById("ADD_PWD").value;
-            window.location.href = 'ido.php?cmd=addnew&sid=' + sid + '&pwd=' + pwd;
+            var vvv = document.getElementById("ADD_VAL").value;
+            window.location.href = 'ido.php?cmd=addnew&sid=' + sid + '&pwd=' + pwd + '&val=' + vvv;
         }
         function del() {
             var sid = document.getElementById("DEL_SID").value + '@bccto.me';
@@ -104,6 +105,7 @@
     <form id="ADD">
         <input type="text" id="ADD_SID" />@bccto.me<br />
         <input type="text" id="ADD_PWD" />
+        <input type="text" id="ADD_VAL" />
         <input type="button" value="ADD" onclick="add()" />
     </form>
     <br />
