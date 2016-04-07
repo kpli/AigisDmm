@@ -93,13 +93,13 @@ class IdoDB
 
     function query_for_signup(){
 		$ssql = "SELECT * FROM da_accounts
-                    WHERE random1 = '4' and signdate != CURDATE() AND locked = '0'
+                    WHERE random1 = '4' and datediff( signdate, date_add(now(), interval -4 hour ) ) < 0 AND locked = '0'
                     order by signdate asc;";
         return $this->query($ssql);
     }
 
     function refresh_signup_date($sid){
-		$ssql = "UPDATE kpli_ag.da_accounts SET signdate =  CURDATE() WHERE account = '".$sid."';";
+		$ssql = "UPDATE kpli_ag.da_accounts SET signdate = date_add(now(), interval -4 hour ) WHERE account = '".$sid."';";
 		mysqli_query($this->conn,$ssql);
     }
 
