@@ -119,6 +119,7 @@ function showTitle($ts){
     echo $dom->saveHTML();
 }
 function output_acc_table($arrret){
+	echo '<style>table{border-collapse:collapse;} table td{border:1px solid;}</style>';
     echo '<table border="0">';
     echo '<tr> <th>seq</th>  <th>account</th>  <th>passwd</th>  <th>createtime</th>  <th>random1</th>  <th>random2</th>  <th>locked</th>  <th>info</th> <th>signdate</th> </tr>';
     foreach($arrret as $key=>$value){
