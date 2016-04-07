@@ -60,7 +60,7 @@ else if ($p_cmd == 'query') {
     output_acc_table($ret);
 }
 else if ($p_cmd == 'update') {
-    if( $p_key == 'signdate' || $p_key == 'randmo2'){
+    if( $p_key == 'signdate' || $p_key == 'random2'){
         $db->unlock($p_sid);
     }
     if ( $p_key == 'signdate') {
