@@ -6,6 +6,66 @@ class Dmmjp_Login
     function __construct() {
         $this->net = new Webreq('http://www.dmm.co.jp');
     }
+    
+    function login_only($mail,$pswd){
+        //print '_login'.'<br>';
+
+        $gameRet = $this->net->get('https://www.dmm.co.jp/my/-/login/');
+        $path = $this->parsePath($gameRet);
+        if($path==''){
+            //print '$path is empty'.'<br>';
+        }
+
+        $xtHead = $this->parseDMMToken($gameRet);
+        if($xtHead==''){
+            //print '$xtHead is empty'.'<br>';
+            return '';
+        }
+        $xtContent = $this->parseToken($gameRet);
+        if($xtContent==''){
+            //print '$xtContent is empty'.'<br>';
+            return '';
+        }
+        $data = array('token'=> $xtContent,);
+        $xhrReturn =$this->net->post_xhr('https://www.dmm.co.jp/my/-/login/ajax-get-token/', $data, $xtHead);
+        if($xhrReturn==''){
+            //print '$xhrReturn is empty'.'<br>';
+            return '';
+        }
+        $xhr=json_decode($xhrReturn);
+
+        $data = array(  ''.$xhr->login_id => $mail,
+                        'client_id '=> '',
+                        'display' => '',
+                        ''.$xhr->password => $pswd,
+                        'login_id' => $mail,
+                        'password'=> $pswd,
+                        'path' => $path,
+                        'prompt' => '',
+                        'save_login_id' => '0',
+                        'save_password' => '0',
+                        'token' => ''.$xhr->token,
+                        'use_auto_login' => '0' );
+
+        $loginPostRet = $this->net->post('https://www.dmm.co.jp/my/-/login/auth/', $data);
+        if($loginPostRet==''){
+            //print '$loginRet is empty'.'<br>';
+            return '';
+        }
+
+        require_once('resetpwd.php');
+        $pwdset = new Reset_Pwd();
+        if($pwdset->needReset($loginPostRet,$mail)){
+            return '';
+        }
+
+        $gameUrl = $this->play();
+        if($gameUrl==''){
+            //print '$gameUrl is empty'.'<br>';
+            return '';
+        }
+        return $gameUrl;
+    }
 
     function login($mail,$pswd){
         //print '_login'.'<br>';

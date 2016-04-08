@@ -44,6 +44,9 @@ if ($p_cmd == 'play'){
     else if ($p_key == 'login') {
         $ret= $lg->login($p_sid,$p_pwd);
     }
+    else if ($p_key == 'login_only') {
+        $ret= $lg->login_only($p_sid,$p_pwd);
+    }
     else if ($p_key == 'cancel') {
         $ret = $lg->cancel($p_sid,$p_pwd,($p_val == 'auto'));
     }
@@ -127,5 +130,6 @@ function output_acc_table($arrret){
 	    echo '</tr>';
     }
     echo '</table>';
+    echo '<script type="text/javascript">sc();function sc() {var trs = document.getElementsByTagName("tr");for (var i = 0; i < trs.length; i+=2) {trs[i].style.background = "LightYellow";} }</script>';
 }
 ?>

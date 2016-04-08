@@ -49,6 +49,15 @@ class Logic
             return array('empty','err.html');
         }
         return array($mail,$game_url);
+    }
+
+    function login_only($mail,$paws){
+        $obj_dmm = new Dmmjp_Login();
+        $game_url = $obj_dmm->login_only($mail,$paws);
+        if($game_url == ''){
+            return array('empty','err.html');
+        }
+        return array($mail,$game_url);
     
     }
 
