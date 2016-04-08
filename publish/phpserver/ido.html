@@ -40,7 +40,13 @@
         function add() {
             var sid = document.getElementById("ADD_SID").value + '@bccto.me';
             var pwd = document.getElementById("ADD_PWD").value;
-            var vvv = document.getElementById("ADD_VAL").value;
+            var radarr = document.getElementsByName("ADD_VAL");
+            var vvv = 0;
+            for (var i = 0; i < radarr.length; i++) {
+                if (radarr[i].checked) {
+                    vvv = radarr[i].value;
+                }
+            }
             window.location.href = 'ido.php?cmd=addnew&sid=' + sid + '&pwd=' + pwd + '&val=' + vvv;
         }
         function del() {
@@ -49,7 +55,10 @@
         }
         function lock(st) {
             var sid = document.getElementById("LOCK_SID").value + '@bccto.me';
-            window.location.href = 'ido.php?cmd=lock&key=' + st + '&sid=' + sid;
+            window.location.href = 'ido.php?cmd=update&sid=' + sid + '&key=locked&val=' + st;
+        }
+        function unlockall() {
+            window.location.href = 'ido.php?cmd=unlockall';
         }
     </script>
 
@@ -66,63 +75,58 @@
         <input type="text" id="LOGIN_PWD" />
         <input type="button" value="LOGIN" onclick="login()" />
     </form>
-    <br />
     <br>QUERY <br />
-    <input type="button" value="0BLACK" onclick="quick('0black')" />
-    <input type="button" value="1BLACK" onclick="quick('1black')" />
-    <input type="button" value="2BLACK" onclick="quick('2black')" />
-    <input type="button" value="1BLACKONLY" onclick="quick('1black_only')" />
-    <input type="button" value="TIMEOUT" onclick="quick('timeout')" />
-    <br />
-    <br />
+    <form id="QUERY">
+        <input type="button" value="0BLACK" onclick="quick('0black')" />
+        <input type="button" value="1BLACK" onclick="quick('1black')" />
+        <input type="button" value="2BLACK" onclick="quick('2black')" />
+        <input type="button" value="1BLACKONLY" onclick="quick('1black_only')" />
+        <input type="button" value="SHOW LOCKED" onclick="quick('timeout')" />
+    </form>
+    <br>UPDATE <br />
+    <form id="UPDATE">
+        <input type="radio" name="UPDATE_KEY" value="random1" />random1
+        <input type="radio" name="UPDATE_KEY" value="random2" />random2
+        <input type="radio" name="UPDATE_KEY" value="info" checked="checked" />info<br />
+        <input type="text" id="UPDATE_SID" />@bccto.me<br />
+        <input type="text" id="UPDATE_VAL" />
+        <input type="button" value="UPDATE" onclick="update()" />
+    </form>
+    <br>ADD <br />
+    <form id="ADD">
+        <input type="radio" name="ADD_VAL" value="1" checked="checked" />Silver
+        <input type="radio" name="ADD_VAL" value="2" />Gold
+        <input type="radio" name="ADD_VAL" value="3" />Platinum
+        <input type="radio" name="ADD_VAL" value="4" />Black<br />
+        <input type="text" id="ADD_SID" />@bccto.me<br />
+        <input type="text" id="ADD_PWD" />
+        <input type="button" value="ADD" onclick="add()" />
+    </form>
+    <br>DEL <br />
+    <form id="DEL">
+        <input type="text" id="DEL_SID" />@bccto.me
+        <input type="button" value="DEL" onclick="del()" />
+    </form>
+    <br>LOCK <br />
+    <form id="LOCK">
+        <input type="text" id="LOCK_SID" />@bccto.me
+        <input type="button" value="LOCK" onclick="lock(1)" />
+        <input type="button" value="UNLOCK" onclick="lock(0)" />
+        <input type="button" value="UNLOCKALL" onclick="unlockall()" />
+    </form>
     <br>CANCEL <br />
     <form id="CANCEL">
         <input type="text" id="CANCEL_SID" />@bccto.me<br />
         <input type="text" id="CANCEL_PWD" />
         <input type="button" value="CANCEL" onclick="cancel()" />
     </form>
-    <br />
     <br>FOR TEST <br />
-    <input type="button" value="REGIST" onclick="play('regist')" />
-    <input type="button" value="SECOND" onclick="play('second')" />
-    <input type="button" value="SIGNUP" onclick="play('signup')" />
-    <input type="button" value="AUTO_CANCEL" onclick="autocancel()" />
-    <br />
-    <br />
-    <br>UPDATE <br />
-    <form id="UPDATE">
-        <input type="radio" name="UPDATE_KEY" value="random1" checked="checked" />random1
-        <input type="radio" name="UPDATE_KEY" value="random2" />random2
-        <input type="radio" name="UPDATE_KEY" value="locked" />locked
-        <input type="radio" name="UPDATE_KEY" value="info" />info<br />
-        <input type="text" id="UPDATE_SID" />@bccto.me<br />
-        <input type="text" id="UPDATE_VAL" />
-        <input type="button" value="UPDATE" onclick="update()" />
+    <form id="FOR TEST">
+        <input type="button" value="REGIST" onclick="play('regist')" />
+        <input type="button" value="SECOND" onclick="play('second')" />
+        <input type="button" value="SIGNUP" onclick="play('signup')" />
+        <input type="button" value="AUTO_CANCEL" onclick="autocancel()" />
+        <br />
     </form>
-    <br />
-
-    <br>ADD <br />
-    <form id="ADD">
-        <input type="text" id="ADD_SID" />@bccto.me<br />
-        <input type="text" id="ADD_PWD" />
-        <input type="text" id="ADD_VAL" />
-        <input type="button" value="ADD" onclick="add()" />
-    </form>
-    <br />
-
-    <br>DEL <br />
-    <form id="DEL">
-        <input type="text" id="DEL_SID" />@bccto.me
-        <input type="button" value="DEL" onclick="del()" />
-    </form>
-    <br />
-
-    <br>LOCK <br />
-    <form id="LOCK">
-        <input type="text" id="LOCK_SID" />@bccto.me
-        <input type="button" value="LOCK" onclick="lock(1)" />
-        <input type="button" value="UNLOCK" onclick="lock(0)" />
-    </form>
-    <br />
 </body>
 </html>

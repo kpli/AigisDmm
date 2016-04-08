@@ -119,6 +119,10 @@ class IdoDB
 		$ssql = "UPDATE kpli_ag.da_accounts SET locked = '0' WHERE account = '".$sid."';";
 		mysqli_query($this->conn,$ssql);
     }
+    function unlockall(){
+		$ssql = "UPDATE kpli_ag.da_accounts SET locked = '0';";
+		mysqli_query($this->conn,$ssql);
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

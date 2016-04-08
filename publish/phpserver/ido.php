@@ -100,13 +100,8 @@ else if ($p_cmd == 'addnew') {
 else if ($p_cmd == 'delete') {
     $db->del($p_sid);
 }
-else if ($p_cmd == 'lock') {
-    if ($p_key == '1') {
-        $db->lock($p_sid);
-    }
-    else if ($p_key == '0') {
-        $db->unlock($p_sid);
-    }
+else if ($p_cmd == 'unlockall') {
+        $db->unlockall();
 }
 else {
     showTitle('done');
