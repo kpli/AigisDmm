@@ -114,12 +114,13 @@ function showTitle($ts){
     echo $dom->saveHTML();
 }
 function output_acc_table($arrret){
+    echo '<script type="text/javascript">function login(x,y) {window.location.href = "ido.php?cmd=play&key=login&sid=" + x + "&pwd=" + y; }</script>';
 	echo '<style>table{border-collapse:collapse;} table td{border:1px solid;}</style>';
-    echo '<table border="0">';
+    echo '<table>';
     echo '<tr> <th>seq</th>  <th>account</th>  <th>passwd</th>  <th>createtime</th>  <th>random1</th>  <th>random2</th>  <th>locked</th>  <th>info</th> <th>signdate</th> </tr>';
     foreach($arrret as $key=>$value){
 	    echo '<tr align="center">';
-        echo '<td>'.($key+1).'</td>';
+        echo '<td><input type="button" value="'.($key+1).'" onclick="login(\''.$value[0].'\',\''.$value[1].'\')" /></td>';
         foreach($value as $param){
             echo '<td>'.$param."</td>";
         }
