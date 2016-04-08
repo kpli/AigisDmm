@@ -90,7 +90,7 @@ class Logic
         $bccto = new Bccto();
         $rest = $bccto->apply($this->mailaddr,$this->mailuser);
         //print $rest.'<br>';
-        if($rest == ''){
+        if( !$rest ){
             return $ret;
         }
 

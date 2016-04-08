@@ -17,7 +17,10 @@ class Reset_Pwd
         if( count($matches) == 0){
             return false;
         }
-        $this->apply();
+        $bRet = $this->apply();
+        if(!$bRet){
+            return false;    
+        }
         $this->dellAll();
         return true;
     }
