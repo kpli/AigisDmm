@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cd4c2932-1666-4802-bf3b-6671e411d40c</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>dmmjp_c.py</StartupFile>
+    <StartupFile>autocancel.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="autocancel.py" />
     <Compile Include="bccto.py" />
     <Compile Include="dmmjp.py" />
     <Compile Include="dmmjp_c.py" />
