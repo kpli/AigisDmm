@@ -77,3 +77,6 @@ class Webreq:
             result = zlib.decompress(content, 16+zlib.MAX_WBITS)
             return result
         return content
+
+    def _getCookies(self):
+        return self.session.cookies;
