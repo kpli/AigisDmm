@@ -181,6 +181,7 @@ void CLogic::cancelRegist(bool bauto)
 	strcpy_s(bufferCancel, MAXCHAR, CCtrl::getUrlPath());
 	if (bauto)
 	{
+		CFrame::getInstance()->closeChrome();
 		strcat_s(bufferCancel, MAXCHAR, ("cmd=play&key=cancel&val=auto"));
 	}
 	else
@@ -622,12 +623,15 @@ void CLogic::FirstRondomCard()
 	getInstance()->playStory3();
 	getInstance()->waitCard_clickOK();
 	getInstance()->waitCard();	// 等待抽卡完成
-	if (s_iCardStar > 3 || s_iCardStar == 0)
-		CFrame::getInstance()->saveImage(); // 保存图像
 	if (s_iCardStar > 3)
+	{
 		setResult(1, s_iCardStar);
-	else
+		CFrame::getInstance()->saveImage(); // 保存图像
+	}
+	else 
+	{
 		getInstance()->cancelRegist();		// 退会DMM
+	}
 }
 
 void CLogic::SecondRondomCard()
