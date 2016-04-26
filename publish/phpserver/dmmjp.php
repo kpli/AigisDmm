@@ -11,7 +11,9 @@ class Dmmjp
     function retist($mail, $user){
         //print 'retist'.'<br>';
         $this->mailuser = $user;
-        $this->net->get('https://www.dmm.co.jp/my/-/register/');
+        $pageRet = $this->net->get('https://www.dmm.co.jp/my/-/register/');
+        $token = $this->parseToken($pageRet);
+        //print $token.'<br>';
         $data = array('back_url'=>'',
                         'client_id'=>'',
                         'display'=>'',
@@ -19,8 +21,8 @@ class Dmmjp
                         'opt_mail_cd'=>'adult',
                         'password'=> $user,
                         'ref'=>'',
-                        'submit'=>'ÕJÔ^¥á©`¥ë¤òËÍÐÅ',
-                        'token'=>'');
+                        'submit'=>'èªè¨¼ãƒ¡ãƒ¼ãƒ«ã‚’é€ä¿¡',
+                        'token'=>$token);
         $this->net->post('https://www.dmm.co.jp/my/-/register/apply/', $data);
     }
 
@@ -50,7 +52,7 @@ class Dmmjp
                         'year'=>'1997',
                         'month'=>'01',
                         'day'=>'01',
-                        'confirm'=>'ÈëÁ¦ÄÚÈÝ¤ò´_ÕJ¤¹¤ë',
+                        'confirm'=>'å…¥åŠ›å†…å®¹ã‚’ç¢ºèªã™ã‚‹',
                         'paytype'=>'free',
                         'opt_mail_cd'=>'netgame',
                         'ch'=>'',
@@ -68,10 +70,12 @@ class Dmmjp
         if ($back == ''){
             return '';
         }
+        //print $back.'<br>';
         $token = $this->parseToken($page);
         if ($token == ''){
             return '';
         }
+        //print $token.'<br>';
         $data = array('act'=>'commit',
                         'nickname'=>$this->mailuser,
                         'gender'=>'male',
@@ -83,7 +87,7 @@ class Dmmjp
                         'opt_mail_cd'=>'netgame',
                         'invite'=>'',
                         'game_type'=>'',
-                        'encode_hint'=>'¡ó',
+                        'encode_hint'=>'â—‡',
                         'token'=>$token);
         $ret = $this->net->post('http://www.dmm.co.jp/netgame/profile/-/regist/commit/',$data);
         return $ret;
@@ -92,6 +96,7 @@ class Dmmjp
     function play(){
         $page = $this->net->get('http://www.dmm.co.jp/netgame/social/application/-/detail/=/app_id=156462/notification=1/myapp=1/act=install');
         $game = $this->parseGame($page);
+        //print $game.'<br>';
         return $game;
     }
 

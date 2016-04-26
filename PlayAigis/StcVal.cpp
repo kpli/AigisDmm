@@ -34,14 +34,14 @@ CPnt5 CStcVal::s_Bounding2(398, 286, 0xf098ff, 0xae6eb9, 0xef95ff, 0x1e3d50, 0xe
 CPnt5 CStcVal::s_Bounding3(430, 166, 0xe4f6ff, 0xedf6ff, 0xedf6ff, 0xe4edff, 0xb6c0ff);	// 选择增益3步
 CPnt5 CStcVal::s_Bounding4(256, 454, 0xf3f3fa, 0x282491, 0x6562cb, 0x2d2a91, 0x201d95);	// 选择增益4步
 
-CPnt5 CStcVal::s_Random1(355, 301, 0xb2bad4, 0x3b51bb, 0xbcc0d6, 0x9a96a9, 0x4062d9);		// 抽卡1步
+CPnt5 CStcVal::s_Random1(355, 301, 0x4d46f0, 0x4d46f0, 0x4d4bfd, 0x4d4bfd, 0x4d46f0);		// 抽卡1步
 CPnt5 CStcVal::s_Random2(57, 318, 0x32bd, 0x44a0e8, 0x2ab9, 0x147ddb, 0x54e9ff);					// 抽卡2步
 //普通抽卡
 //CPnt5 CStcVal::s_Random3_0(543, 418, 0x2a58, 0x6fd1ed, 0xb4cedd, 0x78d5ef, 0x2f628f);		// 抽卡3步
 //CPnt5 CStcVal::s_Random3_1(s_Random3_0);		// 抽卡3步
 //活动抽卡
-CPnt5 CStcVal::s_Random3_0(704, 437, 0xdc48c7, 0xe21da2, 0xc96eb8, 0x3ae4fe, 0xfc81fc);		// 抽卡3步
-CPnt5 CStcVal::s_Random3_1(364, 446, 0xf8fcff, 0x3b73f3, 0x5debfd, 0x9ecdfb, 0x6089ae);		// 抽卡3步
+CPnt5 CStcVal::s_Random3_0(704, 437, 0xda3dc9, 0xe11da2, 0xce71bd, 0x32dcfc, 0xce71bd);		// 抽卡3步
+CPnt5 CStcVal::s_Random3_1(364, 446, 0xfafcfd, 0x4266d9, 0x45ebfe, 0xa1d4fd, 0x5d82b7);		// 抽卡3步
 CPnt5 CStcVal::s_Random4(392, 419, 0xad, 0xc0c0ed, 0x1b12c0, 0x9b92e4, 0xb6);		// 抽卡4步
 
 // for got the form size
