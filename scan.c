@@ -7,7 +7,7 @@
 #include <netdb.h>  
 void msg()
 {
-	printf("EP:scan ip startport endport/nEP:scan ip 127.0.0.1 20 2009/n");
+	printf("EP:scan ip startport endport/nEP:scan ip 127.0.0.1 20 2009\n");
 }
 int main(int argc, char** argv)
 {
@@ -26,11 +26,11 @@ int main(int argc, char** argv)
 	endport = atoi(argv[3]);
 	if (startport<1 || endport>65535 || endport<startport)
 	{
-		printf("端口范围出错/n");
+		printf("port range error\n");
 		return 0;
 	}
 	else
-		printf("IP:%s %d-%d/n", ip, startport, endport);
+		printf("IP:%s %d-%d\n", ip, startport, endport);
 	to.sin_family = AF_INET;
 	to.sin_addr.s_addr = inet_addr(ip);
 	start = clock();
@@ -40,12 +40,12 @@ int main(int argc, char** argv)
 		to.sin_port = htons(i);
 		if (connect(sockfd, (struct sockaddr *)&to, sizeof(struct sockaddr)) == 0)
 		{
-			printf("%s    %d/n", ip, i);
+			printf("%s    %d\n", ip, i);
 			close(to);
 		}
 	}
 	end = clock();
 	costtime = (float)(end - start) / CLOCKS_PER_SEC;
-	printf("用时:%f秒/n", costtime);
+	printf("TIME:%fSEC\n", costtime);
 	return 0;
 }
